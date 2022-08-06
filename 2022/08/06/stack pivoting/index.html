@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>stack pivoting | chuwei'blog</title><meta name="keywords" content="aaaaaaaa"><meta name="author" content="chuwei"><meta name="copyright" content="chuwei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;max1z&#x2F;p&#x2F;15299000.html 原理：stack pivoting，正如它所描述的，该技巧就是劫持栈指针指向攻击者所能控制的内存处，然后再在相应的位置进行 ROP。一般来说，我们可能在以下情况需要使用 stack pivoting  可以控制的栈溢出的字节数较少，难以构造较长的 ROP 链 开启了 PIE 保护，栈地址未知，我">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>stack pivoting | chuwei'blog</title><meta name="author" content="chuwei"><meta name="copyright" content="chuwei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;max1z&#x2F;p&#x2F;15299000.html 原理：stack pivoting，正如它所描述的，该技巧就是劫持栈指针指向攻击者所能控制的内存处，然后再在相应的位置进行 ROP。一般来说，我们可能在以下情况需要使用 stack pivoting  可以控制的栈溢出的字节数较少，难以构造较长的 ROP 链 开启了 PIE 保护，栈地址未知，我">
 <meta property="og:type" content="article">
 <meta property="og:title" content="stack pivoting">
 <meta property="og:url" content="http://example.com/2022/08/06/stack%20pivoting/index.html">
@@ -9,7 +9,6 @@
 <meta property="article:published_time" content="2022-08-06T02:41:45.568Z">
 <meta property="article:modified_time" content="2022-05-04T02:58:01.315Z">
 <meta property="article:author" content="chuwei">
-<meta property="article:tag" content="aaaaaaaa">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/1597994478373.jpeg"><link rel="canonical" href="http://example.com/2022/08/06/stack%20pivoting/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
   root: '/',
