@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>srop | chuwei'blog</title><meta name="author" content="chuwei"><meta name="copyright" content="chuwei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="linux系统调用一开始Linux是通过int 0x80中断的方式进入系统调用的，它会 先进行调用者特权级别的检查，然后进行压栈、跳转等操作，这无疑会浪费许多资源。从Linux 2.6开始，就出现了新的系统调用指令sysenter&#x2F;sysexit ，前者用于从Ring3进入Ring0，后者用于从Ring0返回Ring3，它没有特权级别检查，也没有压栈的操作，所以执行速度更快。 signa">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>srop | chuwei'blog</title><meta name="keywords" content="aaaaaaaa"><meta name="author" content="chuwei"><meta name="copyright" content="chuwei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="linux系统调用一开始Linux是通过int 0x80中断的方式进入系统调用的，它会 先进行调用者特权级别的检查，然后进行压栈、跳转等操作，这无疑会浪费许多资源。从Linux 2.6开始，就出现了新的系统调用指令sysenter&#x2F;sysexit ，前者用于从Ring3进入Ring0，后者用于从Ring0返回Ring3，它没有特权级别检查，也没有压栈的操作，所以执行速度更快。 signa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="srop">
 <meta property="og:url" content="http://example.com/2022/08/06/srop.md/index.html">
@@ -9,6 +9,7 @@
 <meta property="article:published_time" content="2022-08-06T02:41:45.563Z">
 <meta property="article:modified_time" content="2022-08-02T15:22:53.493Z">
 <meta property="article:author" content="chuwei">
+<meta property="article:tag" content="aaaaaaaa">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/1597994478373.jpeg"><link rel="canonical" href="http://example.com/2022/08/06/srop.md/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
   root: '/',
