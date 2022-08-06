@@ -1,0 +1,318 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>kernel pwn环境搭建 | chuwei</title><meta name="author" content="chuwei"><meta name="copyright" content="chuwei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本文主要记一下kernel  pwn环境搭建过程 参考链接  https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;23351b38ecb0 https:&#x2F;&#x2F;ctf-wiki.org&#x2F;pwn&#x2F;linux&#x2F;kernel-mode&#x2F;environment&#x2F;build-kernel&#x2F; https:&#x2F;&#x2F;n0va-scy.github.io&#x2F;2020&#x2F;06&#x2F;21&#x2F;kernel%20pwn%20%E7%8E%A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kernel pwn环境搭建">
+<meta property="og:url" content="http://example.com/2022/08/06/kernel_pwn%E7%8E%AF%E5%A2%83/index.html">
+<meta property="og:site_name" content="chuwei">
+<meta property="og:description" content="本文主要记一下kernel  pwn环境搭建过程 参考链接  https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;23351b38ecb0 https:&#x2F;&#x2F;ctf-wiki.org&#x2F;pwn&#x2F;linux&#x2F;kernel-mode&#x2F;environment&#x2F;build-kernel&#x2F; https:&#x2F;&#x2F;n0va-scy.github.io&#x2F;2020&#x2F;06&#x2F;21&#x2F;kernel%20pwn%20%E7%8E%A">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="article:published_time" content="2022-08-06T02:41:45.520Z">
+<meta property="article:modified_time" content="2022-01-10T16:35:47.363Z">
+<meta property="article:author" content="chuwei">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/08/06/kernel_pwn%E7%8E%AF%E5%A2%83/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'kernel pwn环境搭建',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-01-11 00:35:47'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">chuwei</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">kernel pwn环境搭建</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.520Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-10T16:35:47.363Z" title="更新于 2022-01-11 00:35:47">2022-01-11</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="kernel pwn环境搭建"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>本文主要记一下kernel  pwn环境搭建过程</p>
+<p>参考链接</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/23351b38ecb0">https://www.jianshu.com/p/23351b38ecb0</a></p>
+<p><a target="_blank" rel="noopener" href="https://ctf-wiki.org/pwn/linux/kernel-mode/environment/build-kernel/">https://ctf-wiki.org/pwn/linux/kernel-mode/environment/build-kernel/</a></p>
+<p><a target="_blank" rel="noopener" href="https://n0va-scy.github.io/2020/06/21/kernel%20pwn%20%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/">https://n0va-scy.github.io/2020/06/21/kernel%20pwn%20%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</a></p>
+</blockquote>
+<h3 id="编译生成内核镜像"><a href="#编译生成内核镜像" class="headerlink" title="编译生成内核镜像"></a>编译生成内核镜像</h3><p>先下载一个内核源码 ：<a target="_blank" rel="noopener" href="https://mirrors.edge.kernel.org/pub/linux/kernel/">https://mirrors.edge.kernel.org/pub/linux/kernel/</a></p>
+<p>我下载的版本为：linux-5.4.98.tar.gz</p>
+<p>解压内核源码之前需要安装一些依赖：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install git fakeroot build-essential ncurses-dev xz-utils libssl-dev bc</span><br></pre></td></tr></table></figure>
+
+<p>安装依赖成功后进行解压</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xf linux-5.4.98.tar.gz </span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/image-20220101112937235.png" alt="image-20220101112937235"></p>
+<p>在进行配置内核的编译选项<code>sudo make menuconfig</code>发生错误</p>
+<p>经过百度查询到解决方案为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install flex</span><br><span class="line"></span><br><span class="line">sudo apt-get install bison</span><br></pre></td></tr></table></figure>
+
+<p>进行内核配置</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/image-20220101113256295.png" alt="image-20220101113256295"></p>
+<p>这里我们主要关注调试方面的选项，依次进入到 Kernel hacking -&gt; Compile-time checks and compiler options，然后勾选如下选项<code>Compile the kernel with debug info</code>，以便于调试。不过似乎现在是默认开启的。</p>
+<p>勾选一下选项：</p>
+<ul>
+<li>Kernel debugging</li>
+<li>Compile-time checks and compiler options —&gt; Compile the kernel with debug info和Compile the kernel with frame pointers</li>
+<li>KGDB: kernel debugger</li>
+</ul>
+<p>编译内核镜像，可以根据机器的核数来选择具体使用多少核来编译内核。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo  make  bzImage</span><br></pre></td></tr></table></figure>
+
+<p>遇到报错</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Makefile:<span class="number">632</span>: include/config/<span class="keyword">auto</span>.conf: 没有那个文件或目录</span><br><span class="line">Makefile:<span class="number">678</span>: include/config/<span class="keyword">auto</span>.conf.cmd: 没有那个文件或目录</span><br></pre></td></tr></table></figure>
+
+<p>解决方案</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install -y build-essential flex bison libssl-dev libelf-dev</span><br></pre></td></tr></table></figure>
+
+<p>warning</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arch/x86/hyperv/hv_apic.c: In function ‘__send_ipi_one’:</span><br><span class="line">arch/x86/hyperv/hv_apic.c:<span class="number">201</span>:<span class="number">1</span>: warning: the frame size of <span class="number">1032</span> bytes is larger than <span class="number">1024</span> bytes [-Wframe-larger-than=]</span><br></pre></td></tr></table></figure>
+
+<p>解决</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">（<span class="number">1</span>）make menuconfig</span><br><span class="line"></span><br><span class="line">（<span class="number">2</span>）kernel hacking-&gt;Compile-time checks and compiler options —&gt;</span><br><span class="line"></span><br><span class="line">（<span class="number">3</span>）修改warn <span class="keyword">for</span> <span class="built_in">stack</span> frames larger than 的数值，将其修改为<span class="number">4096</span>（最好不要大过这个数值）</span><br><span class="line"></span><br><span class="line">（<span class="number">4</span>）重新编译内核模块则不会出现如上的告警信息。</span><br></pre></td></tr></table></figure>
+
+<p>warning</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arch/x86/xen/enlighten_pv.o: warning: objtool: xen_cpuid()+<span class="number">0x29</span>: can<span class="number">&#x27;</span>t find jump dest instruction at .text+<span class="number">0xa0</span></span><br></pre></td></tr></table></figure>
+
+<p>可查询该<a target="_blank" rel="noopener" href="https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2092482.html">网址</a>，但是我没看懂，先不管了</p>
+<p>报错</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">make[<span class="number">1</span>]: *** 没有规则可制作目标“debian/canonical-certs.pem”，由“certs/x509_certificate_list” 需求。 停止。</span><br><span class="line">Makefile:<span class="number">1726</span>: recipe <span class="keyword">for</span> target <span class="string">&#x27;certs&#x27;</span> failed</span><br><span class="line">make: *** [certs] Error <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p>解决方案,进入编译目录，输入<code>make menuconfig</code>，找到相应位置，删除内容即可</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/144879ca8446">参考网址</a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Cryptographic API &gt;</span><br><span class="line">    Certificates <span class="keyword">for</span> signature checking &gt; </span><br><span class="line">        Additional X<span class="number">.509</span> keys <span class="keyword">for</span> <span class="keyword">default</span> system keyring  删除内容</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033350.png" alt="image-20220110175655756"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Setup is <span class="number">17724</span> bytes (padded to <span class="number">17920</span> bytes).</span><br><span class="line">System is <span class="number">9177</span> kB</span><br><span class="line">CRC <span class="number">325e451</span>e</span><br><span class="line">Kernel: arch/x86/boot/bzImage is <span class="title function_">ready</span>  <span class="params">(#<span class="number">1</span>)</span></span><br></pre></td></tr></table></figure>
+
+<p>这样，就算编译成功了这样我们就从<code>/arch/x86/boot</code>得到了 bzImage文件</p>
+<p>我们主要关注以下两个文件：</p>
+<ul>
+<li>bzImage：<code>arch/x86/boot/bzImage</code></li>
+<li>vmlinux：源码所在的根目录下。</li>
+</ul>
+<p>此外，这里给出常见内核文件的介绍。</p>
+<ul>
+<li><strong>bzImage</strong>：目前主流的 kernel 镜像格式，即 big zImage（即 bz  不是指 bzip2），适用于较大的（大于 512 KB） Kernel。这个镜像会被加载到内存的高地址，高于 1MB。bzImage 是用  gzip 压缩的，文件的开头部分有 gzip 解压缩的代码，所以我们不能用 gunzip 来解压缩。</li>
+<li><strong>zImage</strong>：比较老的 kernel 镜像格式，适用于较小的（不大于 512KB） Kernel。启动时，这个镜像会被加载到内存的低地址，即内存的前 640 KB。zImage 也不能用 gunzip 来解压缩。</li>
+<li><strong>vmlinuz</strong>：vmlinuz 不仅包含了压缩后的 vmlinux，还包含了 gzip 解压缩的代码。实际上就是 zImage 或者 bzImage 文件。该文件是  bootable 的。 bootable 是指它能够把内核加载到内存中。对于 Linux 系统而言，该文件位于 &#x2F;boot  目录下。该目录包含了启动系统时所需要的文件。</li>
+<li><strong>vmlinux</strong>：静态链接的 Linux kernel，以可执行文件的形式存在，尚未经过压缩。该文件往往是在生成 vmlinuz 的过程中产生的。该文件适合于调试。但是该文件不是 bootable 的。</li>
+<li><strong>vmlinux.bin</strong>：也是静态链接的 Linux kernel，只是以一个可启动的 (bootable) 二进制文件存在。所有的符号信息和重定位信息都被删除了。生成命令为：<code>objcopy -O binary vmlinux vmlinux.bin</code>。</li>
+<li><strong>uImage</strong>：uImage 是 U-boot 专用的镜像文件，它是在 zImage 之前加上了一个长度为 0x40 的 tag 而构成的。这个 tag 说明了这个镜像文件的类型、加载位置、生成时间、大小等信息。</li>
+</ul>
+<h3 id="下载编译-busybox"><a href="#下载编译-busybox" class="headerlink" title="下载编译 busybox"></a>下载编译 busybox</h3><p>下载</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">❯ wget https:<span class="comment">//busybox.net/downloads/busybox-1.32.1.tar.bz2</span></span><br><span class="line">❯ tar -jxf busybox<span class="number">-1.32</span><span class="number">.1</span>.tar.bz2</span><br></pre></td></tr></table></figure>
+
+<p>配置</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">❯ make menuconfig</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在 Setttings 选中 Build static binary (no shared libs)，将 busybox  编译为静态链接的文件；</li>
+<li>在 Linux System Utilities 中取消选中 Support mounting NFS file  systems on Linux &lt; 2.6.23 (NEW)；</li>
+<li>在 Networking Utilities 中取消选中 inetd。</li>
+</ul>
+<p>编译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make -j3</span><br></pre></td></tr></table></figure>
+
+<p>编译后，执行<code>make install</code>，根目录下会生成一个<code>_install</code>文件夹，进入文件夹配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd _install</span><br><span class="line">mkdir proc</span><br><span class="line">mkdir sys</span><br><span class="line">touch init</span><br><span class="line">touch packet</span><br><span class="line">chmod +x init</span><br></pre></td></tr></table></figure>
+
+<p>编辑init 文件，用于内核初始化</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;&#123;==DBG==&#125; INIT SCRIPT&quot;</span></span><br><span class="line"><span class="built_in">mkdir</span> /tmp</span><br><span class="line">mount -t proc none /proc</span><br><span class="line">mount -t sysfs none /sys</span><br><span class="line">mount -t debugfs none /sys/kernel/debug</span><br><span class="line">mount -t tmpfs none /tmp</span><br><span class="line"><span class="comment">#mount指令 挂载某个分区到某个文件，这样就将分区与文件建立联系从而访问文件时就可以访问分区。</span></span><br><span class="line"><span class="comment"># insmod /xxx.ko # 加载模块</span></span><br><span class="line"><span class="comment"># insmod /hello.ko # 加载hello.ko模块</span></span><br><span class="line">mdev -s </span><br><span class="line"><span class="comment"># We need this to find /dev/sda later</span></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;&#123;==DBG==&#125; Boot took <span class="subst">$(cut -d&#x27; &#x27; -f1 /proc/uptime)</span> seconds&quot;</span></span><br><span class="line">setsid /bin/cttyhack setuidgid 1000 /bin/sh <span class="comment">#normal user</span></span><br><span class="line"><span class="comment"># exec /bin/sh #root</span></span><br></pre></td></tr></table></figure>
+
+<p>几个常见指令</p>
+<ul>
+<li>insmod: 指定模块加载到内核中</li>
+<li>rmmod: 从内核中卸载指定模块</li>
+<li>lsmod: 列出已经加载的模块</li>
+</ul>
+<p>在packet 中写入，用于将FileSystem 打包成映像</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">echo &quot;Generate rootfs.img&quot;</span><br><span class="line">find . | cpio -o --format=newc &gt; ./rootfs.img</span><br></pre></td></tr></table></figure>
+
+<p>运行 packet 将得到 rootfs.img文件</p>
+<h3 id="运行内核"><a href="#运行内核" class="headerlink" title="运行内核"></a>运行内核</h3><p>这里使用qemu进行运行，qemu 有多种运行模式，常见的有<code>User-mode emulation</code>和<code>System emulation</code>两种</p>
+<h4 id="安装-qemu"><a href="#安装-qemu" class="headerlink" title="安装 qemu"></a>安装 qemu</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">安装QEMU的依赖库</span><br><span class="line">sudo apt-get install git libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev</span><br><span class="line">sudo apt-get install qemu</span><br><span class="line">测试输入qemu + tab 如果有很多实例回显，就说明安装成功</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033351.png" alt="image-20220110201935342"></p>
+<p>接着写一个shell脚本boot.sh用来启动qemu，运行内核 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/sh</span></span><br><span class="line"></span><br><span class="line">qemu-system-x86_64 \</span><br><span class="line">-m 128M \</span><br><span class="line">-kernel ./bzImage \</span><br><span class="line">-initrd  ./rootfs.img \</span><br><span class="line">-append <span class="string">&quot;root=/dev/ram rw  oops=panic panic=1 kalsr&quot;</span> \</span><br><span class="line">-netdev user,<span class="built_in">id</span>=t0, -device e1000,netdev=t0,<span class="built_in">id</span>=nic0 \</span><br><span class="line">-monitor /dev/null \</span><br><span class="line">-smp cores=2,threads=1 \</span><br><span class="line">-cpu kvm64,+smep \</span><br><span class="line"><span class="comment">#-gdb tcp::1234 \</span></span><br><span class="line"><span class="comment">#-S</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>将前面生成的bzImage，rootfs.img一起放到<code>_install</code>文件夹下，运行boot.sh</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033352.png" alt="image-20220110222715066"></p>
+<p>这里解释一下shell命令中参数的意义</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-m 是指定RMA大小(默认384)</span><br><span class="line">-kernel 是指定的内核镜像，这里是我们编译的镜像路径，也可以是我们下载好的镜像，如./vmlinuz-4.10.0-1004-gcp</span><br><span class="line">-initrd 设置刚刚利用 busybox 创建的 rootfs.img,作为内核启动的文件系统 </span><br><span class="line">-append 附加选项，指定no kaslr 可以关闭随机偏移</span><br><span class="line">--nographic和console=ttyS0一起使用，启动的界面就变成了当前终端</span><br><span class="line">-s 相当于-gdb tcp::1234的简写，可以直接通过主机的gdb远程连接</span><br><span class="line">-monitor 配置用户械的网络 // 将监视器重定向主机设备 /dev/null</span><br><span class="line">-smp 用于生明所以可能用的cps,ie,socket cores threads = maxcputs.</span><br><span class="line">-cpu 设置cpu的安全选项</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加syscall"><a href="#添加syscall" class="headerlink" title="添加syscall"></a>添加syscall</h3><ol>
+<li>源码根目录下创建helloworld目录，并在helloworld目录下添加两个文件</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98$ mkdir helloworld</span><br><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98$ cd helloworld/</span><br><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98/helloworld$ touch helloworld.c</span><br><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98/helloworld$ touch Makefile</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>编辑Makefile、mysyscall.c</li>
+</ol>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obj-y=helloworld.o</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//helloworld.c</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/kernel.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">asmlinkage <span class="type">long</span> <span class="title function_">sys_helloworld</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">    printk(<span class="string">&quot;&#123;==kernel==&#125; hello world\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><p>编辑源码根目录下的Makefile，添加helloworld&#x2F;</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033353.png" alt="image-20220110225902274"></p>
+</li>
+<li><p>编辑include&#x2F;linux&#x2F;syscalls.h，添加函数原型</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">asmlinkage <span class="type">long</span> <span class="title function_">sys_helloworld</span><span class="params">(<span class="type">void</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033354.png" alt="image-20220110230402866"></p>
+</li>
+<li><p>编辑arch&#x2F;x86&#x2F;entry&#x2F;syscalls&#x2F;syscall_32.tbl和arch&#x2F;x86&#x2F;entry&#x2F;syscalls&#x2F;syscall_64.tbl，添加系统调用号</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//syscall_32.tbl</span></span><br><span class="line"><span class="number">1337</span>    i386    helloworld              sys_helloworld                </span><br><span class="line"><span class="comment">//syscall_64.tbl</span></span><br><span class="line"><span class="number">1337</span>    common  helloworld              sys_helloworld</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033355.png" alt="image-20220110230618834"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033356.png" alt="image-20220110230803817"></p>
+</li>
+<li><p>编译kernel，然后在.&#x2F;arch&#x2F;x86&#x2F;boot&#x2F;下获得新bzImage</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo make -j3 bzImage</span><br></pre></td></tr></table></figure>
+
+<p>编译成功</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033357.png" alt="image-20220111001941724"></p>
+</li>
+</ol>
+<h3 id="编译ko"><a href="#编译ko" class="headerlink" title="编译ko"></a>编译ko</h3><ol>
+<li>在kernel源码目录下创建一个新的文件夹</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98$ <span class="built_in">mkdir</span> test_ko</span><br><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98$ <span class="built_in">cd</span> test_ko/</span><br><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98/test_ko$ <span class="built_in">touch</span> hello.c</span><br><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98/test_ko$ <span class="built_in">touch</span> Makefile</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>在hello.c和Makefile中写入东西，写Makefile的时候注意要使用Tab而不是空格</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//hello.c</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/init.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/module.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/kernel.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/cred.h&gt;</span></span></span><br><span class="line">MODULE_LICENSE(<span class="string">&quot;Dual BSD/GPL&quot;</span>);</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cred</span> <span class="title">c1</span>;</span></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">hello_init</span><span class="params">(<span class="type">void</span>)</span> </span><br><span class="line">&#123;</span><br><span class="line">    printk(<span class="string">&quot;&lt;1&gt; Hello world!\n&quot;</span>);</span><br><span class="line">    printk(<span class="string">&quot;size of cred : %d \n&quot;</span>,<span class="keyword">sizeof</span>(c1));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">hello_exit</span><span class="params">(<span class="type">void</span>)</span> </span><br><span class="line">&#123;</span><br><span class="line">    printk(<span class="string">&quot;&lt;1&gt; Bye, cruel world\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">module_init(hello_init);</span><br><span class="line">module_exit(hello_exit);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">obj-m	:=	hello.o</span><br><span class="line"></span><br><span class="line">KERNELDR	:=	~/kernel/linux-5.4.98    <span class="comment">#根据自己的文件夹路径</span></span><br><span class="line"></span><br><span class="line">PWD	:=	<span class="variable">$(<span class="built_in">shell</span> pwd)</span>  </span><br><span class="line"></span><br><span class="line"><span class="section">modules:  </span></span><br><span class="line">	<span class="variable">$(MAKE)</span> -C <span class="variable">$(KERNELDR)</span> M=<span class="variable">$(PWD)</span> modules  </span><br><span class="line"></span><br><span class="line"><span class="section">moduels_install:  </span></span><br><span class="line">	<span class="variable">$(MAKE)</span> -C <span class="variable">$(KERNELDR)</span> M=<span class="variable">$(PWD)</span> modules_install  </span><br><span class="line"></span><br><span class="line"><span class="section">clean:  </span></span><br><span class="line">	rm -rf *.o *~ core .depend .*.cmd *.ko *.mod.c .tmp_versions</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译ko文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+
+<p>编译成功，会出现hello.ko文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98/test_ko$ make</span><br><span class="line">make	-C	~/kernel/linux-5.4.98	M=/home/qqq/kernel/linux-5.4.98/test_komodules</span><br><span class="line">make[1]: 进入目录“/home/qqq/kernel/linux-5.4.98”</span><br><span class="line">  CC [M]  /home/qqq/kernel/linux-5.4.98/test_ko/hello.o</span><br><span class="line">/home/qqq/kernel/linux-5.4.98/test_ko/hello.c: In function ‘hello_init’:</span><br><span class="line">/home/qqq/kernel/linux-5.4.98/test_ko/hello.c:11:29: warning: format ‘%d’ expects argument of type ‘int’, but argument 2 has type ‘long unsigned int’ [-Wformat=]</span><br><span class="line">     printk(&quot;size of cred : %d \n&quot;,sizeof(c1));</span><br><span class="line">                            ~^</span><br><span class="line">                            %ld</span><br><span class="line">  Building modules, stage 2.</span><br><span class="line">  MODPOST 1 modules</span><br><span class="line">  CC [M]  /home/qqq/kernel/linux-5.4.98/test_ko/hello.mod.o</span><br><span class="line">  LD [M]  /home/qqq/kernel/linux-5.4.98/test_ko/hello.ko</span><br><span class="line">make[1]: 离开目录“/home/qqq/kernel/linux-5.4.98”</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="启动系统"><a href="#启动系统" class="headerlink" title="启动系统"></a>启动系统</h3><p>将编译好的hello.ko放到busybox的_install目录下</p>
+<p>注意这里我们需要加载自己编译的驱动 hello.ko，所以需要在init 文件中加入一句<code>insmod /hello.ko</code></p>
+<p>再写个test.c测试前面添加的syscall，将gcc test.c -static -o test后的test也放在_install目录下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">    syscall(<span class="number">1337</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后再打包<code>./packet</code></p>
+<p>接着<code>./boot.sh</code>启动可以看到我们的ko模块和syscall都生效了</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033358.png" alt="image-20220111002858957"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">chuwei</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/08/06/kernel_pwn%E7%8E%AF%E5%A2%83/">http://example.com/2022/08/06/kernel_pwn%E7%8E%AF%E5%A2%83/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">chuwei</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/08/06/lab1%20%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/"><img class="prev-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">lab1实验报告</div></div></a></div><div class="next-post pull-right"><a href="/2022/08/06/IO%20FILE/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">IO FILE</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">chuwei</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E7%94%9F%E6%88%90%E5%86%85%E6%A0%B8%E9%95%9C%E5%83%8F"><span class="toc-number">1.</span> <span class="toc-text">编译生成内核镜像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD%E7%BC%96%E8%AF%91-busybox"><span class="toc-number">2.</span> <span class="toc-text">下载编译 busybox</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E5%86%85%E6%A0%B8"><span class="toc-number">3.</span> <span class="toc-text">运行内核</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-qemu"><span class="toc-number">3.1.</span> <span class="toc-text">安装 qemu</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0syscall"><span class="toc-number">4.</span> <span class="toc-text">添加syscall</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E8%AF%91ko"><span class="toc-number">5.</span> <span class="toc-text">编译ko</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8%E7%B3%BB%E7%BB%9F"><span class="toc-number">6.</span> <span class="toc-text">启动系统</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/08/06/%E5%8F%AA%E6%9C%89%E4%B8%80%E6%AC%A1%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="只有一次的格式化字符串漏洞"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="只有一次的格式化字符串漏洞"/></a><div class="content"><a class="title" href="/2022/08/06/%E5%8F%AA%E6%9C%89%E4%B8%80%E6%AC%A1%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="只有一次的格式化字符串漏洞">只有一次的格式化字符串漏洞</a><time datetime="2022-08-06T02:41:45.599Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/06/%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A/" title="延迟绑定"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="延迟绑定"/></a><div class="content"><a class="title" href="/2022/08/06/%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A/" title="延迟绑定">延迟绑定</a><time datetime="2022-08-06T02:41:45.596Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/06/%E5%B3%BB%E6%9E%81pwn/" title="峻极pwn"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="峻极pwn"/></a><div class="content"><a class="title" href="/2022/08/06/%E5%B3%BB%E6%9E%81pwn/" title="峻极pwn">峻极pwn</a><time datetime="2022-08-06T02:41:45.593Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/06/%E9%9D%9E%E6%A0%88%E4%B8%8A%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="非栈上的格式化字符串漏洞"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="非栈上的格式化字符串漏洞"/></a><div class="content"><a class="title" href="/2022/08/06/%E9%9D%9E%E6%A0%88%E4%B8%8A%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="非栈上的格式化字符串漏洞">非栈上的格式化字符串漏洞</a><time datetime="2022-08-06T02:41:45.590Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/06/%E6%BB%B4%E6%B0%B4%E9%80%86%E5%90%91/" title="滴水逆向"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="滴水逆向"/></a><div class="content"><a class="title" href="/2022/08/06/%E6%BB%B4%E6%B0%B4%E9%80%86%E5%90%91/" title="滴水逆向">滴水逆向</a><time datetime="2022-08-06T02:41:45.587Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By chuwei</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
