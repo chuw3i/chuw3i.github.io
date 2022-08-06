@@ -1,0 +1,198 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>gdb的使用 | Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="今天看视频听一下gdb的使用  i b查看程序的寄存器内容 ★rip 当前执行指令的地址 ★rsp 存放当前栈帧的栈顶地址 ★rbp 存放当前栈帧的栈底地址 ★rax 通用寄存器。存放函数返回值  disassemble  反编译 disassemble $rip 查看rip位置的汇编语言  i  b 查看断点      cmp a1,0x61 :判断a1-0x61&#x3D;&#x3D;0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gdb的使用">
+<meta property="og:url" content="http://example.com/2022/08/06/gdb%E8%B0%83%E8%AF%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="今天看视频听一下gdb的使用  i b查看程序的寄存器内容 ★rip 当前执行指令的地址 ★rsp 存放当前栈帧的栈顶地址 ★rbp 存放当前栈帧的栈底地址 ★rax 通用寄存器。存放函数返回值  disassemble  反编译 disassemble $rip 查看rip位置的汇编语言  i  b 查看断点      cmp a1,0x61 :判断a1-0x61&#x3D;&#x3D;0">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="article:published_time" content="2022-08-06T02:41:45.503Z">
+<meta property="article:modified_time" content="2022-01-05T15:22:48.513Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2022/08/06/gdb%E8%B0%83%E8%AF%95/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'gdb的使用',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-01-05 23:22:48'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">1</div></a></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Hexo</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">gdb的使用</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.503Z" title="Created 2022-08-06 10:41:45">2022-08-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2022-01-05T15:22:48.513Z" title="Updated 2022-01-05 23:22:48">2022-01-05</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="gdb的使用"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>今天看视频听一下gdb的使用</p>
+<ol>
+<li><p>i b查看程序的寄存器内容</p>
+<p>★rip 当前执行指令的地址</p>
+<p>★rsp 存放当前栈帧的栈顶地址</p>
+<p>★rbp 存放当前栈帧的栈底地址</p>
+<p>★rax 通用寄存器。存放函数返回值</p>
+</li>
+<li><p>disassemble  反编译</p>
+<p>disassemble $rip 查看rip位置的汇编语言</p>
+</li>
+<li><p>i  b 查看断点</p>
+</li>
+</ol>
+<p>   cmp a1,0x61 :判断a1-0x61&#x3D;&#x3D;0</p>
+<p>   sub a1,0x61: a1&#x3D;a1-0x61</p>
+<ol start="4">
+<li><p>disable 使断点失效</p>
+<p>enable 使断点有效</p>
+</li>
+<li><p>si  步入  finish 步出</p>
+</li>
+<li><table>
+<thead>
+<tr>
+<th>8</th>
+<th>16</th>
+<th>32</th>
+<th>64</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BYTE</td>
+<td>WROD</td>
+<td>DWORD</td>
+<td>QWORD</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>&#96;&#96;&#96;jsx<br>x&#x2F;&lt;n&#x2F;f&#x2F;u&gt;  <addr></p>
+<p>n:是正整数，表示需要显示的内存单元的个数，即从当前地址向后显示n个内存单元的内容，<br>一个内存单元的大小由第三个参数u定义。</p>
+<p>f:表示addr指向的内存内容的输出格式，s对应输出字符串，此处需特别注意输出整型数据的格式：<br>  x 按十六进制格式显示变量.<br>  d 按十进制格式显示变量。<br>  u 按十进制格式显示无符号整型。<br>  o 按八进制格式显示变量。<br>  t 按二进制格式显示变量。<br>  a 按十六进制格式显示变量。<br>  c 按字符格式显示变量。<br>  f 按浮点数格式显示变量。</p>
+<p>u:就是指以多少个字节作为一个内存单元-unit,默认为4。u还可以用被一些字符表示:<br>  如b&#x3D;1 byte, h&#x3D;2 bytes,w&#x3D;4 bytes,g&#x3D;8 bytes.</p>
+<p><addr>:表示内存地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">8. set  将一个地址的值修改为相应的值</span><br><span class="line"></span><br><span class="line">pwntools context 使用</span><br><span class="line"></span><br><span class="line">context 是 pwntools 用来设置环境的功能。在很多时候，由于二进制文件的情况不同，我们可能需要进行一些环境设置才能够正常运行exp，比如有一些需要进行汇编，但是32的汇编和64的汇编不同，如果不设置context会导致一些问题。</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>context(os&#x3D;’linux’, arch&#x3D;’amd64’, log_level&#x3D;’debug’)</p>
+<ol>
+<li>os设置系统为linux系统，在完成ctf题目的时候，大多数pwn题目的系统都是linux</li>
+<li>arch设置架构为amd64，可以简单的认为设置为64位的模式，对应的32位模式是’i386’</li>
+<li>log_level设置日志输出的等级为debug，这句话在调试的时候一般会设置，这样pwntools会将完整的io过程都打印下来，使得调试更加方便，可以避免在完成CTF题目时出现一些和IO相关的错误。</li>
+</ol>
+<p>&#96;&#96;&#96;</p>
+<p>通过context调试可以看到我们收发的数据，从而调整exp。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="http://example.com">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2022/08/06/gdb%E8%B0%83%E8%AF%95/">http://example.com/2022/08/06/gdb%E8%B0%83%E8%AF%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/08/06/gundam/"><img class="prev-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">HITBCTF2018 gundam</div></div></a></div><div class="next-post pull-right"><a href="/2022/08/06/gdb%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">gdb插件配置</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/08/06/%E5%8F%AA%E6%9C%89%E4%B8%80%E6%AC%A1%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="只有一次的格式化字符串漏洞"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="只有一次的格式化字符串漏洞"/></a><div class="content"><a class="title" href="/2022/08/06/%E5%8F%AA%E6%9C%89%E4%B8%80%E6%AC%A1%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="只有一次的格式化字符串漏洞">只有一次的格式化字符串漏洞</a><time datetime="2022-08-06T02:41:45.599Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/06/%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A/" title="延迟绑定"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="延迟绑定"/></a><div class="content"><a class="title" href="/2022/08/06/%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A/" title="延迟绑定">延迟绑定</a><time datetime="2022-08-06T02:41:45.596Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/06/%E5%B3%BB%E6%9E%81pwn/" title="峻极pwn"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="峻极pwn"/></a><div class="content"><a class="title" href="/2022/08/06/%E5%B3%BB%E6%9E%81pwn/" title="峻极pwn">峻极pwn</a><time datetime="2022-08-06T02:41:45.593Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/06/%E9%9D%9E%E6%A0%88%E4%B8%8A%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="非栈上的格式化字符串漏洞"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="非栈上的格式化字符串漏洞"/></a><div class="content"><a class="title" href="/2022/08/06/%E9%9D%9E%E6%A0%88%E4%B8%8A%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="非栈上的格式化字符串漏洞">非栈上的格式化字符串漏洞</a><time datetime="2022-08-06T02:41:45.590Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/06/%E6%BB%B4%E6%B0%B4%E9%80%86%E5%90%91/" title="滴水逆向"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="滴水逆向"/></a><div class="content"><a class="title" href="/2022/08/06/%E6%BB%B4%E6%B0%B4%E9%80%86%E5%90%91/" title="滴水逆向">滴水逆向</a><time datetime="2022-08-06T02:41:45.587Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

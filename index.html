@@ -1,207 +1,215 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="website">
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://example.com/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Hexo',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2022-08-06 10:42:13'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
-
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
-
-  
-<meta name="generator" content="Hexo 6.2.0"></head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
         
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2022/08/06/hello-world/" class="article-date">
-  <time class="dt-published" datetime="2022-08-06T02:27:37.723Z" itemprop="datePublished">2022-08-06</time>
-</a>
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2022/08/06/hello-world/">Hello World</a>
-    </h1>
-  
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">1</div></a></div><hr/></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Hexo</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Hexo</h1></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="post_cover left"><a href="/2022/08/06/%E5%8F%AA%E6%9C%89%E4%B8%80%E6%AC%A1%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="只有一次的格式化字符串漏洞"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="只有一次的格式化字符串漏洞"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/08/06/%E5%8F%AA%E6%9C%89%E4%B8%80%E6%AC%A1%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="只有一次的格式化字符串漏洞">只有一次的格式化字符串漏洞</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-08-06T02:41:45.599Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></span></div><div class="content">首先我们要知道linux下一个程序是怎样进入main函数的。
+具体流程参考链接：https://luomuxiaoxiao.com/?p=516
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+如果我们能吧_fini_arry中的值更改为main函数，那么我们就可以在一次执行main函数
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+例题参考国资师傅
+123456789101112131415161718192021222324252627282930#include &lt;stdio.h&gt;#include &lt;stdlib.h&gt;#include &lt;unistd.h&gt;int sys(char *cmd)&#123;    system(cmd);&#125;int init_func()&#123;    setvbuf(stdin,0,2,0);    setvbuf(stdout,0,2,0);    setvbuf(stderr,0,2,0);    return 0;&#125;int dofunc()&#123;    char buf[0x100] ;        puts(&quot;input:&quot;);         ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/08/06/%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A/" title="延迟绑定"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="延迟绑定"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/08/06/%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A/" title="延迟绑定">延迟绑定</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-08-06T02:41:45.596Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></span></div><div class="content">
+参考链接：https://blog.csdn.net/weixin_44681716/article/details/89877497
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/08/06/hello-world/" data-id="cl6ha1mwa0000uwv6d4y85php" data-title="Hello World" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
+延迟绑定延迟绑定：当程序第一次调用外部库的函数的时候，才对该函数的进行绑定（即符号查找和重定位等），将函数在内存中的真实地址写入.got.plt中的对应表项。延迟绑定是一种动态链接的优化技术，如果未采用延迟绑定技术，则程序开始执行时，动态链接器都要先进行一次链接工作，寻找并装载所需要的共享对象，然后进行符号查找地址重定位等工作，这些工作必然会减慢程序的启动速度。
+ELF文件通过过程链接表（Procedure Linkage Table, PLT）和GOT的配合来实现延迟绑定，每个被调用的库函数都有一组对应的PLT和GOT。 
+.got由于一个程序（或者共享库）的数据段和代码段的相对距离总是 保持不变的，因此，指令和变量之间的距离是一个运行时常量，与绝对内存地址无关。于是就有了全局偏移量表（Global Offset Table,GOT），它位于数据段的开头，用于保存全局变量和库函数的引用， 每个条目占8个字节，在加载时会进行重定位并填入符号的绝对地 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/08/06/%E5%B3%BB%E6%9E%81pwn/" title="峻极pwn"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="峻极pwn"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/08/06/%E5%B3%BB%E6%9E%81pwn/" title="峻极pwn">峻极pwn</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-08-06T02:41:45.593Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></span></div><div class="content">本文主要记录一下周日的比赛，和同学商量写出了3题
+warmpwn保护检查
+发现保护全开
+IDA分析12345678910111213141516171819202122232425262728__int64 __fastcall main(__int64 a1, char **a2, char **a3)&#123;  int v4; // [rsp+4h] [rbp-ECh] BYREF  int *v5; // [rsp+8h] [rbp-E8h]  char format[112]; // [rsp+10h] [rbp-E0h] BYREF  char s[104]; // [rsp+80h] [rbp-70h] BYREF  unsigned __int64 v8; // [rsp+E8h] [rbp-8h]  v8 = __readfsqword(0x28u);  v4 = 4321;  v5 = &amp;v4;  sub_12EE(a1, a2, a3);  sub_13E3();  puts(&quot;Please say someting:&quot;);  __i ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/08/06/%E9%9D%9E%E6%A0%88%E4%B8%8A%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="非栈上的格式化字符串漏洞"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="非栈上的格式化字符串漏洞"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/08/06/%E9%9D%9E%E6%A0%88%E4%B8%8A%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="非栈上的格式化字符串漏洞">非栈上的格式化字符串漏洞</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-08-06T02:41:45.590Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></span></div><div class="content">
+ 格式化字符串漏洞知识链接
+ https://ctf-wiki.org/pwn/linux/user-mode/fmtstr/fmtstr-intro/
+ https://www.yuque.com/cyberangel/rg9gdm/vh62v6
 
 
+非栈上的格式化字符串字符串漏洞
+https://www.cnblogs.com/vi0let/articles/15978174.html
+https://www.anquanke.com/post/id/184717#h2-7
+https://www.freebuf.com/vuls/284210.html
 
-  
+非栈上格式化字符串漏洞概述当printf(buf)中的buf不在栈上时，泄露地址和在栈上一样,但是任意地址写确不一样。这时候我们应该利用间接写的地址
+12345678A----&gt;B----&gt;CC和D长的很像，像兄弟，于是来个偷天换日！A----&gt;B----&gt;D0xff8b0428 —▸ 0xff8b0438 —▸ 0x804a070经过格式化字符串漏洞 利用，写双字节得到0xff8b0428 —▸ 0x ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/08/06/%E6%BB%B4%E6%B0%B4%E9%80%86%E5%90%91/" title="滴水逆向"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="滴水逆向"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/08/06/%E6%BB%B4%E6%B0%B4%E9%80%86%E5%90%91/" title="滴水逆向">滴水逆向</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-08-06T02:41:45.587Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></span></div><div class="content">进制以16位为例    $(-1)_D&#x3D;$1 77777 。 这是因为在计算机系统中，整型数值一律用补码来存储。
+-1的16位的原码为：1000 0000 0000 0001 
+-1的 反码为：1111 1111 1111 1110 
+-1的补码为：1111 1111 1111 1111 
+因此它的八进制结果为：1 111 111 111 111 111 即 1 77777.       
+</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/08/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="操作系统"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="操作系统"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/08/06/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" title="操作系统">操作系统</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-08-06T02:41:45.584Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></span></div><div class="content">第0章操作系统如何访问硬件硬件在输入输出上大体分为串行和并行，相应的接口也就是串行接口和并行接口。串行硬件通过串行接口与 CPU 通信。
+访问外部硬件的方式：
 
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/08/">August 2022</a></li></ul>
-    </div>
-  </div>
+将某个外设的内存映射到一定范围的地址空间中，CPU 通过地址总线访问该内存区域时会落到外设的内存中，这种映射让 CPU 访问外设的内存就如同访问主板上的物理内存一样。
+外设是通过 IO 接口与 CPU 通信的，CPU 访问外设，就是访问 IO 接口。
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2022/08/06/hello-world/">Hello World</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
+IO 接口上面有一些寄存器，访问 IO 接口本质上就是访问这些寄存器，这些寄存器就是人们常说的端口。
 
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2022 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
+应用程序和操作系统的联系cpu并不知道当前在执行的程序是操作系统，还是一般应用软件，cpu只执行cs:ip寄存器中指向的内存取指令并执行。
+应用程序通过语言编写，语言由编译器提供，编译器去解释关键字及其语法。
+应用程序加上操作系统提供功能才算是完整的程序。应用程序需要调用操作系统提供好的函数（即系统调用）才能完整地做成一件事。
+用户态与内核态是对 CPU 来讲的，是指 CPU 运行在用户态（特权 3 级）还是内核态（特权 0 级）；用户进程陷入内核态是指：由于内部或外部中断 ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/08/06/write%20some%20paper/" title="write some paper"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="write some paper"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/08/06/write%20some%20paper/" title="write some paper">write some paper</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-08-06T02:41:45.582Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></span></div><div class="content">Write some paper
+参考链接：https://xuanxuanblingbling.github.io/ctf/pwn/2020/02/02/paper/
 
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
+首先检查程序：
+IDA分析发现delete函数中free后，并没有清空link_list数组中的地址，存在use-after-free漏洞
+1234567891011int delete_paper()&#123;  int v1; // [rsp+Ch] [rbp-4h] BYREF  printf(&quot;which paper you want to delete,please enter it&#x27;s index(0-9):&quot;);  __isoc99_scanf(&quot;%d&quot;, &amp;v1);  if ( v1 &lt; 0 || v1 &gt; 9 )    exit(1);  free(*(&amp;link_list + v1));  return puts(&quot;delete success !&quot;);&#125;
+
+函数中存在后门函数
+1234i ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/08/06/unsorted%20bin%20attack/" title="unsorted bin attack"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="unsorted bin attack"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/08/06/unsorted%20bin%20attack/" title="unsorted bin attack">unsorted bin attack</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-08-06T02:41:45.579Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></span></div><div class="content">
+参考链接：https://xz.aliyun.com/t/7251
+
+unsorted bin attackunsorted bin介绍unsorted bin attack作为一种久远的攻击方式常常作为其他攻击方式的辅助手段，比如修改global_max_fast为一个较大的值使得几乎所有大小的chunk都用fast bin的管理方式进行分配和释放，又或者修改_IO_list_all来伪造_IO_FILE进行攻击。在上述攻击的利用过程中我们实际上并不需要对unsorted bin的分配过程有太多的了解。
+
+global_max_fast是main_arena中控制最大fastbin大小的变量。
 
 
-<script src="/js/jquery-3.4.1.min.js"></script>
+unsorted bin也是以链表的方式进行组织的，和fast bin不同的是其分配方式是FIFO，即一个chunk放入unsorted bin链时将该堆块插入链表头，而从这个链取堆块的时候是从尾部开始的，因此unsorted bin遍历堆块的时候使用的是bk指针。
 
+在程序malloc时，如果在fastbin，smallbin中找不到对应大小的chunk，就会尝试从unsortedbi ...</div></div></div><div class="recent-post-item"><div class="post_cover left"><a href="/2022/08/06/unsafe_unlink/" title="unsafe_unlink"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="unsafe_unlink"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/08/06/unsafe_unlink/" title="unsafe_unlink">unsafe_unlink</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-08-06T02:41:45.576Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></span></div><div class="content">unsafe_unlinkunlink利用条件
+UAF ，可修改 free 状态下 smallbin 或是 unsorted bin 的 fd 和 bk 指针
+已知位置存在一个指针指向可进行 UAF 的 chunk
 
-
-  
-<script src="/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+unlink源码123456789101112131415161718192021222324252627282930313233343536373839404142434445#define unlink(AV, P, BK, FD) &#123;                                            \    //判断chunk p的大小，是否与下一个chunk 的prev_size相等    if (__builtin_expect (chunksize(P) != prev_size (next_chunk(P)), 0))      \      malloc_printerr (&quot;corrupted size vs. prev_size&quot;);               \    //让FD指向p的下一个ch ...</div></div></div><div class="recent-post-item"><div class="post_cover right"><a href="/2022/08/06/tcache/" title="tcache"><img class="post_bg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="tcache"></a></div><div class="recent-post-info"><a class="article-title" href="/2022/08/06/tcache/" title="tcache">tcache</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time datetime="2022-08-06T02:41:45.574Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></span></div><div class="content">TCache机制TCache全名为Thread Local Caching，它为每个线程创建一个缓存，里面包含了一些小堆块，无须对arena上锁即可使用，这种无锁的分配算法能有不错的性能提升，但也引入了更多的不安全性,让之前很多的代码检查都不再起作用，可以很好的绕过，libc-2.26正式引入该机制，并默认开启。
+数据结构glibc在编译时使用USE_TCACHE条件来开启tcache机制，并定
+义了下面这些宏。
+123456789101112131415161718192021222324252627#if USE_TCACHE/* We want 64 entries.  This is an arbitrary limit, which tunables can reduce.  */# define TCACHE_MAX_BINS		64# define MAX_TCACHE_SIZE	tidx2usize (TCACHE_MAX_BINS-1)/* Only used to pre-fill the tunables.  */# define tidx2usize(idx)	 ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/#content-inner">5</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">41</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/08/06/%E5%8F%AA%E6%9C%89%E4%B8%80%E6%AC%A1%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="只有一次的格式化字符串漏洞"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="只有一次的格式化字符串漏洞"/></a><div class="content"><a class="title" href="/2022/08/06/%E5%8F%AA%E6%9C%89%E4%B8%80%E6%AC%A1%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="只有一次的格式化字符串漏洞">只有一次的格式化字符串漏洞</a><time datetime="2022-08-06T02:41:45.599Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/06/%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A/" title="延迟绑定"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="延迟绑定"/></a><div class="content"><a class="title" href="/2022/08/06/%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A/" title="延迟绑定">延迟绑定</a><time datetime="2022-08-06T02:41:45.596Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/06/%E5%B3%BB%E6%9E%81pwn/" title="峻极pwn"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="峻极pwn"/></a><div class="content"><a class="title" href="/2022/08/06/%E5%B3%BB%E6%9E%81pwn/" title="峻极pwn">峻极pwn</a><time datetime="2022-08-06T02:41:45.593Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/06/%E9%9D%9E%E6%A0%88%E4%B8%8A%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="非栈上的格式化字符串漏洞"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="非栈上的格式化字符串漏洞"/></a><div class="content"><a class="title" href="/2022/08/06/%E9%9D%9E%E6%A0%88%E4%B8%8A%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="非栈上的格式化字符串漏洞">非栈上的格式化字符串漏洞</a><time datetime="2022-08-06T02:41:45.590Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/08/06/%E6%BB%B4%E6%B0%B4%E9%80%86%E5%90%91/" title="滴水逆向"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="滴水逆向"/></a><div class="content"><a class="title" href="/2022/08/06/%E6%BB%B4%E6%B0%B4%E9%80%86%E5%90%91/" title="滴水逆向">滴水逆向</a><time datetime="2022-08-06T02:41:45.587Z" title="Created 2022-08-06 10:41:45">2022-08-06</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>Categories</span>
+            
+            </div>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Diary/"><span class="card-category-list-name">Diary</span><span class="card-category-list-count">2</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>Tags</span></div><div class="card-tag-cloud"><a href="/tags/fastbin-doule-free/" style="font-size: 1.1em; color: #999">fastbin doule free</a> <a href="/tags/house-of-spirit/" style="font-size: 1.1em; color: #999">house of spirit</a> <a href="/tags/os/" style="font-size: 1.5em; color: #99a9bf">os</a> <a href="/tags/pwn/" style="font-size: 1.1em; color: #999">pwn</a> <a href="/tags/tcache/" style="font-size: 1.1em; color: #999">tcache</a> <a href="/tags/unsorted-bin-attack/" style="font-size: 1.1em; color: #999">unsorted bin attack</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>Archives</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/08/"><span class="card-archive-list-date">August 2022</span><span class="card-archive-list-count">41</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article :</div><div class="item-count">41</div></div><div class="webinfo-item"><div class="item-name">UV :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">PV :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Last Push :</div><div class="item-count" id="last-push-date" data-lastPushDate="2022-08-06T02:42:13.507Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
