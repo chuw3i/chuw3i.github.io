@@ -48,7 +48,7 @@
   isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2022-08-11 01:10:30'
+  postUpdate: '2022-08-11 09:44:25'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -142,53 +142,65 @@
 
 https://www.jianshu.com/p/23351b38ecb0
 https://ctf-wiki.org/pwn/linux/kernel-mode/environment/build-kernel/
-https://n0va-scy.github.io/2020/06/21/kernel%20pwn%20%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/
+https://n0va-scy.github.io/2020/06/21/kernel pwn 环境搭建/
 
-编译生成内核镜像先下载一个内核源码 ：https://mirrors.edge.kernel.org/pub/linux/kernel/
+编译生成内核镜像
+先下载一个内核源码 ：https://mirrors.edge.kernel.org/pub/linux/kernel/
 我下载的版本为：linux-5.4.98.tar.gz
 解压内核源码之前需要安装一些依赖：
 12sudo apt-get updatesudo apt-get install git fakeroot build-essential ncurses-dev xz-utils libssl-dev bc
-
 安装依赖成功后进行解压
 1tar -xf linux-5.4.98.tar.gz 
 
+在进行配置内核的编译选项sudo make menuconfig发生错误
+经过百 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/IO%20FILE/" title="IO FILE">IO FILE</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.517Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-08-05T13:23:07.376Z" title="更新于 2022-08-05 21:23:07">2022-08-05</time></span></div><div class="content">_IO_FILE
 
-在进行 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/IO%20FILE/" title="IO FILE">IO FILE</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.517Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-08-05T13:23:07.376Z" title="更新于 2022-08-05 21:23:07">2022-08-05</time></span></div><div class="content">_IO_FILE
-参考链接：https://fish-o0o.github.io/2019/12/29/FILE%E7%BB%93%E6%9E%84%E4%BD%93%E5%8F%8A%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%E6%96%B9%E6%B3%95/
+参考链接：https://fish-o0o.github.io/2019/12/29/FILE结构体及漏洞利用方法/
 https://www.yuque.com/cyberangel/rg9gdm/pvp243#EFwc4
 https://ray-cp.github.io/archivers/IO_FILE_fclose_analysis
 
 本文基本是copy以上链接的，主要内容是源码阅读和程序调试。可以跟着raycp、cyberangel师傅的博客执行一下fopen、fclose、fread、fwrite等函数的具体调用过程，加深对其的理解
 FILE结构的利用是一种通用的控制流劫持技术。攻击者可以覆盖堆上的FILE指针使其指向一个伪造的结构，并通过结构中一个名为vtable的指针，来执行任意代码。
-FILE介绍FILE 在 Linux 系统的标准 IO 库中是用于描述文件的结构，称为文件流。 FILE 结构在 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/IDA%20pro/" title="IDA pro创建结构体">IDA pro创建结构体</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.515Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-04-19T12:32:45.366Z" title="更新于 2022-04-19 20:32:45">2022-04-19</time></span></div><div class="content">
- 参考链接：https://blog.csdn.net/weixin_45799954/article/details/115009760
+FILE介绍
+FILE 在 Linux 系统的标准 IO 库中是用于描述文件的结构，称为文件流。 FILE 结构在程序执行 fopen()、fread()、fclose() 等函数时会进行创建，并分配在堆中。我们常定义一个指向 FILE 结构的指针来接收这个返回值。
+1 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/IDA%20pro/" title="IDA pro创建结构体">IDA pro创建结构体</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.515Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-04-19T12:32:45.366Z" title="更新于 2022-04-19 20:32:45">2022-04-19</time></span></div><div class="content">
+参考链接：https://blog.csdn.net/weixin_45799954/article/details/115009760
 https://www.wangan.com/docs/551
 
-IDA Pro创建结构体手工创建创建结构体是在 IDA 的 structures 窗口中进行的，这个操作在堆漏洞的pwn题中经常使用
+IDA Pro创建结构体
+手工创建
+创建结构体是在 IDA 的 structures 窗口中进行的，这个操作在堆漏洞的pwn题中经常使用
 打开view -&gt; open subviews -&gt; Structures，快捷键为shift+F9
 1234Ins/Del : create/delete structure  创建和删除结构体D/A/* : create structure member (data/ascii/array)   添加不同类型的结构体成员，N : rename structure or structure member               对结构体或结构体成员重命名U : delete structure member                        删除结构体成员
 
 
-
-
-
-前两个复选框用于决定新结构体在结构体窗口中的显示位置， ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/house-of-storm/" title="house of storm">house of storm</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.512Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-04-07T13:18:29.289Z" title="更新于 2022-04-07 21:18:29">2022-04-07</time></span></div><div class="content">
+前两个复选框用于决定新结构体在结构体窗口中的显示位置，或者 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/house-of-storm/" title="house of storm">house of storm</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.512Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-04-07T13:18:29.289Z" title="更新于 2022-04-07 21:18:29">2022-04-07</time></span></div><div class="content">
 参考链接：
 https://www.anquanke.com/post/id/203096
 https://www.cnblogs.com/Rookle/p/13140339.html
 https://a1ex.online/2020/10/07/house-of-storm/
-https://chenqiw9.github.io/2021/07/21/Tcache%20Stashing%20Unlink%20Attack%E5%92%8Chouse%20of%20storm%E7%AE%80%E6%9E%90/
+https://chenqiw9.github.io/2021/07/21/Tcache Stashing Unlink Attack和house of storm简析/
 
-产生条件House_of_storm是一种结合了unsorted_bin_attack和Largebin_attack的攻击技术,其基本原理和Largebin_attack类似，但是不同的是Largebin_attack只可以在任意地址写出chunk地址,实际应用中除了泄漏一个堆地址并没有什么其他用处，所以其基本无害。而House_of_storm可以在任意地址写出chunk地址,进而把这个地址的高位当作size,可以进行任意地址分配chunk，也就是可以造成任意地址写的 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/houseofAtum/" title="BCTF2018 House of Atum">BCTF2018 House of Atum</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.508Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-05-26T16:39:17.202Z" title="更新于 2022-05-27 00:39:17">2022-05-27</time></span></div><div class="content">保护检查
+产生条件
+House_of_storm是一种结合了unsorted_bin_attack和Largebin_attack的攻击技术,其基本原理和Largebin_attack类似，但是不同的是Largebin_attack只可以在任意地址写出chunk地址,实际应用中除了泄漏一个堆地址并没有什么其他用处，所以其基本无害。而House_of_storm可以在任意地址写出chunk地址,进而把这个地址的高位当作size,可以进行任意地址分配chunk，也就是可以造成任意地址写的后果，危害十分之大,但是其条件也是非常的苛刻。
+漏洞利用条件
+1. ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/houseofAtum/" title="BCTF2018 House of Atum">BCTF2018 House of Atum</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.508Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-05-26T16:39:17.202Z" title="更新于 2022-05-27 00:39:17">2022-05-27</time></span></div><div class="content">保护检查
+
 保护全开
-IDA分析main函数1234567891011121314151617181920212223242526272829303132333435int __cdecl __noreturn main(int argc, const char **argv, const char **envp)&#123;  int v3; // eax  initialize(argc, argv, envp);  while ( 1 )  &#123;    while ( 1 )    &#123;      while ( 1 )      &#123;        v3 = menu();        if ( v3 != 2 )          break;        edit();      &#125;      if ( v3 &gt; 2 )        break;      if ( v3 != 1 )        goto LABEL_13;      alloc();    &#125;    if ( v3 == 3 )    &#123; ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/gundam/" title="HITBCTF2018 gundam">HITBCTF2018 gundam</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.506Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-04-20T11:17:59.053Z" title="更新于 2022-04-20 19:17:59">2022-04-20</time></span></div><div class="content">本题需修改libc版本
+IDA分析
+main函数
+1234567891011121314151617181920212223242526272829303132333435int __cdecl __noreturn main(int argc, const char **argv, const char **envp)&#123;  int v3; // eax  initialize(argc, argv, envp);  while ( 1 )  &#123;    while ( 1 )    &#123;      while ( 1 )      &#123;        v3 = menu();        if ( v3 != 2 )          break;        edit();      &#125;      if ( v3 &gt; 2 )        break;      if ( v3 != 1 )        goto LABEL_13;      alloc();    &#125;    if ( v3 == 3 )    &#1 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/gundam/" title="HITBCTF2018 gundam">HITBCTF2018 gundam</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.506Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-04-20T11:17:59.053Z" title="更新于 2022-04-20 19:17:59">2022-04-20</time></span></div><div class="content">本题需修改libc版本
 
 参考链接：ctf-pwn-patchelf-用题目给的libc运行二进制文件
 pwn题切换不同glibc版本实测
 
 保护检查
+
 保护全开
-IDA分析main()函数12345678910111213141516171819202122232425262728293031323334void __fastcall __noreturn main(__int64 a1, char **a2, char **a3)&#123;  char buf[10]; // [rsp+Eh] [rbp-12h] BYREF  unsigned __int64 v4; // [rsp+18h] [rbp-8h]  v4 = __readfsqword(0x28u);  sub_1022(a1, a2, a3);  while ( 1 )  &#123;    menu();    read(0, buf, 8uLL);    switch ( atoi(buf) )    &#123;      case 1:        add();        break;      ca ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/gdb%E8%B0%83%E8%AF%95/" title="gdb的使用">gdb的使用</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.503Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-05T15:22:48.513Z" title="更新于 2022-01-05 23:22:48">2022-01-05</time></span></div><div class="content">今天看视频听一下gdb的使用
+IDA分析
+main()函数
+12345678910111213141516171819202122232425262728293031323334void __fastcall __noreturn main(__int64 a1, char **a2, char **a3)&#123;  char buf[10]; // [rsp+Eh] [rbp-12h] BYREF  unsigned __int64 v4; // [rsp+18h] [rbp-8h]  v4 = __readfsqword(0x28u);  sub_1022(a1, a2, a3);  while ( 1 )  &#123;    menu();    read(0, buf, 8uLL);    switch ( atoi(buf) )    &#123;      case 1:        add();        break;      ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/gdb%E8%B0%83%E8%AF%95/" title="gdb的使用">gdb的使用</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.503Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-05T15:22:48.513Z" title="更新于 2022-01-05 23:22:48">2022-01-05</time></span></div><div class="content">今天看视频听一下gdb的使用
+
 
 i b查看程序的寄存器内容
 ★rip 当前执行指令的地址
@@ -196,19 +208,24 @@ i b查看程序的寄存器内容
 ★rbp 存放当前栈帧的栈底地址
 ★rax 通用寄存器。存放函数返回值
 
+
 disassemble  反编译
 disassemble $rip 查看rip位置的汇编语言
+
 
 i  b 查看断点
 
 
-   cmp a1,0x61 :判断a1-0x61&#x3D;&#x3D;0
-   sub a1,0x61: a1&#x3D;a1-0x61
+cmp a1,0x61 :判断a1-0x61==0
+sub a1,0x61: a1=a1-0x61
+
 
 disable 使断点失效
 enable 使断点有效
 
+
 si  步入  finish 步出
+
 
 
 
@@ -220,6 +237,7 @@ si  步入  finish 步出
 
 
 
+
 BYTE
 WROD
 DWORD
@@ -227,14 +245,22 @@ QWORD
 
 
 
-&#96;&#96;&#96;jsxx&#x2F;&lt;n&#x2F;f&#x2F;u&gt;  
-n:是正整数，表示需要显示的内存单元的个数，即从当前地址向后显示n个内存单元的内容，一个内存单元的大小由第三个参数u定义。
-f:表示addr指向的内存内容的输出格式，s对应输出字符串，此处需特别注意输出整型数据的格式：  x 按十六进制格式显示变量.  d  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/gdb%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE/" title="gdb插件配置">gdb插件配置</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.500Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-07-17T08:36:10.150Z" title="更新于 2022-07-17 16:36:10">2022-07-17</time></span></div><div class="content">
- 参考链接：https://blog.csdn.net/qq_39153421/article/details/115386527
+
+
+x/&lt;n/f/u&gt;  &lt;addr&gt;
+        
+n:是正整数，表示需要显示的内存单元的个数，即从当前地址向后显示n个内存单元的内容，
+一个内存单元的大小由第三个参数u定义。
+
+f:表示addr指向的内存内容的输出格式，s对应输出字符串，此处需特别注意输出整型数据的格式：
+  x 按十六进制格式显示变量.
+  d 按十进制格式显示变量。
+  u 按十进制 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/gdb%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE/" title="gdb插件配置">gdb插件配置</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.500Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-07-17T08:36:10.150Z" title="更新于 2022-07-17 16:36:10">2022-07-17</time></span></div><div class="content">
+参考链接：https://blog.csdn.net/qq_39153421/article/details/115386527
 https://blog.csdn.net/weixin_43092232/article/details/105648769
 
-安装pwngdb12cd ~/git clone https://github.com/scwuaptx/Pwngdb.git 
-
+安装pwngdb
+12cd ~/git clone https://github.com/scwuaptx/Pwngdb.git 
 其支持的命令如下
 
 libc : Print the base address of libc
@@ -244,7 +270,9 @@ heap : Print the base of heap
 got : Print the Global Offset Table infomation
 dyn : Print the Dynamic section infomation
 findcall : Find some function call
-bcall : Set the breakpo ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/fastbin_attack/" title="fastbin_attack">fastbin_attack</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.497Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-15T14:44:01.593Z" title="更新于 2022-01-15 22:44:01">2022-01-15</time></span></div><div class="content">fastbin_attack介绍 ¶fastbin attack 是一类漏洞的利用方法，是指所有基于 fastbin 机制的漏洞利用方法。这类利用的前提是：
+bcall : Set the breakpoi ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/fastbin_attack/" title="fastbin_attack">fastbin_attack</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.497Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-15T14:44:01.593Z" title="更新于 2022-01-15 22:44:01">2022-01-15</time></span></div><div class="content">fastbin_attack
+介绍 ¶
+fastbin attack 是一类漏洞的利用方法，是指所有基于 fastbin 机制的漏洞利用方法。这类利用的前提是：
 
 存在堆溢出、use-after-free 等能控制 chunk 内容的漏洞
 漏洞发生于 fastbin 类型的 chunk 中
@@ -257,31 +285,35 @@ Alloc to Stack
 Arbitrary Alloc
 
 其中，前两种主要漏洞侧重于利用 free 函数释放真的 chunk 或伪造的 chunk，然后再次申请 chunk 进行攻击，后两种侧重于故意修改 fd 指针，直接利用 malloc 申请指定位置 chunk 进行攻击。
-由于fastbin采用单链表结构（通过fd指针进行链接，且当 chunk释放时，不会清空next_chunk的prev_inuse，再加上一些检 查机制上的不完善，使得fastbin比较脆弱。针对它的攻击方法包括二次释放、修改fd指针并申请（或释放）任意位置的chunk（或fake chunk）等，条件是存在堆溢出 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/examination/" title="examination">examination</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.494Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-04-18T15:08:16.864Z" title="更新于 2022-04-18 23:08:16">2022-04-18</time></span></div><div class="content">周六的比赛题，看了一会没思路，直接开摆，现在看wp复现一下
+由于fastbin采用单链表结构（通过fd指针进行链接，且当 chunk释放时，不会清空next_chunk的prev_inuse，再加上一些检 查机制上的不完善，使得fastbin比较脆弱。针对它的攻击方法包括二次释放、修改fd指针并申请（或释放）任意位置的chunk（或fake chunk）等，条件是存在堆 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2022/08/06/examination/" title="examination">examination</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.494Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-04-18T15:08:16.864Z" title="更新于 2022-04-18 23:08:16">2022-04-18</time></span></div><div class="content">周六的比赛题，看了一会没思路，直接开摆，现在看wp复现一下
 
 参考链接：[*CTF 2022 pwn] examination
 
 保护检查
+
 保护全开，应该要修改hook了
-IDA分析程序太长，就不一 一粘贴了，将函数功能整理如下
+IDA分析
+程序太长，就不一 一粘贴了，将函数功能整理如下
 teacher:
+
 add_student: v2 = calloc(1uLL, 0x20uLL);v3 = calloc(1uLL, 0x18uLL);
 
 
 ​       增加一个学生
 ​       管理块chunk :0x20,含指向成绩单的指针
-​       成绩单chunk：含有学生评级,成绩，以及评价指针，和评价长度 
+​       成绩单chunk：含有学生评级,成绩，以及评价指针，和评价长度
 ​       评价   chunk ：这个块可以自定义
+
 
 give score
 给学生打分：v2 = buf[0] % (10 * **qword_5080[i]);,按学生评级(1-9)给每个学生打分，打分规则为 随机数%(评级*10),如果出去玩 -10
 
 
-12345if ( *(qword_5080[i] + 24LL) == 1 )    &#123;      puts(&quot;the student is la ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/3/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/#content-inner">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/#content-inner">5</a><a class="extend next" rel="next" href="/page/5/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/1597994478373.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">chuwei</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/wysyrg"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/wysyrg" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/11/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95/" title="机器学习算法">机器学习算法</a><time datetime="2022-08-10T16:15:49.997Z" title="发表于 2022-08-11 00:15:49">2022-08-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/07/HCTF-the_end/" title="HCTF the_end">HCTF the_end</a><time datetime="2022-08-07T08:16:28.904Z" title="发表于 2022-08-07 16:16:28">2022-08-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/06/%E5%8F%AA%E6%9C%89%E4%B8%80%E6%AC%A1%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="只有一次的格式化字符串漏洞">只有一次的格式化字符串漏洞</a><time datetime="2022-08-06T02:41:45.599Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/06/%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A/" title="延迟绑定">延迟绑定</a><time datetime="2022-08-06T02:41:45.596Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/06/%E5%B3%BB%E6%9E%81pwn/" title="峻极pwn">峻极pwn</a><time datetime="2022-08-06T02:41:45.593Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+12345if ( *(qword_5080[i] + 24LL) == 1 )    &#123;      puts(&quot;the student is ...</div></div></div><nav id="pagination"><div class="pagination"><a class="extend prev" rel="prev" href="/page/3/#content-inner"><i class="fas fa-chevron-left fa-fw"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/#content-inner">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/#content-inner">5</a><a class="extend next" rel="next" href="/page/5/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/1597994478373.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">chuwei</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/wysyrg"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/wysyrg" target="_blank" title="Github"><i class="fab fa-github"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/11/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95/" title="机器学习算法">机器学习算法</a><time datetime="2022-08-10T16:15:49.997Z" title="发表于 2022-08-11 00:15:49">2022-08-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/07/HCTF-the_end/" title="HCTF the_end">HCTF the_end</a><time datetime="2022-08-07T08:16:28.904Z" title="发表于 2022-08-07 16:16:28">2022-08-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/06/%E5%8F%AA%E6%9C%89%E4%B8%80%E6%AC%A1%E7%9A%84%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%BC%8F%E6%B4%9E/" title="只有一次的格式化字符串漏洞">只有一次的格式化字符串漏洞</a><time datetime="2022-08-06T02:41:45.599Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/06/%E5%BB%B6%E8%BF%9F%E7%BB%91%E5%AE%9A/" title="延迟绑定">延迟绑定</a><time datetime="2022-08-06T02:41:45.596Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/06/%E5%B3%BB%E6%9E%81pwn/" title="峻极pwn">峻极pwn</a><time datetime="2022-08-06T02:41:45.593Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
             <i class="fas fa-folder-open"></i>
             <span>分类</span>
             
             </div>
             <ul class="card-category-list" id="aside-cat-list">
             <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/Diary/"><span class="card-category-list-name">Diary</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/IO-FILE/"><span class="card-category-list-name">IO FILE</span><span class="card-category-list-count">1</span></a></li>
-            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/tcache/" style="font-size: 1.15em; color: rgb(67, 118, 162)">tcache</a><a href="/tags/os/" style="font-size: 1.45em; color: rgb(127, 47, 110)">os</a><a href="/tags/unsorted-bin-attack/" style="font-size: 1.15em; color: rgb(114, 7, 39)">unsorted bin attack</a><a href="/tags/pwn/" style="font-size: 1.15em; color: rgb(61, 130, 19)">pwn</a><a href="/tags/house-of-spirit/" style="font-size: 1.15em; color: rgb(170, 96, 33)">house of spirit</a><a href="/tags/fastbin-doule-free/" style="font-size: 1.15em; color: rgb(47, 15, 153)">fastbin doule free</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/08/"><span class="card-archive-list-date">八月 2022</span><span class="card-archive-list-count">43</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">43</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2022-08-10T17:10:29.743Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By chuwei</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/tcache/" style="font-size: 1.15em; color: rgb(146, 44, 190)">tcache</a><a href="/tags/os/" style="font-size: 1.45em; color: rgb(199, 89, 130)">os</a><a href="/tags/unsorted-bin-attack/" style="font-size: 1.15em; color: rgb(21, 102, 46)">unsorted bin attack</a><a href="/tags/house-of-spirit/" style="font-size: 1.15em; color: rgb(122, 104, 57)">house of spirit</a><a href="/tags/pwn/" style="font-size: 1.15em; color: rgb(90, 2, 55)">pwn</a><a href="/tags/fastbin-doule-free/" style="font-size: 1.15em; color: rgb(49, 46, 73)">fastbin doule free</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/08/"><span class="card-archive-list-date">八月 2022</span><span class="card-archive-list-count">43</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">43</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2022-08-11T01:44:24.577Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By chuwei</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

