@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>seccomp | chuwei'blog</title><meta name="author" content="chuwei"><meta name="copyright" content="chuwei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="今天打蓝帽杯的时候遇见了seccomp，于是顺便学了一下（但是太菜了，没有解出  参考链接：https:&#x2F;&#x2F;www.anquanke.com&#x2F;post&#x2F;id&#x2F;208364 https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;754b0a2ae353  Seccomp-BPF seccomp仅将进程可用的系统调用限制为四种：read，write，_exit，sigreturn。限制过强，于是引入了s">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>seccomp | chuwei'blog</title><meta name="author" content="chuwei"><meta name="copyright" content="chuwei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="今天打蓝帽杯的时候遇见了seccomp，于是顺便学了一下（但是太菜了，没有解出  参考链接：https:&#x2F;&#x2F;www.anquanke.com&#x2F;post&#x2F;id&#x2F;208364 https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;754b0a2ae353  Seccomp-BPFseccomp仅将进程可用的系统调用限制为四种：read，write，_exit，sigreturn。限制过强，于是引入了se">
 <meta property="og:type" content="article">
 <meta property="og:title" content="seccomp">
 <meta property="og:url" content="http://example.com/2022/08/06/seccomp/index.html">
 <meta property="og:site_name" content="chuwei&#39;blog">
-<meta property="og:description" content="今天打蓝帽杯的时候遇见了seccomp，于是顺便学了一下（但是太菜了，没有解出  参考链接：https:&#x2F;&#x2F;www.anquanke.com&#x2F;post&#x2F;id&#x2F;208364 https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;754b0a2ae353  Seccomp-BPF seccomp仅将进程可用的系统调用限制为四种：read，write，_exit，sigreturn。限制过强，于是引入了s">
+<meta property="og:description" content="今天打蓝帽杯的时候遇见了seccomp，于是顺便学了一下（但是太菜了，没有解出  参考链接：https:&#x2F;&#x2F;www.anquanke.com&#x2F;post&#x2F;id&#x2F;208364 https:&#x2F;&#x2F;www.jianshu.com&#x2F;p&#x2F;754b0a2ae353  Seccomp-BPFseccomp仅将进程可用的系统调用限制为四种：read，write，_exit，sigreturn。限制过强，于是引入了se">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/img/973119.jpg">
 <meta property="article:published_time" content="2022-08-06T02:41:45.557Z">
@@ -146,27 +146,22 @@
 <p>参考链接：<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/208364">https://www.anquanke.com/post/id/208364</a></p>
 <p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/754b0a2ae353">https://www.jianshu.com/p/754b0a2ae353</a></p>
 </blockquote>
-<h3 id="Seccomp-BPF">Seccomp-BPF</h3>
-<p>seccomp仅将进程可用的系统调用限制为四种：read，write，_exit，sigreturn。限制过强，于是引入了seccomp-BPF（Berkley Packet Filter），其允许用户对系统调用进行配置过滤。</p>
+<h3 id="Seccomp-BPF"><a href="#Seccomp-BPF" class="headerlink" title="Seccomp-BPF"></a>Seccomp-BPF</h3><p>seccomp仅将进程可用的系统调用限制为四种：read，write，_exit，sigreturn。限制过强，于是引入了seccomp-BPF（Berkley Packet Filter），其允许用户对系统调用进行配置过滤。</p>
 <p>seccomp-BPF在原有的基础上增加了过滤规则</p>
-<p><img src="C:%5CUsers%5Cwqf%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220709185720260.png" alt="image-20220709185720260"></p>
+<p><img src="C:\Users\wqf\AppData\Roaming\Typora\typora-user-images\image-20220709185720260.png" alt="image-20220709185720260"></p>
 <p>其具体过程可参考上面给出的第一条链接。也可以使用<a target="_blank" rel="noopener" href="https://outflux.net/teach-seccomp/step-3/seccomp-bpf.h">seccomp-BPF.h</a>库添加过滤规则.</p>
-<h3 id="seccomp库函数">seccomp库函数</h3>
-<p>seccomp库可以提供一些函数实现prctl类似的效果，库中封装了一些函数，可以不用了解BPF规则而实现过滤。</p>
-<p><img src="C:%5CUsers%5Cwqf%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220709201645370.png" alt="image-20220709201645370"></p>
+<h3 id="seccomp库函数"><a href="#seccomp库函数" class="headerlink" title="seccomp库函数"></a>seccomp库函数</h3><p>seccomp库可以提供一些函数实现prctl类似的效果，库中封装了一些函数，可以不用了解BPF规则而实现过滤。</p>
+<p><img src="C:\Users\wqf\AppData\Roaming\Typora\typora-user-images\image-20220709201645370.png" alt="image-20220709201645370"></p>
 <p>scmp_filter_ctx是过滤器的结构体</p>
 <p>seccomp_init对结构体进行初始化，若参数为SCMP_ACT_ALLOW，则过滤为黑名单模式；若为SCMP_ACT_KILL，则为白名单模式，即没有匹配到规则的系统调用都会杀死进程，默认不允许所有的syscall。</p>
 <p>seccomp_rule_add用来添加一条规则，arg_cnt为0,表示我们直接限制execve,不管参数是什么，如果arg_cnt不为0,那arg_cnt表示后面限制的参数的个数,也就是只有调用execve,且参数满足要求时,才会拦截</p>
 <p>seccomp_load是应用过滤器,如果不调用seccomp_load则上面所有的过滤都不会生效</p>
 <p>注意：编译的时候要在最后面加 -lseccomp</p>
-<h3 id="seccomp-tools">seccomp-tools</h3>
-<p>利用该工具可以查看过滤规则,详情可查看该项目地址https://github.com/david942j/seccomp-tools</p>
-<p><img src="C:%5CUsers%5Cwqf%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220709203512216.png" alt="image-20220709203512216"></p>
-<h3 id="例题">例题</h3>
-<h4 id="普通orw">普通orw</h4>
-<p><img src="C:%5CUsers%5Cwqf%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220709203909656.png" alt="image-20220709203909656"></p>
+<h3 id="seccomp-tools"><a href="#seccomp-tools" class="headerlink" title="seccomp-tools"></a>seccomp-tools</h3><p>利用该工具可以查看过滤规则,详情可查看该项目地址<a target="_blank" rel="noopener" href="https://github.com/david942j/seccomp-tools">https://github.com/david942j/seccomp-tools</a></p>
+<p><img src="C:\Users\wqf\AppData\Roaming\Typora\typora-user-images\image-20220709203512216.png" alt="image-20220709203512216"></p>
+<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><h4 id="普通orw"><a href="#普通orw" class="headerlink" title="普通orw"></a>普通orw</h4><p><img src="C:\Users\wqf\AppData\Roaming\Typora\typora-user-images\image-20220709203909656.png" alt="image-20220709203909656"></p>
 <p>允许open write  read系统调用</p>
-<p><img src="C:%5CUsers%5Cwqf%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220709203512216.png" alt="image-20220709203512216"></p>
+<p><img src="C:\Users\wqf\AppData\Roaming\Typora\typora-user-images\image-20220709203512216.png" alt="image-20220709203512216"></p>
 <p>IDA分析</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> __cdecl <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">const</span> <span class="type">char</span> **argv, <span class="type">const</span> <span class="type">char</span> **envp)</span></span><br><span class="line">&#123;</span><br><span class="line">  orw_seccomp();</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Give my your shellcode:&quot;</span>);</span><br><span class="line">  read(<span class="number">0</span>, &amp;shellcode, <span class="number">0xC8</span>u);</span><br><span class="line">  ((<span class="type">void</span> (*)(<span class="type">void</span>))shellcode)();</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>linux的系统调用表如下：<a target="_blank" rel="noopener" href="https://eds000n.github.io/syscalls-x86.html">https://eds000n.github.io/syscalls-x86.html</a></p>
