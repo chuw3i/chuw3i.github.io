@@ -151,16 +151,13 @@
 <h3 id="编译生成内核镜像"><a href="#编译生成内核镜像" class="headerlink" title="编译生成内核镜像"></a>编译生成内核镜像</h3><p>先下载一个内核源码 ：<a target="_blank" rel="noopener" href="https://mirrors.edge.kernel.org/pub/linux/kernel/">https://mirrors.edge.kernel.org/pub/linux/kernel/</a></p>
 <p>我下载的版本为：linux-5.4.98.tar.gz</p>
 <p>解压内核源码之前需要安装一些依赖：</p>
-<pre><code class="hljs plaintext">sudo apt-get update
-sudo apt-get install git fakeroot build-essential ncurses-dev xz-utils libssl-dev bc</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install git fakeroot build-essential ncurses-dev xz-utils libssl-dev bc</span><br></pre></td></tr></table></figure>
 <p>安装依赖成功后进行解压</p>
-<pre><code class="hljs plaintext">tar -xf linux-5.4.98.tar.gz</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xf linux-5.4.98.tar.gz </span><br></pre></td></tr></table></figure>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/image-20220101112937235.png" alt="image-20220101112937235"></p>
 <p>在进行配置内核的编译选项<code>sudo make menuconfig</code>发生错误</p>
 <p>经过百度查询到解决方案为：</p>
-<pre><code class="hljs plaintext">sudo apt-get install flex
-
-sudo apt-get install bison</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install flex</span><br><span class="line"></span><br><span class="line">sudo apt-get install bison</span><br></pre></td></tr></table></figure>
 <p>进行内核配置</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/image-20220101113256295.png" alt="image-20220101113256295"></p>
 <p>这里我们主要关注调试方面的选项，依次进入到 Kernel hacking -&gt; Compile-time checks and compiler options，然后勾选如下选项<code>Compile the kernel with debug info</code>，以便于调试。不过似乎现在是默认开启的。</p>
@@ -171,42 +168,25 @@ sudo apt-get install bison</code></pre>
 <li>KGDB: kernel debugger</li>
 </ul>
 <p>编译内核镜像，可以根据机器的核数来选择具体使用多少核来编译内核。</p>
-<pre><code class="hljs plaintext">sudo  make  bzImage</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo  make  bzImage</span><br></pre></td></tr></table></figure>
 <p>遇到报错</p>
-<pre><code class="hljs c">Makefile:<span class="hljs-number">632</span>: include/config/<span class="hljs-keyword">auto</span>.conf: 没有那个文件或目录
-Makefile:<span class="hljs-number">678</span>: include/config/<span class="hljs-keyword">auto</span>.conf.cmd: 没有那个文件或目录</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Makefile:<span class="number">632</span>: include/config/<span class="keyword">auto</span>.conf: 没有那个文件或目录</span><br><span class="line">Makefile:<span class="number">678</span>: include/config/<span class="keyword">auto</span>.conf.cmd: 没有那个文件或目录</span><br></pre></td></tr></table></figure>
 <p>解决方案</p>
-<pre><code class="hljs c">sudo apt update
-sudo apt install -y build-essential flex bison libssl-dev libelf-dev</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install -y build-essential flex bison libssl-dev libelf-dev</span><br></pre></td></tr></table></figure>
 <p>warning</p>
-<pre><code class="hljs c">arch/x86/hyperv/hv_apic.c: In function ‘__send_ipi_one’:
-arch/x86/hyperv/hv_apic.c:<span class="hljs-number">201</span>:<span class="hljs-number">1</span>: warning: the frame size of <span class="hljs-number">1032</span> bytes is larger than <span class="hljs-number">1024</span> bytes [-Wframe-larger-than=]</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">arch/x86/hyperv/hv_apic.c: In function ‘__send_ipi_one’:</span><br><span class="line">arch/x86/hyperv/hv_apic.c:<span class="number">201</span>:<span class="number">1</span>: warning: the frame size of <span class="number">1032</span> bytes is larger than <span class="number">1024</span> bytes [-Wframe-larger-than=]</span><br></pre></td></tr></table></figure>
 <p>解决</p>
-<pre><code class="hljs c">（<span class="hljs-number">1</span>）make menuconfig
-
-（<span class="hljs-number">2</span>）kernel hacking-&gt;Compile-time checks and compiler options —&gt;
-
-（<span class="hljs-number">3</span>）修改warn <span class="hljs-keyword">for</span> <span class="hljs-built_in">stack</span> frames larger than 的数值，将其修改为<span class="hljs-number">4096</span>（最好不要大过这个数值）
-
-（<span class="hljs-number">4</span>）重新编译内核模块则不会出现如上的告警信息。</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">（<span class="number">1</span>）make menuconfig</span><br><span class="line"></span><br><span class="line">（<span class="number">2</span>）kernel hacking-&gt;Compile-time checks and compiler options —&gt;</span><br><span class="line"></span><br><span class="line">（<span class="number">3</span>）修改warn <span class="keyword">for</span> <span class="built_in">stack</span> frames larger than 的数值，将其修改为<span class="number">4096</span>（最好不要大过这个数值）</span><br><span class="line"></span><br><span class="line">（<span class="number">4</span>）重新编译内核模块则不会出现如上的告警信息。</span><br></pre></td></tr></table></figure>
 <p>warning</p>
-<pre><code class="hljs c">arch/x86/xen/enlighten_pv.o: warning: objtool: xen_cpuid()+<span class="hljs-number">0x29</span>: can<span class="hljs-number">&#x27;</span>t find jump dest instruction at .text+<span class="hljs-number">0xa0</span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arch/x86/xen/enlighten_pv.o: warning: objtool: xen_cpuid()+<span class="number">0x29</span>: can<span class="number">&#x27;</span>t find jump dest instruction at .text+<span class="number">0xa0</span></span><br></pre></td></tr></table></figure>
 <p>可查询该<a target="_blank" rel="noopener" href="https://www.mail-archive.com/linux-kernel@vger.kernel.org/msg2092482.html">网址</a>，但是我没看懂，先不管了</p>
 <p>报错</p>
-<pre><code class="hljs c">make[<span class="hljs-number">1</span>]: *** 没有规则可制作目标“debian/canonical-certs.pem”，由“certs/x509_certificate_list” 需求。 停止。
-Makefile:<span class="hljs-number">1726</span>: recipe <span class="hljs-keyword">for</span> target <span class="hljs-string">&#x27;certs&#x27;</span> failed
-make: *** [certs] Error <span class="hljs-number">2</span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">make[<span class="number">1</span>]: *** 没有规则可制作目标“debian/canonical-certs.pem”，由“certs/x509_certificate_list” 需求。 停止。</span><br><span class="line">Makefile:<span class="number">1726</span>: recipe <span class="keyword">for</span> target <span class="string">&#x27;certs&#x27;</span> failed</span><br><span class="line">make: *** [certs] Error <span class="number">2</span></span><br></pre></td></tr></table></figure>
 <p>解决方案,进入编译目录，输入<code>make menuconfig</code>，找到相应位置，删除内容即可</p>
 <p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/144879ca8446">参考网址</a></p>
-<pre><code class="hljs c">Cryptographic API &gt;
-    Certificates <span class="hljs-keyword">for</span> signature checking &gt; 
-        Additional X<span class="hljs-number">.509</span> keys <span class="hljs-keyword">for</span> <span class="hljs-keyword">default</span> system keyring  删除内容
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Cryptographic API &gt;</span><br><span class="line">    Certificates <span class="keyword">for</span> signature checking &gt; </span><br><span class="line">        Additional X<span class="number">.509</span> keys <span class="keyword">for</span> <span class="keyword">default</span> system keyring  删除内容</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033350.png" alt="image-20220110175655756"></p>
-<pre><code class="hljs c">Setup is <span class="hljs-number">17724</span> bytes (padded to <span class="hljs-number">17920</span> bytes).
-System is <span class="hljs-number">9177</span> kB
-CRC <span class="hljs-number">325e451</span>e
-Kernel: arch/x86/boot/bzImage is <span class="hljs-title function_">ready</span>  <span class="hljs-params">(#<span class="hljs-number">1</span>)</span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Setup is <span class="number">17724</span> bytes (padded to <span class="number">17920</span> bytes).</span><br><span class="line">System is <span class="number">9177</span> kB</span><br><span class="line">CRC <span class="number">325e451</span>e</span><br><span class="line">Kernel: arch/x86/boot/bzImage is <span class="title function_">ready</span>  <span class="params">(#<span class="number">1</span>)</span></span><br></pre></td></tr></table></figure>
 <p>这样，就算编译成功了这样我们就从<code>/arch/x86/boot</code>得到了 bzImage文件</p>
 <p>我们主要关注以下两个文件：</p>
 <ul>
@@ -223,40 +203,20 @@ Kernel: arch/x86/boot/bzImage is <span class="hljs-title function_">ready</span>
 <li><strong>uImage</strong>：uImage 是 U-boot 专用的镜像文件，它是在 zImage 之前加上了一个长度为 0x40 的 tag 而构成的。这个 tag 说明了这个镜像文件的类型、加载位置、生成时间、大小等信息。</li>
 </ul>
 <h3 id="下载编译-busybox"><a href="#下载编译-busybox" class="headerlink" title="下载编译 busybox"></a>下载编译 busybox</h3><p>下载</p>
-<pre><code class="hljs c">❯ wget https:<span class="hljs-comment">//busybox.net/downloads/busybox-1.32.1.tar.bz2</span>
-❯ tar -jxf busybox<span class="hljs-number">-1.32</span><span class="hljs-number">.1</span>.tar.bz2</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">❯ wget https:<span class="comment">//busybox.net/downloads/busybox-1.32.1.tar.bz2</span></span><br><span class="line">❯ tar -jxf busybox<span class="number">-1.32</span><span class="number">.1</span>.tar.bz2</span><br></pre></td></tr></table></figure>
 <p>配置</p>
-<pre><code class="hljs c">❯ make menuconfig</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">❯ make menuconfig</span><br></pre></td></tr></table></figure>
 <ul>
 <li>在 Setttings 选中 Build static binary (no shared libs)，将 busybox  编译为静态链接的文件；</li>
 <li>在 Linux System Utilities 中取消选中 Support mounting NFS file  systems on Linux &lt; 2.6.23 (NEW)；</li>
 <li>在 Networking Utilities 中取消选中 inetd。</li>
 </ul>
 <p>编译</p>
-<pre><code class="hljs plaintext">make -j3</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make -j3</span><br></pre></td></tr></table></figure>
 <p>编译后，执行<code>make install</code>，根目录下会生成一个<code>_install</code>文件夹，进入文件夹配置</p>
-<pre><code class="hljs plaintext">cd _install
-mkdir proc
-mkdir sys
-touch init
-touch packet
-chmod +x init</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd _install</span><br><span class="line">mkdir proc</span><br><span class="line">mkdir sys</span><br><span class="line">touch init</span><br><span class="line">touch packet</span><br><span class="line">chmod +x init</span><br></pre></td></tr></table></figure>
 <p>编辑init 文件，用于内核初始化</p>
-<pre><code class="hljs bash"><span class="hljs-meta">#!/bin/sh</span>
-<span class="hljs-built_in">echo</span> <span class="hljs-string">&quot;&#123;==DBG==&#125; INIT SCRIPT&quot;</span>
-<span class="hljs-built_in">mkdir</span> /tmp
-mount -t proc none /proc
-mount -t sysfs none /sys
-mount -t debugfs none /sys/kernel/debug
-mount -t tmpfs none /tmp
-<span class="hljs-comment">#mount指令 挂载某个分区到某个文件，这样就将分区与文件建立联系从而访问文件时就可以访问分区。</span>
-<span class="hljs-comment"># insmod /xxx.ko # 加载模块</span>
-<span class="hljs-comment"># insmod /hello.ko # 加载hello.ko模块</span>
-mdev -s 
-<span class="hljs-comment"># We need this to find /dev/sda later</span>
-<span class="hljs-built_in">echo</span> -e <span class="hljs-string">&quot;&#123;==DBG==&#125; Boot took <span class="hljs-subst">$(cut -d&#x27; &#x27; -f1 /proc/uptime)</span> seconds&quot;</span>
-setsid /bin/cttyhack setuidgid 1000 /bin/sh <span class="hljs-comment">#normal user</span>
-<span class="hljs-comment"># exec /bin/sh #root</span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;&#123;==DBG==&#125; INIT SCRIPT&quot;</span></span><br><span class="line"><span class="built_in">mkdir</span> /tmp</span><br><span class="line">mount -t proc none /proc</span><br><span class="line">mount -t sysfs none /sys</span><br><span class="line">mount -t debugfs none /sys/kernel/debug</span><br><span class="line">mount -t tmpfs none /tmp</span><br><span class="line"><span class="comment">#mount指令 挂载某个分区到某个文件，这样就将分区与文件建立联系从而访问文件时就可以访问分区。</span></span><br><span class="line"><span class="comment"># insmod /xxx.ko # 加载模块</span></span><br><span class="line"><span class="comment"># insmod /hello.ko # 加载hello.ko模块</span></span><br><span class="line">mdev -s </span><br><span class="line"><span class="comment"># We need this to find /dev/sda later</span></span><br><span class="line"><span class="built_in">echo</span> -e <span class="string">&quot;&#123;==DBG==&#125; Boot took <span class="subst">$(cut -d&#x27; &#x27; -f1 /proc/uptime)</span> seconds&quot;</span></span><br><span class="line">setsid /bin/cttyhack setuidgid 1000 /bin/sh <span class="comment">#normal user</span></span><br><span class="line"><span class="comment"># exec /bin/sh #root</span></span><br></pre></td></tr></table></figure>
 <p>几个常见指令</p>
 <ul>
 <li>insmod: 指定模块加载到内核中</li>
@@ -264,79 +224,41 @@ setsid /bin/cttyhack setuidgid 1000 /bin/sh <span class="hljs-comment">#normal u
 <li>lsmod: 列出已经加载的模块</li>
 </ul>
 <p>在packet 中写入，用于将FileSystem 打包成映像</p>
-<pre><code class="hljs ba">#!/bin/sh
-echo &quot;Generate rootfs.img&quot;
-find . | cpio -o --format=newc &gt; ./rootfs.img</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">echo &quot;Generate rootfs.img&quot;</span><br><span class="line">find . | cpio -o --format=newc &gt; ./rootfs.img</span><br></pre></td></tr></table></figure>
 <p>运行 packet 将得到 rootfs.img文件</p>
 <h3 id="运行内核"><a href="#运行内核" class="headerlink" title="运行内核"></a>运行内核</h3><p>这里使用qemu进行运行，qemu 有多种运行模式，常见的有<code>User-mode emulation</code>和<code>System emulation</code>两种</p>
-<h4 id="安装-qemu"><a href="#安装-qemu" class="headerlink" title="安装 qemu"></a>安装 qemu</h4><pre><code class="hljs plaintext">安装QEMU的依赖库
-sudo apt-get install git libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev
-sudo apt-get install qemu
-测试输入qemu + tab 如果有很多实例回显，就说明安装成功</code></pre>
+<h4 id="安装-qemu"><a href="#安装-qemu" class="headerlink" title="安装 qemu"></a>安装 qemu</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">安装QEMU的依赖库</span><br><span class="line">sudo apt-get install git libglib2.0-dev libfdt-dev libpixman-1-dev zlib1g-dev</span><br><span class="line">sudo apt-get install qemu</span><br><span class="line">测试输入qemu + tab 如果有很多实例回显，就说明安装成功</span><br></pre></td></tr></table></figure>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033351.png" alt="image-20220110201935342"></p>
 <p>接着写一个shell脚本boot.sh用来启动qemu，运行内核 </p>
-<pre><code class="hljs bash"><span class="hljs-meta">#! /bin/sh</span>
-
-qemu-system-x86_64 \
--m 128M \
--kernel ./bzImage \
--initrd  ./rootfs.img \
--append <span class="hljs-string">&quot;root=/dev/ram rw  oops=panic panic=1 kalsr&quot;</span> \
--netdev user,<span class="hljs-built_in">id</span>=t0, -device e1000,netdev=t0,<span class="hljs-built_in">id</span>=nic0 \
--monitor /dev/null \
--smp cores=2,threads=1 \
--cpu kvm64,+smep \
-<span class="hljs-comment">#-gdb tcp::1234 \</span>
-<span class="hljs-comment">#-S</span>
-</code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#! /bin/sh</span></span><br><span class="line"></span><br><span class="line">qemu-system-x86_64 \</span><br><span class="line">-m 128M \</span><br><span class="line">-kernel ./bzImage \</span><br><span class="line">-initrd  ./rootfs.img \</span><br><span class="line">-append <span class="string">&quot;root=/dev/ram rw  oops=panic panic=1 kalsr&quot;</span> \</span><br><span class="line">-netdev user,<span class="built_in">id</span>=t0, -device e1000,netdev=t0,<span class="built_in">id</span>=nic0 \</span><br><span class="line">-monitor /dev/null \</span><br><span class="line">-smp cores=2,threads=1 \</span><br><span class="line">-cpu kvm64,+smep \</span><br><span class="line"><span class="comment">#-gdb tcp::1234 \</span></span><br><span class="line"><span class="comment">#-S</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>将前面生成的bzImage，rootfs.img一起放到<code>_install</code>文件夹下，运行boot.sh</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033352.png" alt="image-20220110222715066"></p>
 <p>这里解释一下shell命令中参数的意义</p>
-<pre><code class="hljs shell">-m 是指定RMA大小(默认384)
--kernel 是指定的内核镜像，这里是我们编译的镜像路径，也可以是我们下载好的镜像，如./vmlinuz-4.10.0-1004-gcp
--initrd 设置刚刚利用 busybox 创建的 rootfs.img,作为内核启动的文件系统 
--append 附加选项，指定no kaslr 可以关闭随机偏移
---nographic和console=ttyS0一起使用，启动的界面就变成了当前终端
--s 相当于-gdb tcp::1234的简写，可以直接通过主机的gdb远程连接
--monitor 配置用户械的网络 // 将监视器重定向主机设备 /dev/null
--smp 用于生明所以可能用的cps,ie,socket cores threads = maxcputs.
--cpu 设置cpu的安全选项</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-m 是指定RMA大小(默认384)</span><br><span class="line">-kernel 是指定的内核镜像，这里是我们编译的镜像路径，也可以是我们下载好的镜像，如./vmlinuz-4.10.0-1004-gcp</span><br><span class="line">-initrd 设置刚刚利用 busybox 创建的 rootfs.img,作为内核启动的文件系统 </span><br><span class="line">-append 附加选项，指定no kaslr 可以关闭随机偏移</span><br><span class="line">--nographic和console=ttyS0一起使用，启动的界面就变成了当前终端</span><br><span class="line">-s 相当于-gdb tcp::1234的简写，可以直接通过主机的gdb远程连接</span><br><span class="line">-monitor 配置用户械的网络 // 将监视器重定向主机设备 /dev/null</span><br><span class="line">-smp 用于生明所以可能用的cps,ie,socket cores threads = maxcputs.</span><br><span class="line">-cpu 设置cpu的安全选项</span><br></pre></td></tr></table></figure>
 <h3 id="添加syscall"><a href="#添加syscall" class="headerlink" title="添加syscall"></a>添加syscall</h3><ol>
 <li>源码根目录下创建helloworld目录，并在helloworld目录下添加两个文件</li>
 </ol>
-<pre><code class="hljs shell">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98$ mkdir helloworld
-qqq@qqq-virtual-machine:~/kernel/linux-5.4.98$ cd helloworld/
-qqq@qqq-virtual-machine:~/kernel/linux-5.4.98/helloworld$ touch helloworld.c
-qqq@qqq-virtual-machine:~/kernel/linux-5.4.98/helloworld$ touch Makefile</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98$ mkdir helloworld</span><br><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98$ cd helloworld/</span><br><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98/helloworld$ touch helloworld.c</span><br><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98/helloworld$ touch Makefile</span><br></pre></td></tr></table></figure>
 <ol>
 <li>编辑Makefile、mysyscall.c</li>
 </ol>
-<pre><code class="hljs makefile">obj-y=helloworld.o</code></pre>
-<pre><code class="hljs c"><span class="hljs-comment">//helloworld.c</span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/kernel.h&gt;</span></span>
-
-asmlinkage <span class="hljs-type">long</span> <span class="hljs-title function_">sys_helloworld</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>&#123;
-    printk(<span class="hljs-string">&quot;&#123;==kernel==&#125; hello world\n&quot;</span>);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-&#125;</code></pre>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">obj-y=helloworld.o</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//helloworld.c</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/kernel.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">asmlinkage <span class="type">long</span> <span class="title function_">sys_helloworld</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">    printk(<span class="string">&quot;&#123;==kernel==&#125; hello world\n&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
 <ol>
 <li><p>编辑源码根目录下的Makefile，添加helloworld/</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033353.png" alt="image-20220110225902274"></p>
 </li>
 <li><p>编辑include/linux/syscalls.h，添加函数原型</p>
-<pre><code class="hljs c">asmlinkage <span class="hljs-type">long</span> <span class="hljs-title function_">sys_helloworld</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">asmlinkage <span class="type">long</span> <span class="title function_">sys_helloworld</span><span class="params">(<span class="type">void</span>)</span>;</span><br></pre></td></tr></table></figure>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033354.png" alt="image-20220110230402866"></p>
 </li>
 <li><p>编辑arch/x86/entry/syscalls/syscall_32.tbl和arch/x86/entry/syscalls/syscall_64.tbl，添加系统调用号</p>
-<pre><code class="hljs cpp"><span class="hljs-comment">//syscall_32.tbl</span>
-<span class="hljs-number">1337</span>    i386    helloworld              sys_helloworld                
-<span class="hljs-comment">//syscall_64.tbl</span>
-<span class="hljs-number">1337</span>    common  helloworld              sys_helloworld</code></pre>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//syscall_32.tbl</span></span><br><span class="line"><span class="number">1337</span>    i386    helloworld              sys_helloworld                </span><br><span class="line"><span class="comment">//syscall_64.tbl</span></span><br><span class="line"><span class="number">1337</span>    common  helloworld              sys_helloworld</span><br></pre></td></tr></table></figure>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033355.png" alt="image-20220110230618834"></p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033356.png" alt="image-20220110230803817"></p>
 </li>
 <li><p>编译kernel，然后在./arch/x86/boot/下获得新bzImage</p>
-<pre><code class="hljs sh">sudo make -j3 bzImage</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo make -j3 bzImage</span><br></pre></td></tr></table></figure>
 <p>编译成功</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033357.png" alt="image-20220111001941724"></p>
 </li>
@@ -344,76 +266,22 @@ asmlinkage <span class="hljs-type">long</span> <span class="hljs-title function_
 <h3 id="编译ko"><a href="#编译ko" class="headerlink" title="编译ko"></a>编译ko</h3><ol>
 <li>在kernel源码目录下创建一个新的文件夹</li>
 </ol>
-<pre><code class="hljs sh">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98$ <span class="hljs-built_in">mkdir</span> test_ko
-qqq@qqq-virtual-machine:~/kernel/linux-5.4.98$ <span class="hljs-built_in">cd</span> test_ko/
-qqq@qqq-virtual-machine:~/kernel/linux-5.4.98/test_ko$ <span class="hljs-built_in">touch</span> hello.c
-qqq@qqq-virtual-machine:~/kernel/linux-5.4.98/test_ko$ <span class="hljs-built_in">touch</span> Makefile</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98$ <span class="built_in">mkdir</span> test_ko</span><br><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98$ <span class="built_in">cd</span> test_ko/</span><br><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98/test_ko$ <span class="built_in">touch</span> hello.c</span><br><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98/test_ko$ <span class="built_in">touch</span> Makefile</span><br></pre></td></tr></table></figure>
 <ol>
 <li><p>在hello.c和Makefile中写入东西，写Makefile的时候注意要使用Tab而不是空格</p>
-<pre><code class="hljs c"><span class="hljs-comment">//hello.c</span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/init.h&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/module.h&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/kernel.h&gt;</span></span>
-<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;linux/cred.h&gt;</span></span>
-MODULE_LICENSE(<span class="hljs-string">&quot;Dual BSD/GPL&quot;</span>);
-<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">cred</span> <span class="hljs-title">c1</span>;</span>
-<span class="hljs-type">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">hello_init</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> 
-&#123;
-    printk(<span class="hljs-string">&quot;&lt;1&gt; Hello world!\n&quot;</span>);
-    printk(<span class="hljs-string">&quot;size of cred : %d \n&quot;</span>,<span class="hljs-keyword">sizeof</span>(c1));
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-&#125;
-<span class="hljs-type">static</span> <span class="hljs-type">void</span> <span class="hljs-title function_">hello_exit</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span> 
-&#123;
-    printk(<span class="hljs-string">&quot;&lt;1&gt; Bye, cruel world\n&quot;</span>);
-&#125;
-module_init(hello_init);
-module_exit(hello_exit);
-</code></pre>
-<pre><code class="hljs makefile">obj-m	:=	hello.o
-
-KERNELDR	:=	~/kernel/linux-5.4.98    <span class="hljs-comment">#根据自己的文件夹路径</span>
-
-PWD	:=	<span class="hljs-variable">$(<span class="hljs-built_in">shell</span> pwd)</span>  
-
-<span class="hljs-section">modules:  </span>
-	<span class="hljs-variable">$(MAKE)</span> -C <span class="hljs-variable">$(KERNELDR)</span> M=<span class="hljs-variable">$(PWD)</span> modules  
-
-<span class="hljs-section">moduels_install:  </span>
-	<span class="hljs-variable">$(MAKE)</span> -C <span class="hljs-variable">$(KERNELDR)</span> M=<span class="hljs-variable">$(PWD)</span> modules_install  
-
-<span class="hljs-section">clean:  </span>
-	rm -rf *.o *~ core .depend .*.cmd *.ko *.mod.c .tmp_versions</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//hello.c</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/init.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/module.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/kernel.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;linux/cred.h&gt;</span></span></span><br><span class="line">MODULE_LICENSE(<span class="string">&quot;Dual BSD/GPL&quot;</span>);</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cred</span> <span class="title">c1</span>;</span></span><br><span class="line"><span class="type">static</span> <span class="type">int</span> <span class="title function_">hello_init</span><span class="params">(<span class="type">void</span>)</span> </span><br><span class="line">&#123;</span><br><span class="line">    printk(<span class="string">&quot;&lt;1&gt; Hello world!\n&quot;</span>);</span><br><span class="line">    printk(<span class="string">&quot;size of cred : %d \n&quot;</span>,<span class="keyword">sizeof</span>(c1));</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">hello_exit</span><span class="params">(<span class="type">void</span>)</span> </span><br><span class="line">&#123;</span><br><span class="line">    printk(<span class="string">&quot;&lt;1&gt; Bye, cruel world\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">module_init(hello_init);</span><br><span class="line">module_exit(hello_exit);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">obj-m	:=	hello.o</span><br><span class="line"></span><br><span class="line">KERNELDR	:=	~/kernel/linux-5.4.98    <span class="comment">#根据自己的文件夹路径</span></span><br><span class="line"></span><br><span class="line">PWD	:=	<span class="variable">$(<span class="built_in">shell</span> pwd)</span>  </span><br><span class="line"></span><br><span class="line"><span class="section">modules:  </span></span><br><span class="line">	<span class="variable">$(MAKE)</span> -C <span class="variable">$(KERNELDR)</span> M=<span class="variable">$(PWD)</span> modules  </span><br><span class="line"></span><br><span class="line"><span class="section">moduels_install:  </span></span><br><span class="line">	<span class="variable">$(MAKE)</span> -C <span class="variable">$(KERNELDR)</span> M=<span class="variable">$(PWD)</span> modules_install  </span><br><span class="line"></span><br><span class="line"><span class="section">clean:  </span></span><br><span class="line">	rm -rf *.o *~ core .depend .*.cmd *.ko *.mod.c .tmp_versions</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>编译ko文件</p>
-<pre><code class="hljs sh">make</code></pre>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
 <p>编译成功，会出现hello.ko文件</p>
-<pre><code class="hljs shell">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98/test_ko$ make
-make	-C	~/kernel/linux-5.4.98	M=/home/qqq/kernel/linux-5.4.98/test_komodules
-make[1]: 进入目录“/home/qqq/kernel/linux-5.4.98”
-  CC [M]  /home/qqq/kernel/linux-5.4.98/test_ko/hello.o
-/home/qqq/kernel/linux-5.4.98/test_ko/hello.c: In function ‘hello_init’:
-/home/qqq/kernel/linux-5.4.98/test_ko/hello.c:11:29: warning: format ‘%d’ expects argument of type ‘int’, but argument 2 has type ‘long unsigned int’ [-Wformat=]
-     printk(&quot;size of cred : %d \n&quot;,sizeof(c1));
-                            ~^
-                            %ld
-  Building modules, stage 2.
-  MODPOST 1 modules
-  CC [M]  /home/qqq/kernel/linux-5.4.98/test_ko/hello.mod.o
-  LD [M]  /home/qqq/kernel/linux-5.4.98/test_ko/hello.ko
-make[1]: 离开目录“/home/qqq/kernel/linux-5.4.98”
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">qqq@qqq-virtual-machine:~/kernel/linux-5.4.98/test_ko$ make</span><br><span class="line">make	-C	~/kernel/linux-5.4.98	M=/home/qqq/kernel/linux-5.4.98/test_komodules</span><br><span class="line">make[1]: 进入目录“/home/qqq/kernel/linux-5.4.98”</span><br><span class="line">  CC [M]  /home/qqq/kernel/linux-5.4.98/test_ko/hello.o</span><br><span class="line">/home/qqq/kernel/linux-5.4.98/test_ko/hello.c: In function ‘hello_init’:</span><br><span class="line">/home/qqq/kernel/linux-5.4.98/test_ko/hello.c:11:29: warning: format ‘%d’ expects argument of type ‘int’, but argument 2 has type ‘long unsigned int’ [-Wformat=]</span><br><span class="line">     printk(&quot;size of cred : %d \n&quot;,sizeof(c1));</span><br><span class="line">                            ~^</span><br><span class="line">                            %ld</span><br><span class="line">  Building modules, stage 2.</span><br><span class="line">  MODPOST 1 modules</span><br><span class="line">  CC [M]  /home/qqq/kernel/linux-5.4.98/test_ko/hello.mod.o</span><br><span class="line">  LD [M]  /home/qqq/kernel/linux-5.4.98/test_ko/hello.ko</span><br><span class="line">make[1]: 离开目录“/home/qqq/kernel/linux-5.4.98”</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <h3 id="启动系统"><a href="#启动系统" class="headerlink" title="启动系统"></a>启动系统</h3><p>将编译好的hello.ko放到busybox的_install目录下</p>
 <p>注意这里我们需要加载自己编译的驱动 hello.ko，所以需要在init 文件中加入一句<code>insmod /hello.ko</code></p>
 <p>再写个test.c测试前面添加的syscall，将gcc test.c -static -o test后的test也放在_install目录下</p>
-<pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span>
-
-<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>&#123;
-    syscall(<span class="hljs-number">1337</span>);
-    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
-&#125;</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;unistd.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">    syscall(<span class="number">1337</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>然后再打包<code>./packet</code></p>
 <p>接着<code>./boot.sh</code>启动可以看到我们的ko模块和syscall都生效了</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201110033358.png" alt="image-20220111002858957"></p>

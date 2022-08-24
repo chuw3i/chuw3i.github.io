@@ -323,10 +323,7 @@
 <li><p>df.values 查看值 返回array值</p>
 </li>
 <li><p>创建一个dataframe结构</p>
-<pre><code class="hljs python">data=&#123;<span class="hljs-string">&#x27;country&#x27;</span>:[<span class="hljs-string">&#x27;aaa&#x27;</span>,<span class="hljs-string">&#x27;bbb&#x27;</span>,<span class="hljs-string">&#x27;ccc&#x27;</span>],
-     <span class="hljs-string">&#x27;population&#x27;</span>:[<span class="hljs-number">10</span>,<span class="hljs-number">12</span>,<span class="hljs-number">14</span>]&#125;
-df_data=pd.DataFrame(data)
-df_data</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data=&#123;<span class="string">&#x27;country&#x27;</span>:[<span class="string">&#x27;aaa&#x27;</span>,<span class="string">&#x27;bbb&#x27;</span>,<span class="string">&#x27;ccc&#x27;</span>],</span><br><span class="line">     <span class="string">&#x27;population&#x27;</span>:[<span class="number">10</span>,<span class="number">12</span>,<span class="number">14</span>]&#125;</span><br><span class="line">df_data=pd.DataFrame(data)</span><br><span class="line">df_data</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>取数据 age=df[‘Age’] 取一列 </p>
 <p>series 一列</p>
@@ -360,9 +357,7 @@ df_data</code></pre>
 <li>df.corr()每一列之间的相关系数</li>
 <li>df[‘Age’].value_counts 计算当前列每一个值出现的数目</li>
 </ul>
-<h3 id="对象操作"><a href="#对象操作" class="headerlink" title="对象操作"></a>对象操作</h3><pre><code class="hljs python">data=[<span class="hljs-number">10</span>,<span class="hljs-number">11</span>,<span class="hljs-number">12</span>]
-index=[<span class="hljs-string">&#x27;a&#x27;</span>,<span class="hljs-string">&#x27;b&#x27;</span>,<span class="hljs-string">&#x27;c&#x27;</span>]
-s=pd.Series(data=data,index=index)</code></pre>
+<h3 id="对象操作"><a href="#对象操作" class="headerlink" title="对象操作"></a>对象操作</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data=[<span class="number">10</span>,<span class="number">11</span>,<span class="number">12</span>]</span><br><span class="line">index=[<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>,<span class="string">&#x27;c&#x27;</span>]</span><br><span class="line">s=pd.Series(data=data,index=index)</span><br></pre></td></tr></table></figure>
 <ul>
 <li>改操作进行s1=s.copy()</li>
 <li>加操作 s.append(s2)</li>
@@ -479,34 +474,9 @@ s=pd.Series(data=data,index=index)</code></pre>
 </blockquote>
 </li>
 <li><p>```py<br>fig,axes=plt.subplots(ncols=2)<br>v_bars=axes[0].bar(x,y,color=’red’)<br>h_bars=axes[1].barh(x,y,color=’red’)<br>bar 水平绘制 barh 竖直绘制  条形图</p>
-<pre><code class="hljs plaintext">
-- bar.set(edgecolor=&#x27;darkred&#x27;,color=&#x27;green&#x27;,linewidth=3) 进行相关参数设置
-
-- plt.bar(x_pos,mean_values,yerr=variance) yerr 显示误差
-
-- plt.xticks( arange(5), (‘Tom’, ‘Dick’, ‘Harry’, ‘Sally’, ‘Sue’) )
-  用’Tom’, ‘Dick’, ‘Harry’, ‘Sally’, &#x27;Sue’作为[0,1,2,3,4]位置显示的label。
-
-- 在条形图bar的后面显示数据     
-
-  `plt.text(b.get_width()+b.get_width()*0.05,b.get_y()+b.get_height()/2,&#x27;&#123;0:.2%&#125;&#x27;.format(d/min(data)))`
-
-- 设置线条plt.vlines(min(data) 最高位置,-1最低位置,len(data) x轴,linestyle=&#x27;dashed&#x27;)
-
-### 盒图
-
-- plt.boxplot(tang_data,notch=False,sym=&#x27;s&#x27;,vert=True) 盒图设置
-
-  vert=True  代表水平图 False 竖直图
-
-- 线条设置
-
-  ```python
-  for components in bplot.keys():
-      for line in bplot[components]:
-          line.set_color(&#x27;black&#x27;)</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- bar.set(edgecolor=&#x27;darkred&#x27;,color=&#x27;green&#x27;,linewidth=3) 进行相关参数设置</span><br><span class="line"></span><br><span class="line">- plt.bar(x_pos,mean_values,yerr=variance) yerr 显示误差</span><br><span class="line"></span><br><span class="line">- plt.xticks( arange(5), (‘Tom’, ‘Dick’, ‘Harry’, ‘Sally’, ‘Sue’) )</span><br><span class="line">  用’Tom’, ‘Dick’, ‘Harry’, ‘Sally’, &#x27;Sue’作为[0,1,2,3,4]位置显示的label。</span><br><span class="line"></span><br><span class="line">- 在条形图bar的后面显示数据     </span><br><span class="line"></span><br><span class="line">  `plt.text(b.get_width()+b.get_width()*0.05,b.get_y()+b.get_height()/2,&#x27;&#123;0:.2%&#125;&#x27;.format(d/min(data)))`</span><br><span class="line"></span><br><span class="line">- 设置线条plt.vlines(min(data) 最高位置,-1最低位置,len(data) x轴,linestyle=&#x27;dashed&#x27;)</span><br><span class="line"></span><br><span class="line">### 盒图</span><br><span class="line"></span><br><span class="line">- plt.boxplot(tang_data,notch=False,sym=&#x27;s&#x27;,vert=True) 盒图设置</span><br><span class="line"></span><br><span class="line">  vert=True  代表水平图 False 竖直图</span><br><span class="line"></span><br><span class="line">- 线条设置</span><br><span class="line"></span><br><span class="line">  ```python</span><br><span class="line">  for components in bplot.keys():</span><br><span class="line">      for line in bplot[components]:</span><br><span class="line">          line.set_color(&#x27;black&#x27;)</span><br></pre></td></tr></table></figure>
 <p>boxplot的返回值是一个字典，包括了箱体图中的各个元素，具体包括了以下6种元素</p>
-<pre><code class="hljs javascript"><span class="hljs-title function_">dict_keys</span>([<span class="hljs-string">&#x27;whiskers&#x27;</span>, <span class="hljs-string">&#x27;caps&#x27;</span>, <span class="hljs-string">&#x27;boxes&#x27;</span>, <span class="hljs-string">&#x27;medians&#x27;</span>, <span class="hljs-string">&#x27;fliers&#x27;</span>, <span class="hljs-string">&#x27;means&#x27;</span>])</code></pre>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">dict_keys</span>([<span class="string">&#x27;whiskers&#x27;</span>, <span class="string">&#x27;caps&#x27;</span>, <span class="string">&#x27;boxes&#x27;</span>, <span class="string">&#x27;medians&#x27;</span>, <span class="string">&#x27;fliers&#x27;</span>, <span class="string">&#x27;means&#x27;</span>])</span><br></pre></td></tr></table></figure>
 <ol>
 <li>whiskers, 对应箱体图中箱体上下两侧竖直的线条\</li>
 <li>caps, 对应箱体图中竖直线条端点的水平线段</li>
@@ -517,18 +487,10 @@ s=pd.Series(data=data,index=index)</code></pre>
 </ol>
 </li>
 <li><p>设置盒图颜色</p>
-<pre><code class="hljs py">colors=[<span class="hljs-string">&#x27;pink&#x27;</span>,<span class="hljs-string">&#x27;lightblue&#x27;</span>,<span class="hljs-string">&#x27;lightgreen&#x27;</span>]
-<span class="hljs-keyword">for</span> pathch,color <span class="hljs-keyword">in</span> <span class="hljs-built_in">zip</span>(bplot[<span class="hljs-string">&#x27;boxes&#x27;</span>],colors):
-    pathch.set_facecolor(color)</code></pre>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">colors=[<span class="string">&#x27;pink&#x27;</span>,<span class="string">&#x27;lightblue&#x27;</span>,<span class="string">&#x27;lightgreen&#x27;</span>]</span><br><span class="line"><span class="keyword">for</span> pathch,color <span class="keyword">in</span> <span class="built_in">zip</span>(bplot[<span class="string">&#x27;boxes&#x27;</span>],colors):</span><br><span class="line">    pathch.set_facecolor(color)</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>小提琴图</p>
-<pre><code class="hljs python">fig,axes=plt.subplots(nrows=<span class="hljs-number">1</span>,ncols=<span class="hljs-number">2</span>,figsize=(<span class="hljs-number">12</span>,<span class="hljs-number">5</span>))
-tang_data = [np.random.normal(<span class="hljs-number">0</span>,std,<span class="hljs-number">100</span>) <span class="hljs-keyword">for</span> std <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">6</span>,<span class="hljs-number">10</span>)]
-axes[<span class="hljs-number">0</span>].violinplot(tang_data,showmeans=<span class="hljs-literal">False</span>,showmedians=<span class="hljs-literal">True</span>)
-axes[<span class="hljs-number">0</span>].set_title(<span class="hljs-string">&#x27;violin plot&#x27;</span>)
-
-axes[<span class="hljs-number">1</span>].boxplot(tang_data)
-axes[<span class="hljs-number">1</span>].set_title(<span class="hljs-string">&#x27;box plot&#x27;</span>)</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fig,axes=plt.subplots(nrows=<span class="number">1</span>,ncols=<span class="number">2</span>,figsize=(<span class="number">12</span>,<span class="number">5</span>))</span><br><span class="line">tang_data = [np.random.normal(<span class="number">0</span>,std,<span class="number">100</span>) <span class="keyword">for</span> std <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">6</span>,<span class="number">10</span>)]</span><br><span class="line">axes[<span class="number">0</span>].violinplot(tang_data,showmeans=<span class="literal">False</span>,showmedians=<span class="literal">True</span>)</span><br><span class="line">axes[<span class="number">0</span>].set_title(<span class="string">&#x27;violin plot&#x27;</span>)</span><br><span class="line"></span><br><span class="line">axes[<span class="number">1</span>].boxplot(tang_data)</span><br><span class="line">axes[<span class="number">1</span>].set_title(<span class="string">&#x27;box plot&#x27;</span>)</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h3 id="绘图细节设置"><a href="#绘图细节设置" class="headerlink" title="绘图细节设置"></a>绘图细节设置</h3><ul>
@@ -536,7 +498,7 @@ axes[<span class="hljs-number">1</span>].set_title(<span class="hljs-string">&#x
 <p> 设置x y 轴不可见</p>
 </li>
 <li><p>plt.hist()直方图</p>
-<pre><code class="hljs python">plt.hist(x, bins=<span class="hljs-literal">None</span>, <span class="hljs-built_in">range</span>=<span class="hljs-literal">None</span>, density=<span class="hljs-literal">None</span>, weights=<span class="hljs-literal">None</span>, cumulative=<span class="hljs-literal">False</span>, bottom=<span class="hljs-literal">None</span>, histtype=<span class="hljs-string">&#x27;bar&#x27;</span>, align=<span class="hljs-string">&#x27;mid&#x27;</span>, orientation=<span class="hljs-string">&#x27;vertical&#x27;</span>, rwidth=<span class="hljs-literal">None</span>, log=<span class="hljs-literal">False</span>, color=<span class="hljs-literal">None</span>, label=<span class="hljs-literal">None</span>, stacked=<span class="hljs-literal">False</span>, normed=<span class="hljs-literal">None</span>, *, data=<span class="hljs-literal">None</span>, **kwargs)</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plt.hist(x, bins=<span class="literal">None</span>, <span class="built_in">range</span>=<span class="literal">None</span>, density=<span class="literal">None</span>, weights=<span class="literal">None</span>, cumulative=<span class="literal">False</span>, bottom=<span class="literal">None</span>, histtype=<span class="string">&#x27;bar&#x27;</span>, align=<span class="string">&#x27;mid&#x27;</span>, orientation=<span class="string">&#x27;vertical&#x27;</span>, rwidth=<span class="literal">None</span>, log=<span class="literal">False</span>, color=<span class="literal">None</span>, label=<span class="literal">None</span>, stacked=<span class="literal">False</span>, normed=<span class="literal">None</span>, *, data=<span class="literal">None</span>, **kwargs)</span><br></pre></td></tr></table></figure>
 <blockquote>
 <ul>
 <li>x: 作直方图所要用的数据，必须是一维数组；多维数组可以先进行扁平化再作图；必选参数；</li>
@@ -612,31 +574,7 @@ axes[<span class="hljs-number">1</span>].set_title(<span class="hljs-string">&#x
 <pre><code>text.set_fontsize(20)
 </code></pre><p>for text in autotexts:</p>
 <pre><code>text.set_color(&#39;white&#39;)
-</code></pre><pre><code class="hljs plaintext">
-  **x**：浮点型数组，表示每个扇形的面积。
-
-  **explode**：数组，表示各个扇形之间的间隔，默认值为0。
-
-  **labels**：列表，各个扇形的标签，默认值为 None。
-
-  **colors**：数组，表示各个扇形的颜色，默认值为 None。
-
-  **autopct**：设置饼图内各个扇形百分比显示格式，**%d%%** 整数百分比，**%0.1f** 一位小数， **%0.1f%%** 一位小数百分比， **%0.2f%%** 两位小数百分比。
-
-- `pie()`的返回值为三元组。
-
-  - `patches` ：`matplotlib.patches.Wedge`对象序列。类型为列表。
-  - `texts`：外标签`Text`对象列表。类型为列表。
-  - `autotexts`：只有`autopct`属性不为`None`才会返回值，饼块内标签`Text`对象列表。类型为列表。
-
-- 子图设置
-
-  ```py
-  ax1=plt.subplot2grid((3,3),(0,0))
-  ax1=plt.subplot2grid((3,3),(1,0))
-  ax1=plt.subplot2grid((3,3),(0,2),rowspan=3)
-  ax1=plt.subplot2grid((3,3),(2,0),colspan=2)
-  ax1=plt.subplot2grid((3,3),(0,1),rowspan=2)</code></pre>
+</code></pre><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  **x**：浮点型数组，表示每个扇形的面积。</span><br><span class="line"></span><br><span class="line">  **explode**：数组，表示各个扇形之间的间隔，默认值为0。</span><br><span class="line"></span><br><span class="line">  **labels**：列表，各个扇形的标签，默认值为 None。</span><br><span class="line"></span><br><span class="line">  **colors**：数组，表示各个扇形的颜色，默认值为 None。</span><br><span class="line"></span><br><span class="line">  **autopct**：设置饼图内各个扇形百分比显示格式，**%d%%** 整数百分比，**%0.1f** 一位小数， **%0.1f%%** 一位小数百分比， **%0.2f%%** 两位小数百分比。</span><br><span class="line"></span><br><span class="line">- `pie()`的返回值为三元组。</span><br><span class="line"></span><br><span class="line">  - `patches` ：`matplotlib.patches.Wedge`对象序列。类型为列表。</span><br><span class="line">  - `texts`：外标签`Text`对象列表。类型为列表。</span><br><span class="line">  - `autotexts`：只有`autopct`属性不为`None`才会返回值，饼块内标签`Text`对象列表。类型为列表。</span><br><span class="line"></span><br><span class="line">- 子图设置</span><br><span class="line"></span><br><span class="line">  ```py</span><br><span class="line">  ax1=plt.subplot2grid((3,3),(0,0))</span><br><span class="line">  ax1=plt.subplot2grid((3,3),(1,0))</span><br><span class="line">  ax1=plt.subplot2grid((3,3),(0,2),rowspan=3)</span><br><span class="line">  ax1=plt.subplot2grid((3,3),(2,0),colspan=2)</span><br><span class="line">  ax1=plt.subplot2grid((3,3),(0,1),rowspan=2)</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>ax2=fig.add_axes([left,bottom,width,height])增加一个轴</p>
 <p>然后为图形添加轴。add_axes()方法需要一个由4个元素组成的list对象，分别对应图形的左、底、宽、高。每个数字必须在0和1之间</p>
@@ -650,18 +588,7 @@ axes[<span class="hljs-number">1</span>].set_title(<span class="hljs-string">&#x
 <li><p>```python<br>from sklearn.impute import SimpleImputer</p>
 <p>impute=pd.DataFrame(SimpleImputer().fit_transform(df))<br>impute.columns=df.columns<br>impute.index=df.index</p>
 <p>impute.head()</p>
-<pre><code class="hljs plaintext">
-  ![image-20220722110444619](https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202208022333793.png)
-
-## seaborn
-
-### style
-
-- ```python
-  def sinplot(flip=1):
-      x = np.linspace(0, 14, 100)
-      for i in range(1, 7):
-          plt.plot(x, np.sin(x + i * .5) * (7 - i) * flip)</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  ![image-20220722110444619](https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202208022333793.png)</span><br><span class="line"></span><br><span class="line">## seaborn</span><br><span class="line"></span><br><span class="line">### style</span><br><span class="line"></span><br><span class="line">- ```python</span><br><span class="line">  def sinplot(flip=1):</span><br><span class="line">      x = np.linspace(0, 14, 100)</span><br><span class="line">      for i in range(1, 7):</span><br><span class="line">          plt.plot(x, np.sin(x + i * .5) * (7 - i) * flip)</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>sns.set()</p>
 <blockquote>
@@ -695,13 +622,7 @@ axes[<span class="hljs-number">1</span>].set_title(<span class="hljs-string">&#x
 <pre><code>plt.subplot(211)
 sinplot()
 </code></pre><p>plt.subplot(212)<br>sinplot(-1)</p>
-<pre><code class="hljs plaintext">
-  在with 中的采用style风格
-
-- ```py
-  sns.set_context(&#x27;talk&#x27;)
-  plt.figure(figsize=(8,6))
-  sinplot()</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  在with 中的采用style风格</span><br><span class="line"></span><br><span class="line">- ```py</span><br><span class="line">  sns.set_context(&#x27;talk&#x27;)</span><br><span class="line">  plt.figure(figsize=(8,6))</span><br><span class="line">  sinplot()</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <blockquote>
@@ -731,24 +652,7 @@ sinplot()
 <p>最常用的方法是使用hls的颜色空间，这是RGB值的一个简单转换。</p>
 </li>
 <li><p>```python<br>data=np.random.normal(size=(20,8))+np.arange(8)/2<br>sns.boxplot(data=data,palette=sns.color_palette(“hls”,8))</p>
-<pre><code class="hljs plaintext">
-- hls_palette()函数来控制颜色的亮度和饱和
-
-  - l-亮度 lightness 
-  - s-饱和 saturation
-
-  sns.palplot(sns.hls_palette(8,l=7,s=9))
-
-- sns.palplot(sns.color_palette(&quot;Paired&quot;,8))  图像对比
-
-  ![img](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcwAAABECAYAAAAMTwWHAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjUuMiwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZy8qNh9FAAAACXBIWXMAAAsTAAALEwEAmpwYAAACJ0lEQVR4nO3YMWrUQRjG4UmygothCXYrC9p7ABWsRLDSykbLNB7BzsLOztYLaGNnJYpVQL2CnbAYsJAgCSsm698LqPs2sx+R52lnircY+MFsDMMwNADgnzarBwDAaSCYABAQTAAICCYABAQTAAKCCQCB0aoLbz59bYvj5Tq2rN2dy9N2/cm76hnd7D280d7On1XP6Obm7EG7/fJW9YwuXt193U5ePK+e0c3o3v22f+Va9Yxuph/ft18fHlfP6Gbz6qPWnl6qntHHZNba7t4fj1YGc3G8bEc//89gttba/GBRPaGrxcn36gld7R99qZ7Qz+Fh9YKulvN59YS+fnyrXtDXwefqBWvnSxYAAoIJAAHBBICAYAJAQDABICCYABAQTAAICCYABAQTAAKCCQABwQSAgGACQEAwASAgmAAQEEwACAgmAAQEEwACggkAAcEEgIBgAkBAMAEgIJgAEBBMAAgIJgAEBBMAAoIJAAHBBICAYAJAQDABICCYABAQTAAICCYABAQTAAKCCQABwQSAgGACQEAwASAgmAAQEEwACAgmAAQEEwACggkAAcEEgIBgAkBAMAEgIJgAEBBMAAgIJgAEBBMAAoIJAAHBBIDAaNWF8ZmtdewoM9sZV0/oajyaVE/oanruQvWEfra3qxd0tTWbVU/o6+z56gV97VysXtDH5O/vcmMYhmGNUwDgVPIlCwABwQSAgGACQEAwASAgmAAQEEwACPwGosM6m4xV3KMAAAAASUVORK5CYII=)
-
-- 使用xkcd 颜色来命名颜色 xkcd包含了一套众包努力的针对随机RGB色的命名。产生了954个可以随时通过xdcd_rgb字典中调用的命名颜色。
-
-  ```python
-  plt.plot([0,1],[0,1],sns.xkcd_rgb[&#x27;pale red&#x27;],lw=3)
-  plt.plot([0,1],[0,2],sns.xkcd_rgb[&#x27;medium green&#x27;],lw=3)
-  plt.plot([0,1],[0,3],sns.xkcd_rgb[&#x27;denim blue&#x27;],lw=3)</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- hls_palette()函数来控制颜色的亮度和饱和</span><br><span class="line"></span><br><span class="line">  - l-亮度 lightness </span><br><span class="line">  - s-饱和 saturation</span><br><span class="line"></span><br><span class="line">  sns.palplot(sns.hls_palette(8,l=7,s=9))</span><br><span class="line"></span><br><span class="line">- sns.palplot(sns.color_palette(&quot;Paired&quot;,8))  图像对比</span><br><span class="line"></span><br><span class="line">  ![img](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcwAAABECAYAAAAMTwWHAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjUuMiwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZy8qNh9FAAAACXBIWXMAAAsTAAALEwEAmpwYAAACJ0lEQVR4nO3YMWrUQRjG4UmygothCXYrC9p7ABWsRLDSykbLNB7BzsLOztYLaGNnJYpVQL2CnbAYsJAgCSsm698LqPs2sx+R52lnircY+MFsDMMwNADgnzarBwDAaSCYABAQTAAICCYABAQTAAKCCQCB0aoLbz59bYvj5Tq2rN2dy9N2/cm76hnd7D280d7On1XP6Obm7EG7/fJW9YwuXt193U5ePK+e0c3o3v22f+Va9Yxuph/ft18fHlfP6Gbz6qPWnl6qntHHZNba7t4fj1YGc3G8bEc//89gttba/GBRPaGrxcn36gld7R99qZ7Qz+Fh9YKulvN59YS+fnyrXtDXwefqBWvnSxYAAoIJAAHBBICAYAJAQDABICCYABAQTAAICCYABAQTAAKCCQABwQSAgGACQEAwASAgmAAQEEwACAgmAAQEEwACggkAAcEEgIBgAkBAMAEgIJgAEBBMAAgIJgAEBBMAAoIJAAHBBICAYAJAQDABICCYABAQTAAICCYABAQTAAKCCQABwQSAgGACQEAwASAgmAAQEEwACAgmAAQEEwACggkAAcEEgIBgAkBAMAEgIJgAEBBMAAgIJgAEBBMAAoIJAAHBBIDAaNWF8ZmtdewoM9sZV0/oajyaVE/oanruQvWEfra3qxd0tTWbVU/o6+z56gV97VysXtDH5O/vcmMYhmGNUwDgVPIlCwABwQSAgGACQEAwASAgmAAQEEwACPwGosM6m4xV3KMAAAAASUVORK5CYII=)</span><br><span class="line"></span><br><span class="line">- 使用xkcd 颜色来命名颜色 xkcd包含了一套众包努力的针对随机RGB色的命名。产生了954个可以随时通过xdcd_rgb字典中调用的命名颜色。</span><br><span class="line"></span><br><span class="line">  ```python</span><br><span class="line">  plt.plot([0,1],[0,1],sns.xkcd_rgb[&#x27;pale red&#x27;],lw=3)</span><br><span class="line">  plt.plot([0,1],[0,2],sns.xkcd_rgb[&#x27;medium green&#x27;],lw=3)</span><br><span class="line">  plt.plot([0,1],[0,3],sns.xkcd_rgb[&#x27;denim blue&#x27;],lw=3)</span><br></pre></td></tr></table></figure>
 <p>lw 线条宽度</p>
 </li>
 </ul>
@@ -875,9 +779,7 @@ sinplot()
 </li>
 <li><p>```python<br>x,y=np.random.multivariate_normal(mean,cov,1000).T<br>with sns.axes_style(‘white’):</p>
 <pre><code>sns.jointplot(x=x,y=y,kind=&quot;hex&quot;,color=&quot;k&quot;)
-</code></pre><pre><code class="hljs plaintext">
-```python
-seaborn.jointplot(x,  y,  data=None, kind=’scatter’, stat_func=None, color=None, height=6, ratio=5, space=0.2, dropna=True,  xlim=None, ylim=None, joint_kws=None, marginal_kws=None, annot_kws=None, **kwargs)</code></pre>
+</code></pre><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">```python</span><br><span class="line">seaborn.jointplot(x,  y,  data=None, kind=’scatter’, stat_func=None, color=None, height=6, ratio=5, space=0.2, dropna=True,  xlim=None, ylim=None, joint_kws=None, marginal_kws=None, annot_kws=None, **kwargs)</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>x，y：这些参数采用数据或“data”中的变量名称。</p>
 <p><strong>data:</strong>(可选)当“x”和“y”是变量名时，此参数采用DataFrame。</p>
@@ -903,7 +805,7 @@ seaborn.jointplot(x,  y,  data=None, kind=’scatter’, stat_func=None, color=N
 <li><p>可以看到对角线上是各个属性的直方图（分布图），而非对角线上是两个不同属性之间的相关图</p>
 </li>
 <li><p>regplot()和lmplot()都可以绘制回归关系,推荐regplot()</p>
-<pre><code class="hljs python">seaborn.relplot(x=<span class="hljs-literal">None</span>, y=<span class="hljs-literal">None</span>, hue=<span class="hljs-literal">None</span>, size=<span class="hljs-literal">None</span>, style=<span class="hljs-literal">None</span>, data=<span class="hljs-literal">None</span>, row=<span class="hljs-literal">None</span>, col=<span class="hljs-literal">None</span>, col_wrap=<span class="hljs-literal">None</span>, row_order=<span class="hljs-literal">None</span>, col_order=<span class="hljs-literal">None</span>, palette=<span class="hljs-literal">None</span>, hue_order=<span class="hljs-literal">None</span>, hue_norm=<span class="hljs-literal">None</span>, sizes=<span class="hljs-literal">None</span>, size_order=<span class="hljs-literal">None</span>, size_norm=<span class="hljs-literal">None</span>, markers=<span class="hljs-literal">None</span>, dashes=<span class="hljs-literal">None</span>, style_order=<span class="hljs-literal">None</span>, legend=<span class="hljs-string">&#x27;brief&#x27;</span>, kind=<span class="hljs-string">&#x27;scatter&#x27;</span>, height=<span class="hljs-number">5</span>, aspect=<span class="hljs-number">1</span>, facet_kws=<span class="hljs-literal">None</span>, **kwargs)</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">seaborn.relplot(x=<span class="literal">None</span>, y=<span class="literal">None</span>, hue=<span class="literal">None</span>, size=<span class="literal">None</span>, style=<span class="literal">None</span>, data=<span class="literal">None</span>, row=<span class="literal">None</span>, col=<span class="literal">None</span>, col_wrap=<span class="literal">None</span>, row_order=<span class="literal">None</span>, col_order=<span class="literal">None</span>, palette=<span class="literal">None</span>, hue_order=<span class="literal">None</span>, hue_norm=<span class="literal">None</span>, sizes=<span class="literal">None</span>, size_order=<span class="literal">None</span>, size_norm=<span class="literal">None</span>, markers=<span class="literal">None</span>, dashes=<span class="literal">None</span>, style_order=<span class="literal">None</span>, legend=<span class="string">&#x27;brief&#x27;</span>, kind=<span class="string">&#x27;scatter&#x27;</span>, height=<span class="number">5</span>, aspect=<span class="number">1</span>, facet_kws=<span class="literal">None</span>, **kwargs)</span><br></pre></td></tr></table></figure>
 <p>绘制相关关系图像到 FacetGrid 的图像级别接口。</p>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://seaborn.apachecn.org/#/seaborn.scatterplot.html?id=seaborn.scatterplot"><code>scatterplot()</code></a> （通过<code>kind=&quot;scatter&quot;</code>访问；默认为此）</li>
@@ -955,74 +857,12 @@ seaborn.jointplot(x,  y,  data=None, kind=’scatter’, stat_func=None, color=N
 </li>
 <li><p>sns.swarmplot(x=”day”,y=”total_bill”,data=tips)</p>
 <p>分簇散点图 可以理解为数据点不重叠的分类散点图</p>
-<pre><code class="hljs python">seaborn.swarmplot(x=<span class="hljs-literal">None</span>, y=<span class="hljs-literal">None</span>, hue=<span class="hljs-literal">None</span>, 
-                  data=<span class="hljs-literal">None</span>, order=<span class="hljs-literal">None</span>, hue_order=<span class="hljs-literal">None</span>, 
-                  dodge=<span class="hljs-literal">False</span>, orient=<span class="hljs-literal">None</span>, color=<span class="hljs-literal">None</span>,
-                  palette=<span class="hljs-literal">None</span>, size=<span class="hljs-number">5</span>, edgecolor=<span class="hljs-string">&#x27;gray&#x27;</span>,
-                  linewidth=<span class="hljs-number">0</span>, ax=<span class="hljs-literal">None</span>, **kwargs)</code></pre>
-<pre><code class="hljs py">x,y,hue:数据字段变量名(如上表，date,name,age,sex为数据字段变量名)
-作用：根据实际数据，x,y常用来指定x,y轴的分类名称，
-hue常用来指定第二次分类的数据类别(用颜色区分)
-
-data: DataFrame,数组或数组列表
-
-order,hue_order:字符串列表
-作用：显式指定分类顺序，eg. order=[字段变量名<span class="hljs-number">1</span>，字段变量名<span class="hljs-number">2</span>,...]
-
-jitter : <span class="hljs-built_in">float</span>类型，<span class="hljs-literal">True</span>/<span class="hljs-number">1</span>
-作用：当数据重合较多时，用该参数做一些调整，也可以设置间距
-如，jitter = <span class="hljs-number">0.1</span> (通俗讲，就是让数据分散开)
-
-dodge:<span class="hljs-built_in">bool</span>
-作用：若设置为<span class="hljs-literal">True</span>则沿着分类轴，将数据分离出来成为不同色调级别的条带，
-否则，每个级别的点将相互叠加
-
-orient:方向：v或者h
-作用：设置图的绘制方向(垂直或水平),
-如何选择：一般是根据输入变量的数据类型(dtype)推断出来。
-
-color:matplotlib 颜色
-
-palette:调色板名称，<span class="hljs-built_in">list</span>类别或者字典
-作用：用于对数据不同分类进行颜色区别
-
-size:<span class="hljs-built_in">float</span>
-作用：设置标记大小(标记直径，以磅为单位)
-
-edgecolor:matplotlib color，gray
-作用：设置每个点的周围线条颜色
-
-linewidth:<span class="hljs-built_in">float</span>
-作用：设置构图元素的线宽度</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">seaborn.swarmplot(x=<span class="literal">None</span>, y=<span class="literal">None</span>, hue=<span class="literal">None</span>, </span><br><span class="line">                  data=<span class="literal">None</span>, order=<span class="literal">None</span>, hue_order=<span class="literal">None</span>, </span><br><span class="line">                  dodge=<span class="literal">False</span>, orient=<span class="literal">None</span>, color=<span class="literal">None</span>,</span><br><span class="line">                  palette=<span class="literal">None</span>, size=<span class="number">5</span>, edgecolor=<span class="string">&#x27;gray&#x27;</span>,</span><br><span class="line">                  linewidth=<span class="number">0</span>, ax=<span class="literal">None</span>, **kwargs)</span><br></pre></td></tr></table></figure>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">x,y,hue:数据字段变量名(如上表，date,name,age,sex为数据字段变量名)</span><br><span class="line">作用：根据实际数据，x,y常用来指定x,y轴的分类名称，</span><br><span class="line">hue常用来指定第二次分类的数据类别(用颜色区分)</span><br><span class="line"></span><br><span class="line">data: DataFrame,数组或数组列表</span><br><span class="line"></span><br><span class="line">order,hue_order:字符串列表</span><br><span class="line">作用：显式指定分类顺序，eg. order=[字段变量名<span class="number">1</span>，字段变量名<span class="number">2</span>,...]</span><br><span class="line"></span><br><span class="line">jitter : <span class="built_in">float</span>类型，<span class="literal">True</span>/<span class="number">1</span></span><br><span class="line">作用：当数据重合较多时，用该参数做一些调整，也可以设置间距</span><br><span class="line">如，jitter = <span class="number">0.1</span> (通俗讲，就是让数据分散开)</span><br><span class="line"></span><br><span class="line">dodge:<span class="built_in">bool</span></span><br><span class="line">作用：若设置为<span class="literal">True</span>则沿着分类轴，将数据分离出来成为不同色调级别的条带，</span><br><span class="line">否则，每个级别的点将相互叠加</span><br><span class="line"></span><br><span class="line">orient:方向：v或者h</span><br><span class="line">作用：设置图的绘制方向(垂直或水平),</span><br><span class="line">如何选择：一般是根据输入变量的数据类型(dtype)推断出来。</span><br><span class="line"></span><br><span class="line">color:matplotlib 颜色</span><br><span class="line"></span><br><span class="line">palette:调色板名称，<span class="built_in">list</span>类别或者字典</span><br><span class="line">作用：用于对数据不同分类进行颜色区别</span><br><span class="line"></span><br><span class="line">size:<span class="built_in">float</span></span><br><span class="line">作用：设置标记大小(标记直径，以磅为单位)</span><br><span class="line"></span><br><span class="line">edgecolor:matplotlib color，gray</span><br><span class="line">作用：设置每个点的周围线条颜色</span><br><span class="line"></span><br><span class="line">linewidth:<span class="built_in">float</span></span><br><span class="line">作用：设置构图元素的线宽度</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>```python</p>
 <h1 id="参数如下："><a href="#参数如下：" class="headerlink" title="参数如下："></a>参数如下：</h1><p>seaborn.boxplot(x=None, y=None, hue=None, data=None, order=None, hue_order=None, orient=None, color=None, palette=None, saturation=0.75, width=0.8, dodge=True, fliersize=5, linewidth=None, whis=1.5, notch=False, ax=None, **kwargs)</p>
-<pre><code class="hljs plaintext">
-  &gt; x，y：dataframe中的列名（str）或者矢量数据
-  &gt;
-  &gt; data：dataframe或者数组
-  &gt;
-  &gt; hue（str）：dataframe的列名，按照列名中的值分类形成分类的条形图
-  &gt;
-  &gt; palette：调色板，控制图像的色调
-  &gt;
-  &gt; order, hue_order (lists of strings)：用于控制条形图的顺序
-  &gt;
-  &gt; orient：“v”|“h” 用于控制图像使水平还是竖直显示（这通常是从输入变量的dtype推断出来的，此参数一般当不传入x、y，只传入data的时候使用）
-  &gt;
-  &gt; fliersize：float，用于指示离群值观察的标记大小
-  &gt;
-  &gt; whis： 确定离群值的上下界（IQR超过低和高四分位数的比例），此范围之外的点将被识别为异常值。IQR指的是上下四分位的差值。
-  &gt;
-  &gt; width： float，控制箱型图的宽度
-
-- ```python
-  sns.violinplot(x=&quot;day&quot;,y=&quot;total_bill&quot;,hue=&quot;sex&quot;,data=tips,split=True)
-  
-      
-      seaborn.violinplot(*, x=None, y=None, hue=None, data=None, order=None, hue_order=None, bw=&#x27;scott&#x27;, cut=2, scale=&#x27;area&#x27;, scale_hue=True, gridsize=100, width=0.8, inner=&#x27;box&#x27;, split=False, dodge=True, orient=None, linewidth=None, color=None, palette=None, saturation=0.75, ax=None, **kwargs)
-  
-      绘制箱线图和核密度估计的组合。</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  &gt; x，y：dataframe中的列名（str）或者矢量数据</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; data：dataframe或者数组</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; hue（str）：dataframe的列名，按照列名中的值分类形成分类的条形图</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; palette：调色板，控制图像的色调</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; order, hue_order (lists of strings)：用于控制条形图的顺序</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; orient：“v”|“h” 用于控制图像使水平还是竖直显示（这通常是从输入变量的dtype推断出来的，此参数一般当不传入x、y，只传入data的时候使用）</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; fliersize：float，用于指示离群值观察的标记大小</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; whis： 确定离群值的上下界（IQR超过低和高四分位数的比例），此范围之外的点将被识别为异常值。IQR指的是上下四分位的差值。</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; width： float，控制箱型图的宽度</span><br><span class="line"></span><br><span class="line">- ```python</span><br><span class="line">  sns.violinplot(x=&quot;day&quot;,y=&quot;total_bill&quot;,hue=&quot;sex&quot;,data=tips,split=True)</span><br><span class="line">  </span><br><span class="line">      </span><br><span class="line">      seaborn.violinplot(*, x=None, y=None, hue=None, data=None, order=None, hue_order=None, bw=&#x27;scott&#x27;, cut=2, scale=&#x27;area&#x27;, scale_hue=True, gridsize=100, width=0.8, inner=&#x27;box&#x27;, split=False, dodge=True, orient=None, linewidth=None, color=None, palette=None, saturation=0.75, ax=None, **kwargs)</span><br><span class="line">  </span><br><span class="line">      绘制箱线图和核密度估计的组合。</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>参数</p>
 <ul>
@@ -1078,69 +918,11 @@ linewidth:<span class="hljs-built_in">float</span>
 </blockquote>
 </li>
 <li><p>```pyt<br>sns.violinplot(x=”day”,y=”total_bill”,data=tips,inner=None)<br>sns.swarmplot(x=”day”,y=”total_bill”,data=tips,color=’w’)<br>两个图的一起</p>
-<pre><code class="hljs plaintext">
-- 显示值的集中趋势可以用条形图
-
-  sns.barplot(x=&quot;sex&quot;,y=&quot;survived&quot;,hue=&quot;class&quot;,data=titanic)
-
-  ```python
-  seaborn.barplot(x=None, y=None, hue=None, 
-                  data=None, order=None, hue_order=None, 
-                  estimator=&lt;function mean&gt;, ci=95, 
-                  n_boot=1000, units=None, orient=None, 
-                  color=None, palette=None, saturation=0.75, 
-                  errcolor=&#x27;.26&#x27;, errwidth=None, capsize=None, 
-                  dodge=True, ax=None, **kwargs)
-  
-  x,y,hue:数据字段变量名(如上表，date,name,age,sex为数据字段变量名)
-  
-  data: DataFrame,数组或数组列表
-  
-  order,hue_order:字符串列表
-  作用：显式指定分类顺序，eg. order=[字段变量名1，字段变量名2,...]
-  
-  estimator:可回调函数
-  作用：设置每个分类箱的统计函数
-  
-  ci:float或者&quot;sd&quot;或None
-  在估计值附近绘制置信区间的大小，如果是&quot;sd&quot;，
-  则跳过bootstrapping并绘制观察的标准差，
-  如果为None,则不执行bootstrapping,并且不绘制错误条。
-  
-  n_boot:int
-  计算置信区间时使用的引导迭代次数
-  
-  orient: v | h
-  图的显示方向(垂直或水平,即横向或纵向)，
-  这通常可以从输入变量的dtype推断得到
-  
-  color:matplotlib颜色
-  
-  palette:调试板名称，列表或字典类型
-  作用：设置hue指定的变量的不同级别颜色。
-  
-  saturation 饱和度：float
-  
-  errcolor : matplotlib color
-  作用：表示置信区间的线条颜色
-  
-  errwidth:float
-  作用：表示误差线的厚度
-  
-  capsize:float
-  作用：表示误差线上&quot;帽&quot;的宽度(误差线上的横线的宽度)
-  
-  dodge:bool
-  作用：使用色调嵌套时，是否应沿分类轴移动元素。</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 显示值的集中趋势可以用条形图</span><br><span class="line"></span><br><span class="line">  sns.barplot(x=&quot;sex&quot;,y=&quot;survived&quot;,hue=&quot;class&quot;,data=titanic)</span><br><span class="line"></span><br><span class="line">  ```python</span><br><span class="line">  seaborn.barplot(x=None, y=None, hue=None, </span><br><span class="line">                  data=None, order=None, hue_order=None, </span><br><span class="line">                  estimator=&lt;function mean&gt;, ci=95, </span><br><span class="line">                  n_boot=1000, units=None, orient=None, </span><br><span class="line">                  color=None, palette=None, saturation=0.75, </span><br><span class="line">                  errcolor=&#x27;.26&#x27;, errwidth=None, capsize=None, </span><br><span class="line">                  dodge=True, ax=None, **kwargs)</span><br><span class="line">  </span><br><span class="line">  x,y,hue:数据字段变量名(如上表，date,name,age,sex为数据字段变量名)</span><br><span class="line">  </span><br><span class="line">  data: DataFrame,数组或数组列表</span><br><span class="line">  </span><br><span class="line">  order,hue_order:字符串列表</span><br><span class="line">  作用：显式指定分类顺序，eg. order=[字段变量名1，字段变量名2,...]</span><br><span class="line">  </span><br><span class="line">  estimator:可回调函数</span><br><span class="line">  作用：设置每个分类箱的统计函数</span><br><span class="line">  </span><br><span class="line">  ci:float或者&quot;sd&quot;或None</span><br><span class="line">  在估计值附近绘制置信区间的大小，如果是&quot;sd&quot;，</span><br><span class="line">  则跳过bootstrapping并绘制观察的标准差，</span><br><span class="line">  如果为None,则不执行bootstrapping,并且不绘制错误条。</span><br><span class="line">  </span><br><span class="line">  n_boot:int</span><br><span class="line">  计算置信区间时使用的引导迭代次数</span><br><span class="line">  </span><br><span class="line">  orient: v | h</span><br><span class="line">  图的显示方向(垂直或水平,即横向或纵向)，</span><br><span class="line">  这通常可以从输入变量的dtype推断得到</span><br><span class="line">  </span><br><span class="line">  color:matplotlib颜色</span><br><span class="line">  </span><br><span class="line">  palette:调试板名称，列表或字典类型</span><br><span class="line">  作用：设置hue指定的变量的不同级别颜色。</span><br><span class="line">  </span><br><span class="line">  saturation 饱和度：float</span><br><span class="line">  </span><br><span class="line">  errcolor : matplotlib color</span><br><span class="line">  作用：表示置信区间的线条颜色</span><br><span class="line">  </span><br><span class="line">  errwidth:float</span><br><span class="line">  作用：表示误差线的厚度</span><br><span class="line">  </span><br><span class="line">  capsize:float</span><br><span class="line">  作用：表示误差线上&quot;帽&quot;的宽度(误差线上的横线的宽度)</span><br><span class="line">  </span><br><span class="line">  dodge:bool</span><br><span class="line">  作用：使用色调嵌套时，是否应沿分类轴移动元素。</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><a target="_blank" rel="noopener" href="https://www.osgeo.cn/seaborn/generated/seaborn.pointplot.html">点图</a></p>
 <p>sns.pointplot(x=”sex”,y=”survived”,hue=”class”,data=titanic)</p>
-<pre><code class="hljs python">seaborn.pointplot(*, x=<span class="hljs-literal">None</span>, y=<span class="hljs-literal">None</span>, hue=<span class="hljs-literal">None</span>, data=<span class="hljs-literal">None</span>, order=<span class="hljs-literal">None</span>, hue_order=<span class="hljs-literal">None</span>, estimator=&lt;function mean&gt;, ci=<span class="hljs-number">95</span>, n_boot=<span class="hljs-number">1000</span>, units=<span class="hljs-literal">None</span>, seed=<span class="hljs-literal">None</span>, markers=<span class="hljs-string">&#x27;o&#x27;</span>, linestyles=<span class="hljs-string">&#x27;-&#x27;</span>, dodge=<span class="hljs-literal">False</span>, join=<span class="hljs-literal">True</span>, scale=<span class="hljs-number">1</span>, orient=<span class="hljs-literal">None</span>, color=<span class="hljs-literal">None</span>, palette=<span class="hljs-literal">None</span>, errwidth=<span class="hljs-literal">None</span>, capsize=<span class="hljs-literal">None</span>, ax=<span class="hljs-literal">None</span>, **kwargs)
-  
-   使用散点图图示符显示点估计和置信区间。
-  
-   点图表示通过散点图点的位置对数值变量的中心趋势进行的估计，并使用误差线对该估计周围的不确定性进行指示。
-</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">seaborn.pointplot(*, x=<span class="literal">None</span>, y=<span class="literal">None</span>, hue=<span class="literal">None</span>, data=<span class="literal">None</span>, order=<span class="literal">None</span>, hue_order=<span class="literal">None</span>, estimator=&lt;function mean&gt;, ci=<span class="number">95</span>, n_boot=<span class="number">1000</span>, units=<span class="literal">None</span>, seed=<span class="literal">None</span>, markers=<span class="string">&#x27;o&#x27;</span>, linestyles=<span class="string">&#x27;-&#x27;</span>, dodge=<span class="literal">False</span>, join=<span class="literal">True</span>, scale=<span class="number">1</span>, orient=<span class="literal">None</span>, color=<span class="literal">None</span>, palette=<span class="literal">None</span>, errwidth=<span class="literal">None</span>, capsize=<span class="literal">None</span>, ax=<span class="literal">None</span>, **kwargs)</span><br><span class="line">  </span><br><span class="line">   使用散点图图示符显示点估计和置信区间。</span><br><span class="line">  </span><br><span class="line">   点图表示通过散点图点的位置对数值变量的中心趋势进行的估计，并使用误差线对该估计周围的不确定性进行指示。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>参数</p>
 <ul>
@@ -1222,112 +1004,10 @@ linewidth:<span class="hljs-built_in">float</span>
 <h3 id="facetgrid"><a href="#facetgrid" class="headerlink" title="facetgrid"></a>facetgrid</h3><ul>
 <li><p>```python<br>seaborn.FacetGrid(data, *, row=None, col=None, hue=None, col_wrap=None, sharex=True, sharey=True, height=3, aspect=1, palette=None, row_order=None, col_order=None, hue_order=None, hue_kws=None, dropna=False, legend_out=True, despine=True, margin_titles=False, xlim=None, ylim=None, subplot_kws=None, gridspec_kws=None, size=None)</p>
 <pre><code>用于绘制条件关系的多重绘图网格。
-</code></pre><pre><code class="hljs plaintext">
-  &gt; 参数
-  &gt;
-  &gt; - **data**:DataFrame
-  &gt;
-  &gt;   整洁（“长格式”）数据帧，其中每列是一个变量，每行是一个观察值。
-  &gt;
-  &gt; - **row, col, hue**:strings
-  &gt;
-  &gt;   定义数据子集的变量，这些数据将绘制在网格中的不同方面。  请参阅 &#123;var&#125;_order 参数以控制此变量的级别顺序。
-  &gt;
-  &gt; - **col_wrap**:int
-  &gt;
-  &gt;   以此宽度“包装”列变量，以便列面跨多行。与…不相容 `row` 方面。
-  &gt;
-  &gt; - **share&#123;&#123;x，y&#125;**:bool、“col”或“row”可选
-  &gt;
-  &gt;   如果为真，则行和面将在x轴和y轴之间共享。
-  &gt;
-  &gt; - **height**:scalar
-  &gt;
-  &gt;   每个面的高度（英寸）。另请参见： `aspect` .
-  &gt;
-  &gt; - **aspect**:scalar
-  &gt;
-  &gt;   每个面的纵横比，以便 `aspect * height` 以英寸为单位给出每个面的宽度。
-  &gt;
-  &gt; - **palette**:palette name, list, or dict
-  &gt;
-  &gt;   用于不同级别的 `hue` 变量。应该是可以解释的东西 [`color_palette()`](https://www.osgeo.cn/seaborn/generated/seaborn.color_palette.html#seaborn.color_palette) ，或将色调级别映射到matplotlib颜色的字典。
-  &gt;
-  &gt; - **&#123;row,col,hue&#125;_order**:lists
-  &gt;
-  &gt;   分面变量的顺序。默认情况下，这将是级别的显示顺序 `data` 或者，如果变量是分类变量，则为分类顺序。
-  &gt;
-  &gt; - **hue_kws**:dictionary of param -&gt; list of values mapping
-  &gt;
-  &gt;   要插入到plotting调用中的其他关键字参数，以允许其他绘图属性在色调变量的不同级别（例如散点图中的标记）之间变化。
-  &gt;
-  &gt; - **legend_out**:bool
-  &gt;
-  &gt;   如果 `True` ，图形大小将扩展，图例将绘制在右中的绘图外部。
-  &gt;
-  &gt; - **despine**：boolean
-  &gt;
-  &gt;   从绘图中删除顶部和右侧脊椎。
-  &gt;
-  &gt; - **margin_titles**：bool
-  &gt;
-  &gt;   如果 `True` ，行变量的标题绘制在最后一列的右侧。此选项是实验性的，可能不适用于所有情况。
-  &gt;
-  &gt; - **&#123;x，y&#125;&#125;lim：tuples**
-  &gt;
-  &gt;   每个面上每个轴的限制（仅当share&#123;x，y&#125;为真时相关）。
-  &gt;
-  &gt; - **subplot_kws**：dict
-  &gt;
-  &gt;   传递给matplotlib子批方法的关键字参数字典。
-
-- g=sns.FacetGrid(tips,col=&quot;time&quot;)
-  g.map(plt.hist,&quot;tip&quot;)
-
-  `FacetGrid.``map`(*func*, **args*, ***kwargs*)
-
-  对每个方面的数据子集应用绘图函数。
-
-  参数
-
-  参数 
-
-  - func:callable
-
-    采用数据和关键字参数的绘图函数。  它 必须绘制到当前活动的 matplotlib 轴并采取 `color`关键字参数。  如果刻面在 `hue`方面， 它还必须采取 `label`关键字参数。 
-
-  - **args** strings 
-
-    self.data 中的列名，用于标识具有数据的变量 阴谋。  每个变量的数据都传递给 `func`在里面 order 变量在调用中指定。 
-
-  - **kwargs** keyword argument
-
-    所有关键字参数都传递给绘图函数。 
-
-- g=sns.FacetGrid(tips,col=&#x27;sex&#x27;,hue=&quot;smoker&quot;)
-  g.map(plt.scatter,&quot;total_bill&quot;,&quot;tip&quot;)
-
-- 设置数据顺序 FaceGrid 支持的大多位DataFrame格式
-
-  from pandas import Categorical
-  ordered_days=tips.day.value_counts().index
-  print (ordered_days)
-  g=sns.FacetGrid(tips,row=&quot;day&quot;,row_order=ordered_days,
-                  height=1.7,aspect=4)
-  g.map(sns.boxplot,&quot;total_bill&quot;)
-
-- 指定颜色
-
-  ```python
-  pal=dict(Lunch=&quot;seagreen&quot;,Dinner=&quot;gray&quot;)
-  g=sns.FacetGrid(tips,hue=&quot;time&quot;,palette=pal,height=5)
-  g.map(plt.scatter,&quot;total_bill&quot;,&quot;tip&quot;,s=50,linewidth=.5,edgecolor=&quot;white&quot;)
-  g.add_legend()</code></pre>
+</code></pre><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">  &gt; 参数</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; - **data**:DataFrame</span><br><span class="line">  &gt;</span><br><span class="line">  &gt;   整洁（“长格式”）数据帧，其中每列是一个变量，每行是一个观察值。</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; - **row, col, hue**:strings</span><br><span class="line">  &gt;</span><br><span class="line">  &gt;   定义数据子集的变量，这些数据将绘制在网格中的不同方面。  请参阅 &#123;var&#125;_order 参数以控制此变量的级别顺序。</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; - **col_wrap**:int</span><br><span class="line">  &gt;</span><br><span class="line">  &gt;   以此宽度“包装”列变量，以便列面跨多行。与…不相容 `row` 方面。</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; - **share&#123;&#123;x，y&#125;**:bool、“col”或“row”可选</span><br><span class="line">  &gt;</span><br><span class="line">  &gt;   如果为真，则行和面将在x轴和y轴之间共享。</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; - **height**:scalar</span><br><span class="line">  &gt;</span><br><span class="line">  &gt;   每个面的高度（英寸）。另请参见： `aspect` .</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; - **aspect**:scalar</span><br><span class="line">  &gt;</span><br><span class="line">  &gt;   每个面的纵横比，以便 `aspect * height` 以英寸为单位给出每个面的宽度。</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; - **palette**:palette name, list, or dict</span><br><span class="line">  &gt;</span><br><span class="line">  &gt;   用于不同级别的 `hue` 变量。应该是可以解释的东西 [`color_palette()`](https://www.osgeo.cn/seaborn/generated/seaborn.color_palette.html#seaborn.color_palette) ，或将色调级别映射到matplotlib颜色的字典。</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; - **&#123;row,col,hue&#125;_order**:lists</span><br><span class="line">  &gt;</span><br><span class="line">  &gt;   分面变量的顺序。默认情况下，这将是级别的显示顺序 `data` 或者，如果变量是分类变量，则为分类顺序。</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; - **hue_kws**:dictionary of param -&gt; list of values mapping</span><br><span class="line">  &gt;</span><br><span class="line">  &gt;   要插入到plotting调用中的其他关键字参数，以允许其他绘图属性在色调变量的不同级别（例如散点图中的标记）之间变化。</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; - **legend_out**:bool</span><br><span class="line">  &gt;</span><br><span class="line">  &gt;   如果 `True` ，图形大小将扩展，图例将绘制在右中的绘图外部。</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; - **despine**：boolean</span><br><span class="line">  &gt;</span><br><span class="line">  &gt;   从绘图中删除顶部和右侧脊椎。</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; - **margin_titles**：bool</span><br><span class="line">  &gt;</span><br><span class="line">  &gt;   如果 `True` ，行变量的标题绘制在最后一列的右侧。此选项是实验性的，可能不适用于所有情况。</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; - **&#123;x，y&#125;&#125;lim：tuples**</span><br><span class="line">  &gt;</span><br><span class="line">  &gt;   每个面上每个轴的限制（仅当share&#123;x，y&#125;为真时相关）。</span><br><span class="line">  &gt;</span><br><span class="line">  &gt; - **subplot_kws**：dict</span><br><span class="line">  &gt;</span><br><span class="line">  &gt;   传递给matplotlib子批方法的关键字参数字典。</span><br><span class="line"></span><br><span class="line">- g=sns.FacetGrid(tips,col=&quot;time&quot;)</span><br><span class="line">  g.map(plt.hist,&quot;tip&quot;)</span><br><span class="line"></span><br><span class="line">  `FacetGrid.``map`(*func*, **args*, ***kwargs*)</span><br><span class="line"></span><br><span class="line">  对每个方面的数据子集应用绘图函数。</span><br><span class="line"></span><br><span class="line">  参数</span><br><span class="line"></span><br><span class="line">  参数 </span><br><span class="line"></span><br><span class="line">  - func:callable</span><br><span class="line"></span><br><span class="line">    采用数据和关键字参数的绘图函数。  它 必须绘制到当前活动的 matplotlib 轴并采取 `color`关键字参数。  如果刻面在 `hue`方面， 它还必须采取 `label`关键字参数。 </span><br><span class="line"></span><br><span class="line">  - **args** strings </span><br><span class="line"></span><br><span class="line">    self.data 中的列名，用于标识具有数据的变量 阴谋。  每个变量的数据都传递给 `func`在里面 order 变量在调用中指定。 </span><br><span class="line"></span><br><span class="line">  - **kwargs** keyword argument</span><br><span class="line"></span><br><span class="line">    所有关键字参数都传递给绘图函数。 </span><br><span class="line"></span><br><span class="line">- g=sns.FacetGrid(tips,col=&#x27;sex&#x27;,hue=&quot;smoker&quot;)</span><br><span class="line">  g.map(plt.scatter,&quot;total_bill&quot;,&quot;tip&quot;)</span><br><span class="line"></span><br><span class="line">- 设置数据顺序 FaceGrid 支持的大多位DataFrame格式</span><br><span class="line"></span><br><span class="line">  from pandas import Categorical</span><br><span class="line">  ordered_days=tips.day.value_counts().index</span><br><span class="line">  print (ordered_days)</span><br><span class="line">  g=sns.FacetGrid(tips,row=&quot;day&quot;,row_order=ordered_days,</span><br><span class="line">                  height=1.7,aspect=4)</span><br><span class="line">  g.map(sns.boxplot,&quot;total_bill&quot;)</span><br><span class="line"></span><br><span class="line">- 指定颜色</span><br><span class="line"></span><br><span class="line">  ```python</span><br><span class="line">  pal=dict(Lunch=&quot;seagreen&quot;,Dinner=&quot;gray&quot;)</span><br><span class="line">  g=sns.FacetGrid(tips,hue=&quot;time&quot;,palette=pal,height=5)</span><br><span class="line">  g.map(plt.scatter,&quot;total_bill&quot;,&quot;tip&quot;,s=50,linewidth=.5,edgecolor=&quot;white&quot;)</span><br><span class="line">  g.add_legend()</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>设置marker</p>
-<pre><code class="hljs python">g=sns.FacetGrid(tips,hue=<span class="hljs-string">&quot;sex&quot;</span>,palette=<span class="hljs-string">&quot;Set1&quot;</span>,height=<span class="hljs-number">5</span>,hue_kws=&#123;<span class="hljs-string">&quot;marker&quot;</span>:[<span class="hljs-string">&quot;^&quot;</span>,<span class="hljs-string">&quot;v&quot;</span>]&#125;)
-g.<span class="hljs-built_in">map</span>(plt.scatter,<span class="hljs-string">&quot;total_bill&quot;</span>,<span class="hljs-string">&quot;tip&quot;</span>,s=<span class="hljs-number">100</span>,linewidth=<span class="hljs-number">.5</span>,edgecolor=<span class="hljs-string">&quot;white&quot;</span>)
-g.add_legend()</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">g=sns.FacetGrid(tips,hue=<span class="string">&quot;sex&quot;</span>,palette=<span class="string">&quot;Set1&quot;</span>,height=<span class="number">5</span>,hue_kws=&#123;<span class="string">&quot;marker&quot;</span>:[<span class="string">&quot;^&quot;</span>,<span class="string">&quot;v&quot;</span>]&#125;)</span><br><span class="line">g.<span class="built_in">map</span>(plt.scatter,<span class="string">&quot;total_bill&quot;</span>,<span class="string">&quot;tip&quot;</span>,s=<span class="number">100</span>,linewidth=<span class="number">.5</span>,edgecolor=<span class="string">&quot;white&quot;</span>)</span><br><span class="line">g.add_legend()</span><br></pre></td></tr></table></figure>
 </li>
 <li><p><code>seaborn.PairGrid</code>(<em>**kwargs</em>)</p>
 <p>用于在数据集中绘制成对关系的子图网格</p>
@@ -1343,10 +1023,7 @@ g.add_legend()</code></pre>
 </ul>
 </li>
 </ul>
-<h3 id="heatmap"><a href="#heatmap" class="headerlink" title="heatmap"></a>heatmap</h3><pre><code class="hljs python">seaborn.heatmap(data, vmin=<span class="hljs-literal">None</span>, vmax=<span class="hljs-literal">None</span>, cmap=<span class="hljs-literal">None</span>, center=<span class="hljs-literal">None</span>, robust=<span class="hljs-literal">False</span>, annot=<span class="hljs-literal">None</span>, fmt=<span class="hljs-string">&#x27;.2g&#x27;</span>, 
-annot_kws=<span class="hljs-literal">None</span>,linewidths=<span class="hljs-number">0</span>, linecolor=<span class="hljs-string">&#x27;white&#x27;</span>, cbar=<span class="hljs-literal">True</span>, cbar_kws=<span class="hljs-literal">None</span>, cbar_ax=<span class="hljs-literal">None</span>, square=<span class="hljs-literal">False</span>, 
-xticklabels=<span class="hljs-string">&#x27;auto&#x27;</span>, yticklabels=<span class="hljs-string">&#x27;auto&#x27;</span>,mask=<span class="hljs-literal">None</span>, ax=<span class="hljs-literal">None</span>, **kwargs)
-</code></pre>
+<h3 id="heatmap"><a href="#heatmap" class="headerlink" title="heatmap"></a>heatmap</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">seaborn.heatmap(data, vmin=<span class="literal">None</span>, vmax=<span class="literal">None</span>, cmap=<span class="literal">None</span>, center=<span class="literal">None</span>, robust=<span class="literal">False</span>, annot=<span class="literal">None</span>, fmt=<span class="string">&#x27;.2g&#x27;</span>, </span><br><span class="line">annot_kws=<span class="literal">None</span>,linewidths=<span class="number">0</span>, linecolor=<span class="string">&#x27;white&#x27;</span>, cbar=<span class="literal">True</span>, cbar_kws=<span class="literal">None</span>, cbar_ax=<span class="literal">None</span>, square=<span class="literal">False</span>, </span><br><span class="line">xticklabels=<span class="string">&#x27;auto&#x27;</span>, yticklabels=<span class="string">&#x27;auto&#x27;</span>,mask=<span class="literal">None</span>, ax=<span class="literal">None</span>, **kwargs)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>参数：<code>data</code>：矩形数据集</p>
 <blockquote>
 <p>可以强制转换为ndarray格式数据的2维数据集。如果提供了Pandas DataFrame数据，索引/列信息将用于标记列和行。</p>
