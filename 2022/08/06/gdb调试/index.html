@@ -168,7 +168,13 @@
 <p>f:表示addr指向的内存内容的输出格式，s对应输出字符串，此处需特别注意输出整型数据的格式：<br>  x 按十六进制格式显示变量.<br>  d 按十进制格式显示变量。<br>  u 按十进制格式显示无符号整型。<br>  o 按八进制格式显示变量。<br>  t 按二进制格式显示变量。<br>  a 按十六进制格式显示变量。<br>  c 按字符格式显示变量。<br>  f 按浮点数格式显示变量。</p>
 <p>u:就是指以多少个字节作为一个内存单元-unit,默认为4。u还可以用被一些字符表示:<br>  如b=1 byte, h=2 bytes,w=4 bytes,g=8 bytes.</p>
 <p><addr>:表示内存地址。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs plaintext"><br>8. set  将一个地址的值修改为相应的值<br><br>pwntools context 使用<br><br>context 是 pwntools 用来设置环境的功能。在很多时候，由于二进制文件的情况不同，我们可能需要进行一些环境设置才能够正常运行exp，比如有一些需要进行汇编，但是32的汇编和64的汇编不同，如果不设置context会导致一些问题。<br><br></code></pre></td></tr></table></figure>
+<pre><code class="hljs plaintext">
+8. set  将一个地址的值修改为相应的值
+
+pwntools context 使用
+
+context 是 pwntools 用来设置环境的功能。在很多时候，由于二进制文件的情况不同，我们可能需要进行一些环境设置才能够正常运行exp，比如有一些需要进行汇编，但是32的汇编和64的汇编不同，如果不设置context会导致一些问题。
+</code></pre>
 <p>context(os=’linux’, arch=’amd64’, log_level=’debug’)</p>
 </li>
 <li>os设置系统为linux系统，在完成ctf题目的时候，大多数pwn题目的系统都是linux</li>

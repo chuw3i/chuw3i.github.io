@@ -147,7 +147,10 @@
 </blockquote>
 <h3 id="IDA-Pro创建结构体"><a href="#IDA-Pro创建结构体" class="headerlink" title="IDA Pro创建结构体"></a>IDA Pro创建结构体</h3><h4 id="手工创建"><a href="#手工创建" class="headerlink" title="手工创建"></a>手工创建</h4><p>创建结构体是在 IDA 的 structures 窗口中进行的，这个操作在<code>堆漏洞的pwn题中经常使用</code></p>
 <p>打开<code>view -&gt; open subviews -&gt; Structures</code>，快捷键为<code>shift+F9</code></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">Ins/Del : create/delete structure  创建和删除结构体<br>D/A/* : create structure member (data/ascii/array)   添加不同类型的结构体成员，<br>N : rename structure or structure member               对结构体或结构体成员重命名<br>U : delete structure member                        删除结构体成员<br></code></pre></td></tr></table></figure>
+<pre><code class="hljs plaintext">Ins/Del : create/delete structure  创建和删除结构体
+D/A/* : create structure member (data/ascii/array)   添加不同类型的结构体成员，
+N : rename structure or structure member               对结构体或结构体成员重命名
+U : delete structure member                        删除结构体成员</code></pre>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202204192032347.png" alt="image-20220419201934458"></p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202204192032349.png" alt="image-20220419202249658"></p>
 <p>前两个复选框用于决定新结构体在结构体窗口中的显示位置，或者是否在窗口中显示新结构体，第三个复选框是指定创建联合体，这里我们改完名字后直接点OK，界面中就出现了一个空的结构体</p>

