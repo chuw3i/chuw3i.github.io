@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>lab2 实验报告 | chuwei'blog</title><meta name="keywords" content="os"><meta name="author" content="chuwei"><meta name="copyright" content="chuwei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="lab2实验报告练习1：实现 first-fit 连续物理内存分配算法先熟悉两个数据结构:  每一个物理页的属性结构:  123456struct Page &amp;#123;    int ref;                        &#x2F;&#x2F; page frame&amp;#x27;s reference counter    uint32_t flags;                 &#x2F;&#x2F; ar">
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>lab2 实验报告 | chuwei'blog</title><meta name="keywords" content="os"><meta name="author" content="chuwei"><meta name="copyright" content="chuwei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="lab2实验报告练习1：实现 first-fit 连续物理内存分配算法先熟悉两个数据结构:  每一个物理页的属性结构:  struct Page &amp;#123;     int ref;                        &#x2F;&#x2F; page frame&#39;s reference counter     uint32_t flags;                 &#x2F;&#x2F; array of fl">
 <meta property="og:type" content="article">
 <meta property="og:title" content="lab2 实验报告">
 <meta property="og:url" content="http://wysyrg.github.io/2022/08/06/lab2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/index.html">
 <meta property="og:site_name" content="chuwei&#39;blog">
-<meta property="og:description" content="lab2实验报告练习1：实现 first-fit 连续物理内存分配算法先熟悉两个数据结构:  每一个物理页的属性结构:  123456struct Page &amp;#123;    int ref;                        &#x2F;&#x2F; page frame&amp;#x27;s reference counter    uint32_t flags;                 &#x2F;&#x2F; ar">
+<meta property="og:description" content="lab2实验报告练习1：实现 first-fit 连续物理内存分配算法先熟悉两个数据结构:  每一个物理页的属性结构:  struct Page &amp;#123;     int ref;                        &#x2F;&#x2F; page frame&#39;s reference counter     uint32_t flags;                 &#x2F;&#x2F; array of fl">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://wysyrg.github.io/img/973119.jpg">
 <meta property="article:published_time" content="2022-08-06T02:41:45.526Z">
@@ -17,7 +17,7 @@
   localSearch: undefined,
   translate: undefined,
   noticeOutdate: undefined,
-  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  highlight: undefined,
   copy: {
     success: '复制成功',
     error: '复制错误',
@@ -142,45 +142,178 @@
       }
     }
     detectApple()
-    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/1597994478373.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">43</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">chuwei'blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">lab2 实验报告</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.526Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-09-29T15:13:13.484Z" title="更新于 2021-09-29 23:13:13">2021-09-29</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="lab2 实验报告"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h2 id="lab2实验报告"><a href="#lab2实验报告" class="headerlink" title="lab2实验报告"></a>lab2实验报告</h2><h3 id="练习1：实现-first-fit-连续物理内存分配算法"><a href="#练习1：实现-first-fit-连续物理内存分配算法" class="headerlink" title="练习1：实现 first-fit 连续物理内存分配算法"></a>练习1：实现 first-fit 连续物理内存分配算法</h3><p>先熟悉两个数据结构:</p>
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"><link rel="stylesheet" href="/css/prism-vs.css" type="text/css"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/1597994478373.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">42</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">7</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">2</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">chuwei'blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">lab2 实验报告</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-08-06T02:41:45.526Z" title="发表于 2022-08-06 10:41:45">2022-08-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-09-29T15:13:13.484Z" title="更新于 2021-09-29 23:13:13">2021-09-29</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="lab2 实验报告"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h2 id="lab2实验报告"><a href="#lab2实验报告" class="headerlink" title="lab2实验报告"></a>lab2实验报告</h2><h3 id="练习1：实现-first-fit-连续物理内存分配算法"><a href="#练习1：实现-first-fit-连续物理内存分配算法" class="headerlink" title="练习1：实现 first-fit 连续物理内存分配算法"></a>练习1：实现 first-fit 连续物理内存分配算法</h3><p>先熟悉两个数据结构:</p>
 <ol>
 <li>每一个物理页的属性结构:</li>
 </ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Page</span> &#123;</span></span><br><span class="line">    <span class="type">int</span> ref;                        <span class="comment">// page frame&#x27;s reference counter</span></span><br><span class="line">    <span class="type">uint32_t</span> flags;                 <span class="comment">// array of flags that describe the status of the page frame</span></span><br><span class="line">    <span class="type">unsigned</span> <span class="type">int</span> property;          <span class="comment">// the num of free block, used in first fit pm manager</span></span><br><span class="line">    <span class="type">list_entry_t</span> page_link;         <span class="comment">// free list link</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">struct Page &#123;
+    int ref;                        // page frame's reference counter
+    uint32_t flags;                 // array of flags that describe the status of the page frame
+    unsigned int property;          // the num of free block, used in first fit pm manager
+    list_entry_t page_link;         // free list link
+&#125;;
+</code></pre>
 <blockquote>
 <p>1、ref表示这样页被页表的引用记数，应该就是映射此物理页的虚拟页个数。如果这个页被页表引用了，即在某页表中有一个页表项设置了一个虚拟页到这个Page管理的物理页的映射关系，就会把Page的ref加一；反之，若页表项取消，即映射关系解除，就会把Page的ref减一。<br>2、这表示flags目前用到了两个bit表示页目前具有的两种属性，bit 0表示此页是否被保留（reserved），如果是被保留的页，则bit 0会设置为1，且不能放到空闲页链表中，即这样的页不是空闲页，不能动态分配与释放。比如目前内核代码占用的空间就属于这样“被保留”的页。在本实验中，bit 1表示此页是否是free的，如果设置为1，表示这页是free的，可以被分配；如果设置为0，表示这页已经被分配出去了，不能被再二次分配。 </p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;* Flags describing the status of a page frame */</span><br><span class="line">&gt;<span class="meta">#<span class="keyword">define</span> PG_reserved                 0       <span class="comment">// the page descriptor is reserved for kernel or unusable</span></span></span><br><span class="line">&gt;<span class="meta">#<span class="keyword">define</span> PG_property                 1       <span class="comment">// the member &#x27;property&#x27; is valid</span></span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">* Flags describing the status of a page frame */
+#define PG_reserved                 0       // the page descriptor is reserved for kernel or unusable
+#define PG_property                 1       // the member 'property' is valid
+</code></pre>
 <p>3、Page数据结构的成员变量property用来记录某连续内存空闲块的大小（即地址连续的空闲页的个数）。这里需要注意的是用到此成员变量的这个Page比较特殊，是这个连续内存空闲块地址最小的一页（即头一页， Head Page）。连续内存空闲块利用这个页的成员变量property来记录在此块内的空闲页的个数。这里去的名字property也不是很直观，原因与上面类似，在不同的页分配算法中，property有不同的含义。<br>4、Page数据结构的成员变量page_link是便于把多个连续内存空闲块链接在一起的双向链表指针。这里需要注意的是用到此成员变量的这个Page比较特殊，是这个连续内存空闲块地址最小的一页（即头一页， Head Page）。连续内存空闲块利用这个页的成员变量page_link来链接比它地址小和大的其他连续内存空闲块。</p>
 </blockquote>
 <ol>
 <li>一个双向链表，负责管理所有的连续内存空闲块，便于分配和释放。</li>
 </ol>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* free_area_t - maintains a doubly linked list to record free (unused) pages */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">            <span class="type">list_entry_t</span> free_list;                                <span class="comment">// the list header</span></span><br><span class="line">            <span class="type">unsigned</span> <span class="type">int</span> nr_free;                                 <span class="comment">// # of free pages in this free list</span></span><br><span class="line">&#125; <span class="type">free_area_t</span>;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">/* free_area_t - maintains a doubly linked list to record free (unused) pages */
+typedef struct &#123;
+            list_entry_t free_list;                                // the list header
+            unsigned int nr_free;                                 // # of free pages in this free list
+&#125; free_area_t;
+</code></pre>
 <blockquote>
 <ul>
 <li><code>free_list</code>是一个list_entry结构的双向链表指针</li>
 <li><code>nr_free</code>则记录当前空闲页的个数</li>
 </ul>
 </blockquote>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">关键变量：</span><br><span class="line"><span class="meta">#<span class="keyword">define</span> free_list (free_area.free_list)   <span class="comment">//空闲块的链表</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> nr_free (free_area.nr_free)      <span class="comment">//空闲块的个数</span></span></span><br><span class="line">关键函数：</span><br><span class="line">list_init(&amp;free_list);<span class="comment">//初始空闲块链表</span></span><br><span class="line">SetPageProperty(base); </span><br><span class="line"><span class="comment">/*#define SetPageProperty(page) set_bit(PG_property, &amp;((page)-&gt;flags))</span></span><br><span class="line"><span class="comment">扩展到:</span></span><br><span class="line"><span class="comment">set_bit(1, &amp;((p)-&gt;flags))*/</span></span><br><span class="line">ClearPageProperty(base);</span><br><span class="line"><span class="comment">/*#define ClearPageProperty(page) clear_bit(PG_property, &amp;((page)-&gt;flags))</span></span><br><span class="line"><span class="comment">扩展到:</span></span><br><span class="line"><span class="comment">clear_bit(1, &amp;((pp)-&gt;flags))*/</span></span><br><span class="line">关键宏:</span><br><span class="line">le2page(le,page_link); <span class="comment">//由链表指针得到对应页的地址</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">关键变量：
+#define free_list (free_area.free_list)   //空闲块的链表
+#define nr_free (free_area.nr_free)      //空闲块的个数
+关键函数：
+list_init(&free_list);//初始空闲块链表
+SetPageProperty(base); 
+/*#define SetPageProperty(page) set_bit(PG_property, &((page)->flags))
+扩展到:
+set_bit(1, &((p)->flags))*/
+ClearPageProperty(base);
+/*#define ClearPageProperty(page) clear_bit(PG_property, &((page)->flags))
+扩展到:
+clear_bit(1, &((pp)->flags))*/
+关键宏:
+le2page(le,page_link); //由链表指针得到对应页的地址
+</code></pre>
 <p>实验一中可能会修改<code>default_pmm.c</code>中的<code>default_init</code>，<code>default_init_memmap</code>，<code>default_alloc_pages</code>， <code>default_free_pages</code>等相关函数。</p>
 <ul>
 <li>首先查看<code>default_init</code>中的内容，发现仅有对空闲内存块链表的初始化以及将总空闲数目置零的操作，这是与具体物理内存分配算法无关的，因此直接使用默认的函数实现即可；</li>
 </ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">default_init</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">    list_init(&amp;free_list);</span><br><span class="line">    nr_free = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">static void default_init(void) &#123;
+    list_init(&free_list);
+    nr_free = 0;
+&#125;
+</code></pre>
 <ul>
 <li><p>接下来为<code>default_init_memmap</code>函数，这个函数是用来初始化空闲页链表的,初始化每一个空闲页，然后计算空闲页的总数。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span>) default_init_memmap:  CALL GRAPH: kern_init --&gt; pmm_init--&gt;page_init--&gt;init_memmap--&gt; pmm_manager-&gt;init_memmap</span><br><span class="line"> *              This fun is used to init a <span class="built_in">free</span> <span class="title function_">block</span> <span class="params">(with parameter: addr_base, page_number)</span>.</span><br><span class="line"> *              First you should init each <span class="title function_">page</span> <span class="params">(in memlayout.h)</span> in this <span class="built_in">free</span> block, include:</span><br><span class="line"> *                  p-&gt;flags should be <span class="built_in">set</span> bit <span class="title function_">PG_property</span> <span class="params">(means this page is valid. In pmm_init fun (in pmm.c),the bit PG_reserved is setted in p-&gt;flags)</span></span><br><span class="line"> *                  <span class="keyword">if</span> this page  is <span class="built_in">free</span> and is not the first page of <span class="built_in">free</span> block, p-&gt;property should be <span class="built_in">set</span> to 0.</span><br><span class="line"> *                  <span class="keyword">if</span> this page  is <span class="built_in">free</span> and is the first page of <span class="built_in">free</span> block, p-&gt;property should be <span class="built_in">set</span> to total num of block.</span><br><span class="line"> *                  p-&gt;ref should be 0, because now p is <span class="built_in">free</span> and no reference.</span><br><span class="line"> *                  We can use p-&gt;page_link to link this page to free_list, <span class="params">(such as: list_add_before(&amp;free_list, &amp;(p-&gt;page_link)); )</span></span><br><span class="line"> *              Finally, we should sum the number of <span class="built_in">free</span> mem block: nr_free+=n</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">3) default_init_memmap:  CALL GRAPH: kern_init --> pmm_init-->page_init-->init_memmap--> pmm_manager->init_memmap
+ *              This fun is used to init a free block (with parameter: addr_base, page_number).
+ *              First you should init each page (in memlayout.h) in this free block, include:
+ *                  p->flags should be set bit PG_property (means this page is valid. In pmm_init fun (in pmm.c),the bit PG_reserved is setted in p->flags)
+ *                  if this page  is free and is not the first page of free block, p->property should be set to 0.
+ *                  if this page  is free and is the first page of free block, p->property should be set to total num of block.
+ *                  p->ref should be 0, because now p is free and no reference.
+ *                  We can use p->page_link to link this page to free_list, (such as: list_add_before(&free_list, &(p->page_link)); )
+ *              Finally, we should sum the number of free mem block: nr_free+=n
+</code></pre>
 <p>由注释可对代码进行修改</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">default_init_memmap</span><span class="params">(<span class="keyword">struct</span> Page *base, <span class="type">size_t</span> n)</span> &#123;</span><br><span class="line">    assert(n &gt; <span class="number">0</span>);</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Page</span> *<span class="title">p</span> =</span> base;</span><br><span class="line">    <span class="keyword">for</span> (; p != base + n; p ++) &#123;</span><br><span class="line">        assert(PageReserved(p));</span><br><span class="line">        p-&gt;flags = p-&gt;property = <span class="number">0</span>;   <span class="comment">//p-&gt;flags应该背设置为p-&gt;property,且如果这个页面是空闲的，并且不是空闲块的第一页，p-&gt;property应该设置为0。</span></span><br><span class="line">        SetPageProperty(p);</span><br><span class="line">        set_page_ref(p, <span class="number">0</span>);    <span class="comment">//p是空闲的，没有被引用,即清空引用</span></span><br><span class="line">        list_add_before(&amp;free_list, &amp;(p-&gt;page_link));<span class="comment">//插入空闲的列表引用中</span></span><br><span class="line">    &#125;</span><br><span class="line">     <span class="comment">//接下来对空闲块的第一个页的Page结构进行初始化，具体实现为将其表示空闲块大小的成员变量设置为作为参数传入的空闲块大小（单位为页），然后更新存储所有空闲页数量的全局变量</span></span><br><span class="line">    nr_free += n;      <span class="comment">//计算所有空闲块数量</span></span><br><span class="line">    base-&gt;property = n;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">static void default_init_memmap(struct Page *base, size_t n) &#123;
+    assert(n > 0);
+    struct Page *p = base;
+    for (; p != base + n; p ++) &#123;
+        assert(PageReserved(p));
+        p->flags = p->property = 0;   //p->flags应该背设置为p->property,且如果这个页面是空闲的，并且不是空闲块的第一页，p->property应该设置为0。
+        SetPageProperty(p);
+        set_page_ref(p, 0);    //p是空闲的，没有被引用,即清空引用
+        list_add_before(&free_list, &(p->page_link));//插入空闲的列表引用中
+    &#125;
+     //接下来对空闲块的第一个页的Page结构进行初始化，具体实现为将其表示空闲块大小的成员变量设置为作为参数传入的空闲块大小（单位为页），然后更新存储所有空闲页数量的全局变量
+    nr_free += n;      //计算所有空闲块数量
+    base->property = n;  
+&#125;
+</code></pre>
 </li>
 <li><p>接下来为<code>default_alloc_pages</code>,该函数的具体功能为分配指定页数的连续空闲物理空间，并且将第一页的Page结构的指针作为结果返回</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="keyword">struct</span> Page *<span class="title function_">default_alloc_pages</span><span class="params">(<span class="type">size_t</span> n)</span> &#123;</span><br><span class="line">    assert(n &gt; <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (n &gt; nr_free) &#123;          <span class="comment">//如果所有的空闲野加起来都不够，那直接返回NULL</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="type">list_entry_t</span> *len;</span><br><span class="line">    <span class="type">list_entry_t</span> *le = &amp;free_list;</span><br><span class="line">    <span class="keyword">while</span> ((le = list_next(le)) != &amp;free_list) &#123;   <span class="comment">//le从空闲块的头指针开始向下寻找，直到返回至头指针处</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">Page</span> *<span class="title">p</span> =</span> le2page(le, page_link);  <span class="comment">//将地址转换成页的结构</span></span><br><span class="line">        <span class="keyword">if</span> (p-&gt;property &gt;= n) &#123;        <span class="comment">//如果该块大小大于n，则直接选中</span></span><br><span class="line">            <span class="type">int</span> i;</span><br><span class="line">            <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i++)&#123;        <span class="comment">//递归把选中的空闲块链表中的每一个页结构初始化</span></span><br><span class="line">                len=list_next(le);</span><br><span class="line">                <span class="class"><span class="keyword">struct</span> <span class="title">Page</span> *<span class="title">pp</span>=</span>le2page(le,page_link); <span class="comment">//让pp指向分配的那一页</span></span><br><span class="line">                SetPageReserved(pp);   <span class="comment">//被选到的页重置标志位</span></span><br><span class="line">                ClearPageProperty(pp);</span><br><span class="line">                list_del(le);         <span class="comment">//清除free_list中的链接</span></span><br><span class="line">                le=len;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(p-&gt;property&gt;n)&#123;          <span class="comment">//分割的页需要重新计算空闲块数量</span></span><br><span class="line">                (le2page(le,page_link))-&gt;property=p-&gt;property-n;</span><br><span class="line">            &#125;</span><br><span class="line">            ClearPageProperty(p);  <span class="comment">//第一页被再次重置标志位</span></span><br><span class="line">            SetPageReserved(p);</span><br><span class="line">            nr_free-=n;        <span class="comment">//重新计算剩余空闲块的数量    </span></span><br><span class="line">            <span class="keyword">return</span> p;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;        <span class="comment">//没有找到分配失败</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">static struct Page *default_alloc_pages(size_t n) &#123;
+    assert(n > 0);
+    if (n > nr_free) &#123;          //如果所有的空闲野加起来都不够，那直接返回NULL
+        return NULL;
+    &#125;
+    list_entry_t *len;
+    list_entry_t *le = &free_list;
+    while ((le = list_next(le)) != &free_list) &#123;   //le从空闲块的头指针开始向下寻找，直到返回至头指针处
+        struct Page *p = le2page(le, page_link);  //将地址转换成页的结构
+        if (p->property >= n) &#123;        //如果该块大小大于n，则直接选中
+            int i;
+            for(i=0;i<n;i++)&#123;        //递归把选中的空闲块链表中的每一个页结构初始化
+                len=list_next(le);
+                struct Page *pp=le2page(le,page_link); //让pp指向分配的那一页
+                SetPageReserved(pp);   //被选到的页重置标志位
+                ClearPageProperty(pp);
+                list_del(le);         //清除free_list中的链接
+                le=len;
+            &#125;
+            if(p->property>n)&#123;          //分割的页需要重新计算空闲块数量
+                (le2page(le,page_link))->property=p->property-n;
+            &#125;
+            ClearPageProperty(p);  //第一页被再次重置标志位
+            SetPageReserved(p);
+            nr_free-=n;        //重新计算剩余空闲块的数量    
+            return p;
+        &#125;
+    &#125;
+    return NULL;        //没有找到分配失败
+&#125;
+</code></pre>
 </li>
 <li><p>最后为 <code>default_free_pages</code>函数，该函数的具体功能为释放指定的某一物理页开始的若干个连续物理页，并且完成first-fit算法中需要的若干信息的维护。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">default_free_pages</span><span class="params">(<span class="keyword">struct</span> Page *base, <span class="type">size_t</span> n)</span> &#123;</span><br><span class="line">    assert(n &gt; <span class="number">0</span>);</span><br><span class="line">    assert(PageReserved(base));     <span class="comment">//检查页标志是否错误</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Page</span> *<span class="title">p</span> ;</span></span><br><span class="line">    <span class="type">list_entry_t</span> *le=&amp;free_list;   <span class="comment">//查找该插入的位置le</span></span><br><span class="line">    <span class="keyword">while</span>((le=list_next(le))!=&amp;free_list)&#123;</span><br><span class="line">        p=le2page(le,page_link);   <span class="comment">//将地址转换成页的结构</span></span><br><span class="line">        <span class="keyword">if</span>(p&gt;base)&#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span>(p=base;p&lt;base+n;p++)&#123; <span class="comment">//向le之前插入n个页，并设置标志位</span></span><br><span class="line">        list_add_before(le,&amp;(p-&gt;page_link));</span><br><span class="line">        p-&gt;flags=<span class="number">0</span>;</span><br><span class="line">        set_page_ref(p,<span class="number">0</span>);   <span class="comment">//ref-1</span></span><br><span class="line">        ClearPageProperty(p);</span><br><span class="line">        SetPageProperty(p);</span><br><span class="line">    &#125;</span><br><span class="line">    base-&gt;property=n;  <span class="comment">//将页块信息记录在头部</span></span><br><span class="line">    <span class="comment">//向高地址合并</span></span><br><span class="line">    p=le2page(le,page_link);</span><br><span class="line">    <span class="keyword">if</span>(base+n==p)&#123;</span><br><span class="line">        base-&gt;property+=p-&gt;property;</span><br><span class="line">        p-&gt;property=<span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//向低地址合并</span></span><br><span class="line">    le=list_prev(&amp;(base-&gt;page_link));</span><br><span class="line">    p=le2page(le,page_link);</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(le!=&amp;free_list&amp;&amp;p==base<span class="number">-1</span>)&#123;       <span class="comment">//若低地址已分配则不需要合并 </span></span><br><span class="line">        <span class="keyword">while</span> (le!=&amp;free_list)&#123;</span><br><span class="line">            <span class="keyword">if</span>(p-&gt;property)&#123;</span><br><span class="line">                p-&gt;property+=base-&gt;property;</span><br><span class="line">                base-&gt;property=<span class="number">0</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">             le=list_prev(le);</span><br><span class="line">             p=le2page(le,page_link);  </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    nr_free+=n;</span><br><span class="line">    <span class="keyword">return</span> ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">static void default_free_pages(struct Page *base, size_t n) &#123;
+    assert(n > 0);
+    assert(PageReserved(base));     //检查页标志是否错误
+    struct Page *p ;
+    list_entry_t *le=&free_list;   //查找该插入的位置le
+    while((le=list_next(le))!=&free_list)&#123;
+        p=le2page(le,page_link);   //将地址转换成页的结构
+        if(p>base)&#123;
+            break;
+        &#125;
+    &#125;
+    for(p=base;p<base+n;p++)&#123; //向le之前插入n个页，并设置标志位
+        list_add_before(le,&(p->page_link));
+        p->flags=0;
+        set_page_ref(p,0);   //ref-1
+        ClearPageProperty(p);
+        SetPageProperty(p);
+    &#125;
+    base->property=n;  //将页块信息记录在头部
+    //向高地址合并
+    p=le2page(le,page_link);
+    if(base+n==p)&#123;
+        base->property+=p->property;
+        p->property=0;
+    &#125;
+    //向低地址合并
+    le=list_prev(&(base->page_link));
+    p=le2page(le,page_link);
+
+    if(le!=&free_list&&p==base-1)&#123;       //若低地址已分配则不需要合并 
+        while (le!=&free_list)&#123;
+            if(p->property)&#123;
+                p->property+=base->property;
+                base->property=0;
+                break;
+            &#125;
+             le=list_prev(le);
+             p=le2page(le,page_link);  
+        &#125;
+    &#125;
+    nr_free+=n;
+    return ;
+&#125;
+</code></pre>
 <blockquote>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;<span class="type">static</span> <span class="keyword">inline</span> <span class="type">void</span></span><br><span class="line">&gt;list_add_before(<span class="type">list_entry_t</span> *listelm, <span class="type">list_entry_t</span> *elm) &#123;</span><br><span class="line">  __list_add(elm, listelm-&gt;prev, listelm);</span><br><span class="line">&gt;&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">static inline void
+list_add_before(list_entry_t *listelm, list_entry_t *elm) &#123;
+   __list_add(elm, listelm->prev, listelm);
+&#125;
+</code></pre>
 <p><code>list_add_before</code>:添加一个新成员</p>
 <p><code>listelm</code>:要添加的列表头</p>
 <p><code>elm</code>:要添加的新元素</p>
@@ -225,7 +358,35 @@
 <blockquote>
 <p>pde_t 全称为page directory entry，也就是一级页表的表项（注意：pgdir实际不是表项，而是一级页表本身，pgdir给出页表起始地址。）<br>pte_t 全称为page table entry，表示二级页表的表项。<br>uintptr_t 表示为线性地址，由于段式管理只做直接映射，所以它也是逻辑地址。</p>
 </blockquote>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">pte_t</span> *<span class="title function_">get_pte</span><span class="params">(<span class="type">pde_t</span> *pgdir, <span class="type">uintptr_t</span> la, <span class="type">bool</span> create)</span> &#123;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> 0</span></span><br><span class="line">    <span class="type">pde_t</span> *pdep = <span class="literal">NULL</span>;   <span class="comment">// (1) find page directory entry</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="number">0</span>) &#123;              <span class="comment">// (2) check if entry is not present</span></span><br><span class="line">                          <span class="comment">// (3) check if creating is needed, then alloc page for page table</span></span><br><span class="line">                          <span class="comment">// CAUTION: this page is used for page table, not for common data page</span></span><br><span class="line">                          <span class="comment">// (4) set page reference</span></span><br><span class="line">        <span class="type">uintptr_t</span> pa = <span class="number">0</span>; <span class="comment">// (5) get linear address of page</span></span><br><span class="line">                          <span class="comment">// (6) clear page content using memset</span></span><br><span class="line">                          <span class="comment">// (7) set page directory entry&#x27;s permission</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">NULL</span>;          <span class="comment">// (8) return page table entry</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">            <span class="type">pde_t</span> *pdep=&amp;pgdir[PDX(la)];  <span class="comment">//查找页面目录条目</span></span><br><span class="line">            <span class="keyword">if</span>(!(*pdep &amp; PTE_P))&#123;         </span><br><span class="line">               <span class="class"><span class="keyword">struct</span> <span class="title">Page</span> *<span class="title">page</span>;</span>        <span class="comment">//申请一页</span></span><br><span class="line">               <span class="keyword">if</span>(!create||(page=alloc_page())==<span class="literal">NULL</span>)&#123;     <span class="comment">//检查是否需要创建，然后为页表分配页</span></span><br><span class="line">                   <span class="keyword">return</span> <span class="literal">NULL</span>; </span><br><span class="line">               &#125; </span><br><span class="line">               set_page_ref(page,<span class="number">1</span>);  <span class="comment">//引用次数+1</span></span><br><span class="line">               <span class="type">uintptr_t</span> pa=page2pa(page);  <span class="comment">//获取页的线性地址</span></span><br><span class="line">               <span class="built_in">memset</span>(KADDR(pa),<span class="number">0</span>,PGSIZE);    <span class="comment">//清除页面内容</span></span><br><span class="line">               *pdep=pa|PTE_U|PTE_W|PTE_P;   <span class="comment">//设置权限</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> &amp;((<span class="type">pte_t</span> *)KADDR(PDE_ADDR(*pdep)))[PTX(la)];<span class="comment">//返回页表地址</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">pte_t *get_pte(pde_t *pgdir, uintptr_t la, bool create) &#123;
+
+#if 0
+    pde_t *pdep = NULL;   // (1) find page directory entry
+    if (0) &#123;              // (2) check if entry is not present
+                          // (3) check if creating is needed, then alloc page for page table
+                          // CAUTION: this page is used for page table, not for common data page
+                          // (4) set page reference
+        uintptr_t pa = 0; // (5) get linear address of page
+                          // (6) clear page content using memset
+                          // (7) set page directory entry's permission
+    &#125;
+    return NULL;          // (8) return page table entry
+#endif
+            pde_t *pdep=&pgdir[PDX(la)];  //查找页面目录条目
+            if(!(*pdep & PTE_P))&#123;         
+               struct Page *page;        //申请一页
+               if(!create||(page=alloc_page())==NULL)&#123;     //检查是否需要创建，然后为页表分配页
+                   return NULL; 
+               &#125; 
+               set_page_ref(page,1);  //引用次数+1
+               uintptr_t pa=page2pa(page);  //获取页的线性地址
+               memset(KADDR(pa),0,PGSIZE);    //清除页面内容
+               *pdep=pa|PTE_U|PTE_W|PTE_P;   //设置权限
+            &#125;
+            return &((pte_t *)KADDR(PDE_ADDR(*pdep)))[PTX(la)];//返回页表地址
+
+&#125;
+</code></pre>
 <ul>
 <li>请描述页目录项（Page Directory Entry）和页表项（Page Table Entry）中每个组成部分的含义以及对ucore而言的潜在用处。</li>
 <li>PDE（页目录项）的具体组成如下图所示；描述每一个组成部分的含义如下[1]：<ul>
@@ -277,7 +438,27 @@
 <p><code>tlb_invalidate(pde_t *pgdir, uintptr_t la)</code>:使TLB表项无效，但仅当页表处于编辑的是处理器当前正在使用的。</p>
 <p><code>PTE_P</code>   <code>0x001</code>     页表/目录条目标志位:存在 </p>
 </blockquote>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="keyword">inline</span> <span class="type">void</span></span><br><span class="line"><span class="title function_">page_remove_pte</span><span class="params">(<span class="type">pde_t</span> *pgdir, <span class="type">uintptr_t</span> la, <span class="type">pte_t</span> *ptep)</span> &#123;</span><br><span class="line"><span class="meta">#<span class="keyword">if</span> 0</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="number">0</span>) &#123;                      <span class="comment">//(1) check if this page table entry is present</span></span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">Page</span> *<span class="title">page</span> =</span> <span class="literal">NULL</span>; <span class="comment">//(2) find corresponding page to pte</span></span><br><span class="line">                                  <span class="comment">//(3) decrease page reference</span></span><br><span class="line">                                  <span class="comment">//(4) and free this page when page reference reachs 0</span></span><br><span class="line">                                  <span class="comment">//(5) clear second page table entry</span></span><br><span class="line">                                  <span class="comment">//(6) flush tlb</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span> </span></span><br><span class="line">        <span class="keyword">if</span>(*ptep&amp;PTE_P)&#123;                   <span class="comment">//判断页表中该项是否存在</span></span><br><span class="line">            <span class="class"><span class="keyword">struct</span> <span class="title">Page</span> *<span class="title">page</span>=</span>pte2page(*ptep);</span><br><span class="line">            <span class="keyword">if</span>(page_ref_dec(page)==<span class="number">0</span>)&#123;     <span class="comment">//判断是否只被引用一次</span></span><br><span class="line">                free_page(page);           <span class="comment">//若只被引用一次，则释放该页</span></span><br><span class="line">            &#125;</span><br><span class="line">            *ptep=<span class="number">0</span>;                      <span class="comment">//若被多次引用，不能释放此页，只能释放二级页表的表项</span></span><br><span class="line">            tlb_invalidate(pgdir,la);    <span class="comment">//更新页表</span></span><br><span class="line">         &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-lang-c"><code class="language-lang-c">static inline void
+page_remove_pte(pde_t *pgdir, uintptr_t la, pte_t *ptep) &#123;
+#if 0
+    if (0) &#123;                      //(1) check if this page table entry is present
+        struct Page *page = NULL; //(2) find corresponding page to pte
+                                  //(3) decrease page reference
+                                  //(4) and free this page when page reference reachs 0
+                                  //(5) clear second page table entry
+                                  //(6) flush tlb
+    &#125;
+#endif 
+        if(*ptep&PTE_P)&#123;                   //判断页表中该项是否存在
+            struct Page *page=pte2page(*ptep);
+            if(page_ref_dec(page)==0)&#123;     //判断是否只被引用一次
+                free_page(page);           //若只被引用一次，则释放该页
+            &#125;
+            *ptep=0;                      //若被多次引用，不能释放此页，只能释放二级页表的表项
+            tlb_invalidate(pgdir,la);    //更新页表
+         &#125;
+&#125;
+</code></pre>
 <ul>
 <li><p>数据结构Page的全局变量（其实是一个数组）的每一项与页表中的页目录项和页表项有无对应关系？如果有，其对应关系是啥？</p>
 <p>存在对应关系：由于页表项中存放着对应的物理页的物理地址，因此可以通过这个物理地址来获取到对应到的Page数组的对应项，具体做法为将物理地址除以一个页的大小，然后乘上一个Page结构的大小获得偏移量，使用偏移量加上Page数组的基地址皆可以或得到对应Page项的地址；</p>
