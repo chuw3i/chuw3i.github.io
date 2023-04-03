@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>tpm实验 | chuwei'blog</title><meta name="keywords" content="可信计算"><meta name="author" content="chuwei"><meta name="copyright" content="chuwei"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="实验一启动TPM相关服务12345678910#tpm-serversystemctl daemon-reloadsystemctl start tpm-server.serviceservice tpm-server status#tpm2-abrmdsystemctl daemon-reloadsystemctl start tpm2-abrmd.serviceservice tpm2-abr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tpm实验">
+<meta property="og:url" content="http://wysyrg.github.io/2023/03/27/tpm%E5%AE%9E%E9%AA%8C/index.html">
+<meta property="og:site_name" content="chuwei&#39;blog">
+<meta property="og:description" content="实验一启动TPM相关服务12345678910#tpm-serversystemctl daemon-reloadsystemctl start tpm-server.serviceservice tpm-server status#tpm2-abrmdsystemctl daemon-reloadsystemctl start tpm2-abrmd.serviceservice tpm2-abr">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://wysyrg.github.io/img/973119.jpg">
+<meta property="article:published_time" content="2023-03-27T14:07:42.000Z">
+<meta property="article:modified_time" content="2023-04-03T04:29:11.174Z">
+<meta property="article:author" content="chuwei">
+<meta property="article:tag" content="可信计算">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://wysyrg.github.io/img/973119.jpg"><link rel="shortcut icon" href="/img/1597994478373.jpeg"><link rel="canonical" href="http://wysyrg.github.io/2023/03/27/tpm%E5%AE%9E%E9%AA%8C/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'tpm实验',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: undefined,
+  isToc: true,
+  postUpdate: '2023-04-03 12:29:11'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/1597994478373.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">58</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">chuwei'blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">tpm实验</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-27T14:07:42.000Z" title="发表于 2023-03-27 22:07:42">2023-03-27</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-03T04:29:11.174Z" title="更新于 2023-04-03 12:29:11">2023-04-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%8F%AF%E4%BF%A1%E8%AE%A1%E7%AE%97/">可信计算</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="tpm实验"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h2 id="实验一"><a href="#实验一" class="headerlink" title="实验一"></a>实验一</h2><h3 id="启动TPM相关服务"><a href="#启动TPM相关服务" class="headerlink" title="启动TPM相关服务"></a>启动TPM相关服务</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#tpm-server</span></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl start tpm-server.service</span><br><span class="line">service tpm-server status</span><br><span class="line"></span><br><span class="line"><span class="comment">#tpm2-abrmd</span></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl start tpm2-abrmd.service</span><br><span class="line">service tpm2-abrmd status</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228946.png" alt="image-20230327221056073"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228947.png" alt="image-20230327225809121"></p>
+<h3 id="利用tpm2-tools提供的hash-函数生产文件度量值"><a href="#利用tpm2-tools提供的hash-函数生产文件度量值" class="headerlink" title="利用tpm2-tools提供的hash 函数生产文件度量值"></a>利用tpm2-tools提供的hash 函数生产文件度量值</h3><p>1.实验思路</p>
+<p>利用tpm-tools中生成文件hash值的命令：<code>tpm2_hash -H e -g sha1 -o hash.bin -t ticket.bin data.txt</code>对某数据文件进行度量，生成该文件的hash值，然后修改该文件，再进行度量，对比修改前后的文件哈希值。<br>2.实验步骤</p>
+<p>1）用vim命令创建一个data.txt数据文件，在data.txt数据文件中写入任意数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim data.txt</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228949.png" alt="image-20230327230816245"></p>
+<p>2）生成data.txt数据文件的度量值</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228950.png" alt="image-20230327231242119"></p>
+<p>3）修改文件</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228951.png" alt="image-20230327231310593"></p>
+<p>4）再次测量</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228952.png" alt="image-20230327231324565"></p>
+<p>5）对比可得，两次的文件度量值不同</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228953.png" alt="image-20230327231337982"></p>
+<h3 id="利用tpm实现对文件的加解密"><a href="#利用tpm实现对文件的加解密" class="headerlink" title="利用tpm实现对文件的加解密"></a>利用tpm实现对文件的加解密</h3><p>1.实验思路</p>
+<p>为了能够在不可信的存储上安全存储数据，利用tpm可信根，生成加密秘钥来对数据进行加密。利用模拟器实现整个加解密过程。<br>2.实验步骤</p>
+<p>1）利用takeownership实现对TPM所有权的访问认证设置。利用TPM所有权来实现证明现有身份，通过验证机密的知识来对所有权进行身份验证。其中-o 为作为所有者密码，-e为认可密码，-l为锁定密码。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tpm2_takeownership -o 1 -e 2 -l 3</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228954.png" alt="image-20230327231511267"></p>
+<p>2）创建主键对象，以使用创建的对象生成秘钥。利用-K后参数11作为对象密码，其秘钥为RSA秘钥且哈希函数为SHA256。并将对象保存在文件po.ctx。其中-p后为认可密码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tpm2_createprimary -H e -K 11 -g 0x000b -G 0x0001 -C po.ctx -P 2</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228955.png" alt="image-20230327231559100"></p>
+<p>可以看到po.ctx已经创建完毕</p>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228956.png" alt="image-20230327231609571"></p>
+<p>3）在主键背景下，创建一个RSA秘钥，产生公钥和私钥。-p为主键的对象密码，-K为子类密码，这里设置为11。公钥保存在key.pub中，私有秘钥存为key.priv</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tpm2_create -c po.ctx -P 11 -K 111 -g 0x000b -G 0x0001 -u key.pub -r key.priv</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228957.png" alt="image-20230327231713454"></p>
+<p>4）利用tp2_load命令使用认证秘钥加载创建的RSA秘钥，生成秘钥加载的对应信息obj.ctx</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tpm2_load -c po.ctx -P 11 -u key.pub -r key.priv -n key.name -C obj.ctx</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228958.png" alt="image-20230327231843166"></p>
+<p>5)利用tpm2_rsaencrypt加密函数利用创建的秘钥对第一个实验中的文件data.txt进行加密，生成加密文件data.encrypt</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tpm2_rsaencrypt -c obj.ctx -o data.encrypt data.txt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228959.png" alt="image-20230327232021901"></p>
+<p>6）最后利用tpm2_rsadecrypt解密函数对加密的输出进行解密，生成解密后的文件data.decrypt</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tpm2_rsadecrypt -c obj.ctx -I data.encrypt -P 111 -o data.decrypt</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228960.png" alt="image-20230327232036927"></p>
+<p>7）查看以下三个文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> data.decrypt</span><br><span class="line"><span class="built_in">cat</span> data.txt</span><br><span class="line"><span class="built_in">cat</span> data.encrypt</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228961.png" alt="image-20230327232143241"></p>
+<p>从上图可以看出，数据文件data.txt和解密后的data.decrypt内容一致，而data.encrypt中则是加密后的不可见字符。</p>
+<h3 id="利用TPM实现对文件进行签名，实现对文件完整性认证。"><a href="#利用TPM实现对文件进行签名，实现对文件完整性认证。" class="headerlink" title="利用TPM实现对文件进行签名，实现对文件完整性认证。"></a>利用TPM实现对文件进行签名，实现对文件完整性认证。</h3><p>1）利用takeownership实现对TPM所有权访问认证设置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tpm2_takeownership -o 1 -e 2 -l 3</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228962.png" alt="image-20230327232650344"></p>
+<p>2）创建主键对象</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tpm2_createprimary -H e -K 11 -g 0x000b -G 0x0001 -C po.ctx -P 2</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228955.png" alt="image-20230327231559100"></p>
+<p>3）生成RSA秘钥</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tpm2_create -c po.ctx -P 11 -K 111 -g 0x000b -G 0x0001 -u key.pub -r key.priv</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228963.png" alt="image-20230327233115720"></p>
+<p>4）利用tp2_load命令使用认证秘钥加载创建的RSA秘钥，生成秘钥加载的对应信息obj.ctx</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tpm2_load -c po.ctx -P 11 -u key.pub -r key.priv -n key.name -C obj.ctx</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228964.png" alt="image-20230327233156134"></p>
+<p>5）生成消息文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> “my message”&gt;message.dat</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228965.png" alt="image-20230327233217140"></p>
+<p>6）使用tpm2_sign利用加载的RSA秘钥对消息文件进行签名。生成签名文件sig.rssa</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tpm2_sign  -c obj.ctx -P 111 -g 0x000b -s sig.rssa -m message.dat</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228966.png" alt="image-20230327233225174"></p>
+<p>7）使用tmp2_verfysignature函数对文件和签名信息的一致性进行确认</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tpm2_verfysignature -c obj.ctx -g 0x000b -m message.dat -s sig.rssa -t tk.sig</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228967.png" alt="image-20230327233259716"></p>
+<p>8）将message.dat文件改名为messagel.dat，完整性认证成功</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span></span><br><span class="line"><span class="built_in">rm</span> tk.sig</span><br><span class="line"><span class="built_in">cat</span> message.dat</span><br><span class="line"><span class="built_in">mv</span> message.dat message1.dat</span><br><span class="line">tpm2_verifysignature -c obj.ctx -g 0x000b -m message1.dat -s sig.rssa -t tk.sig</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228968.png" alt="image-20230327233431977"></p>
+<p>9)更改message.date文件的内容，完整性认证失败：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> messagel.dat</span><br><span class="line"><span class="built_in">mv</span> messagel.dat message.dat</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;change message&quot;</span> &gt; message.dat</span><br><span class="line"><span class="built_in">cat</span> message.dat</span><br><span class="line"><span class="built_in">rm</span> tk.sig</span><br><span class="line">tpm2_verifysignature -c obj.ctx -g 0x000b -m message.dat -s sig.rssa -t tk.sig</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202304031228969.png" alt="image-20230327233558486"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="http://wysyrg.github.io">chuwei</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://wysyrg.github.io/2023/03/27/tpm%E5%AE%9E%E9%AA%8C/">http://wysyrg.github.io/2023/03/27/tpm%E5%AE%9E%E9%AA%8C/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://wysyrg.github.io" target="_blank">chuwei'blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%8F%AF%E4%BF%A1%E8%AE%A1%E7%AE%97/">可信计算</a></div><div class="post_share"><div class="social-share" data-image="/img/973119.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/03/25/musl-pwn%E5%AD%A6%E4%B9%A0/"><img class="next-cover" src="/img/973119.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">musl_pwn学习</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/03/20/TPM%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" title="TPM环境搭建"><img class="cover" src="/img/973119.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-20</div><div class="title">TPM环境搭建</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%AA%8C%E4%B8%80"><span class="toc-number">1.</span> <span class="toc-text">实验一</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%AF%E5%8A%A8TPM%E7%9B%B8%E5%85%B3%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.1.</span> <span class="toc-text">启动TPM相关服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8tpm2-tools%E6%8F%90%E4%BE%9B%E7%9A%84hash-%E5%87%BD%E6%95%B0%E7%94%9F%E4%BA%A7%E6%96%87%E4%BB%B6%E5%BA%A6%E9%87%8F%E5%80%BC"><span class="toc-number">1.2.</span> <span class="toc-text">利用tpm2-tools提供的hash 函数生产文件度量值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8tpm%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%96%87%E4%BB%B6%E7%9A%84%E5%8A%A0%E8%A7%A3%E5%AF%86"><span class="toc-number">1.3.</span> <span class="toc-text">利用tpm实现对文件的加解密</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A9%E7%94%A8TPM%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%96%87%E4%BB%B6%E8%BF%9B%E8%A1%8C%E7%AD%BE%E5%90%8D%EF%BC%8C%E5%AE%9E%E7%8E%B0%E5%AF%B9%E6%96%87%E4%BB%B6%E5%AE%8C%E6%95%B4%E6%80%A7%E8%AE%A4%E8%AF%81%E3%80%82"><span class="toc-number">1.4.</span> <span class="toc-text">利用TPM实现对文件进行签名，实现对文件完整性认证。</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2023 By chuwei</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
