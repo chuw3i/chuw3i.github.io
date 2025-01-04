@@ -1,15 +1,13 @@
 # Index
 
 
-&lt;!-- The `friends.yml` file placed in the `yourProject/data/` directory will be loaded automatically here. --&gt;
-
 ---
 
 &lt;!-- You can define additional content below for this page. --&gt;
 
 ## Friendly Reminder
 
-Comment like this:
+您可以按照以下格式编写友链信息，并发送到评论区(评论区还在开发)
 
 ````markdown
 ```yaml
@@ -20,17 +18,9 @@ Comment like this:
 ```
 ````
 
-{{&lt; admonition info &#34;Notice&#34; true &gt;}}
-
-1. If you want to exchange link, please leave a comment as the above format. (personal non-commercial blogs / websites only)
-2. :(fa-solid fa-exclamation-triangle): Website failure, stop maintenance and improper content may be unlinked!
-3. Those websites that do not respect other people&#39;s labor achievements, reprint without source, or malicious acts, please do not come to exchange.
-
-{{&lt; /admonition &gt;}}
-
 
 ---
 
 > 作者:   
-> URL: https://chuw3i.github.io/friends/  
+> URL: http://localhost:1313/friends/  
 
