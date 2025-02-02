@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chuwei的博客</title><link>http://localhost:1313/</link><description>chuwei的博客</description><generator>Hugo 0.142.0 &amp; FixIt v0.3.17-30a67c4b</generator><language>en</language><lastBuildDate>Sun, 05 Jan 2025 00:21:11 +0800</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml"/><item><title>PWN杂记</title><link>http://localhost:1313/posts/pwn%E6%9D%82%E8%AE%B0/</link><pubDate>Sat, 04 Jan 2025 23:41:43 +0800</pubDate><guid>http://localhost:1313/posts/pwn%E6%9D%82%E8%AE%B0/</guid><category domain="http://localhost:1313/categories/pwn/">Pwn</category><description>&lt;p>本文主要用于记录pwn题目的一些tips&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>chuwei的博客</title><link>http://localhost:1313/</link><description>chuwei的博客</description><generator>Hugo 0.143.0 &amp; FixIt v0.3.17-30a67c4b</generator><language>en</language><lastBuildDate>Sun, 05 Jan 2025 00:21:11 +0800</lastBuildDate><atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml"/><item><title>PWN杂记</title><link>http://localhost:1313/posts/pwn%E6%9D%82%E8%AE%B0/</link><pubDate>Sat, 04 Jan 2025 23:41:43 +0800</pubDate><guid>http://localhost:1313/posts/pwn%E6%9D%82%E8%AE%B0/</guid><category domain="http://localhost:1313/categories/pwn/">Pwn</category><description>&lt;p>本文主要用于记录pwn题目的一些tips&lt;/p>
 &lt;ul>
 &lt;li>
 &lt;p>gdb.attach(p,&amp;lsquo;b *0x40094c&amp;rsquo;)&lt;/p>
@@ -39,8 +39,7 @@
 &lt;blockquote>
 &lt;p>&lt;a href="https://bbs.pediy.com/thread-268245.htm"target="_blank" rel="external nofollow noopener noreferrer">https://bbs.pediy.com/thread-268245.htm&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://blog.csdn.net/huzai9527/article/details/121204850"target="_blank" rel="external nofollow noopener noreferrer">https://blog.csdn.net/huzai9527/article/details/121204850&lt;/a>&lt;/p>
-&lt;p>&lt;a href="https://www.jianshu.com/p/cc0bc578b951"target="_blank" rel="external nofollow noopener noreferrer">https://www.jianshu.com/p/cc0bc578b951&lt;/a>&lt;/p>
-&lt;/blockquote>
+&lt;p>&lt;a href="https://www.jianshu.com/p/cc0bc578b951"target="_blank" rel="external nofollow noopener noreferrer">https://www.jianshu.com/p/cc0bc578b951&lt;/a>&lt;/p>&lt;/blockquote>
 &lt;/li>
 &lt;li>
 &lt;p>IO_flush_all_lockp函数触发条件：&lt;/p>
@@ -2399,8 +2398,7 @@
 &lt;blockquote>
 &lt;p>起初我是对payload都进行了加密，发现在314偏移处存在解密后的数据，于是我对此进行任意地址写，但是发现这里程序会直接调用free，触发free_hook，这里我们仅仅只修改了一字节，会导致程序crash。&lt;/p>
 &lt;p>&lt;img loading="lazy" src="assets/202401150126787.png" alt="image-20240113022026079" srcset="assets/202401150126787.png?size=small, assets/202401150126787.png?size=medium 1.5x, assets/202401150126787.png?size=large 2x" data-title="image-20240113022026079" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
-&lt;p>但是为何会调用free的原因未知（下面exp中的方法就不会调用free)，我们可以考虑换一种方法，因为程序最后会调用exit(-1)，那么将exit_hook 修改为one_gadget 也是可以get shell 的。&lt;/p>
-&lt;/blockquote>
+&lt;p>但是为何会调用free的原因未知（下面exp中的方法就不会调用free)，我们可以考虑换一种方法，因为程序最后会调用exit(-1)，那么将exit_hook 修改为one_gadget 也是可以get shell 的。&lt;/p>&lt;/blockquote>
 &lt;p>本题的利用思路就是利用格式化字符串漏洞任意写free_hook 为system，然后发送加密后的&lt;code>&amp;quot;/bin/sh\x00&amp;quot;&lt;/code>字符串即可getshell。&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -3009,8 +3007,7 @@
 &lt;p>因此我们需要利用libc中的这样的gadget，来控制函数的参数，最后再调用所需要的函数。由于一个chunk的大小为0x200，所以我们需要在多个chunk 中布置rop链，通过pop rsp进行栈迁移。&lt;/p>
 &lt;blockquote>
 &lt;p>事实上我们可以调用mprotect 函数开辟rwx段写shellcode，这样所需的字节就会少很多&lt;/p>
-&lt;p>另外，由于程序是使用strlen 计算 要复制buf的长度，那么如果出现ROP链中出现&lt;code>&amp;quot;\x00&amp;quot;&lt;/code>，就会被截断，std::cin在读取字符时会跳过空白字符（空格、制表符、换行符等），所以我们需要额外判断一下，是分八字节写还是逐个字节写&lt;/p>
-&lt;/blockquote>
+&lt;p>另外，由于程序是使用strlen 计算 要复制buf的长度，那么如果出现ROP链中出现&lt;code>&amp;quot;\x00&amp;quot;&lt;/code>，就会被截断，std::cin在读取字符时会跳过空白字符（空格、制表符、换行符等），所以我们需要额外判断一下，是分八字节写还是逐个字节写&lt;/p>&lt;/blockquote>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -3554,20 +3551,17 @@
 &lt;p>注意到程序中的结构如下&lt;code>ptr-&amp;gt;heap-&amp;gt;content&lt;/code>&lt;/p>
 &lt;p>我们可以通过任意地址写将rax 写到 heap 中指向content的指针，那么通过show 就可以泄露libc地址。&lt;/p>
 &lt;blockquote>
-&lt;p>此时泄露完libc之后，可以像上面的解法一样，进行栈迁移后即可控制执行流程，且有了libc地址，可以直接利用pop rdi 这样的gadget了&lt;/p>
-&lt;/blockquote>
+&lt;p>此时泄露完libc之后，可以像上面的解法一样，进行栈迁移后即可控制执行流程，且有了libc地址，可以直接利用pop rdi 这样的gadget了&lt;/p>&lt;/blockquote>
 &lt;p>另一方面，我们可以利用这个任意地址写将程序中的数据结构指针末位置0，实现错位构造，从而实现任意读写。&lt;/p>
 &lt;p>可以看到如果我们将ptr中存储的heap 指针末尾置0，并在其置0的位置布置好content指针，就可以实现任意地址读。&lt;/p>
 &lt;blockquote>
-&lt;p>也可以将heap 存储的content指针末尾置0，通过edit content 就可以控制相应heap 中的content 指针和size，如heap2 heap3 heap4 heap5 heap6等，实现任意读写。&lt;/p>
-&lt;/blockquote>
+&lt;p>也可以将heap 存储的content指针末尾置0，通过edit content 就可以控制相应heap 中的content 指针和size，如heap2 heap3 heap4 heap5 heap6等，实现任意读写。&lt;/p>&lt;/blockquote>
 &lt;p>这里选择将&lt;code>0x13ca0e0&lt;/code>置0，即&lt;code>0x13ca000&lt;/code>,这个地址正好是heap0 的content指针偏移0x130处。&lt;/p>
 &lt;p>&lt;img loading="lazy" src="assets/202401082251018.png" alt="image-20240104214237746" srcset="assets/202401082251018.png?size=small, assets/202401082251018.png?size=medium 1.5x, assets/202401082251018.png?size=large 2x" data-title="image-20240104214237746" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;p>&lt;img loading="lazy" src="assets/202401082251019.png" alt="image-20240104214627963" srcset="assets/202401082251019.png?size=small, assets/202401082251019.png?size=medium 1.5x, assets/202401082251019.png?size=large 2x" data-title="image-20240104214627963" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;p>因此我们需要事先在heap0 的content指针偏移0x130布置好要读取的地址，然后利用异常处理中的任意地址写将prt+8处存储的heap 指针末位置0。&lt;/p>
 &lt;blockquote>
-&lt;p>需要注意，如果直接利用异常处理中的任意地址写将prt+8处存储的heap1指针末位置0，它也会影响ptr 中存储的heap0指针。因此我们需要稍微设置一下堆布局，add7次之后，将heap1-到heap6释放，接着再把他们申请回来，由于tcache中的FILO机制，会使ptrs+8-&amp;gt;ptrs+48 中的heap 指针逆序&lt;/p>
-&lt;/blockquote>
+&lt;p>需要注意，如果直接利用异常处理中的任意地址写将prt+8处存储的heap1指针末位置0，它也会影响ptr 中存储的heap0指针。因此我们需要稍微设置一下堆布局，add7次之后，将heap1-到heap6释放，接着再把他们申请回来，由于tcache中的FILO机制，会使ptrs+8-&amp;gt;ptrs+48 中的heap 指针逆序&lt;/p>&lt;/blockquote>
 &lt;p>&lt;img loading="lazy" src="assets/202401082251020.png" alt="image-20240104215334455" srcset="assets/202401082251020.png?size=small, assets/202401082251020.png?size=medium 1.5x, assets/202401082251020.png?size=large 2x" data-title="image-20240104215334455" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;p>这样错位写ptrs+48 中的末尾地址仅仅会影响ptrs+40，不会影响heap0指针。&lt;/p>
 &lt;p>&lt;img loading="lazy" src="assets/202401082251021.png" alt="image-20240104221426505" srcset="assets/202401082251021.png?size=small, assets/202401082251021.png?size=medium 1.5x, assets/202401082251021.png?size=large 2x" data-title="image-20240104221426505" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
@@ -4691,8 +4685,7 @@
 &lt;p>&lt;img loading="lazy" src="https://cdn.jsdelivr.net/gh/chuw3i/picodemo/img/202501042352502.png" alt="image-20230718223657200" srcset="https://cdn.jsdelivr.net/gh/chuw3i/picodemo/img/202501042352502.png?size=small, https://cdn.jsdelivr.net/gh/chuw3i/picodemo/img/202501042352502.png?size=medium 1.5x, https://cdn.jsdelivr.net/gh/chuw3i/picodemo/img/202501042352502.png?size=large 2x" data-title="image-20230718223657200" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;p>在&lt;code>sub_6B80&lt;/code>函数中，程序会遍历&lt;code>basicblock&lt;/code>中的每条指令，然后匹配指令名，根据结果以及指令参数情况来决定做什么操作。&lt;/p>
 &lt;blockquote>
-&lt;p>查看本机的&lt;code>/usr/include/llvm-8/llvm/IR/Instruction.def&lt;/code>，发现llvm-8中，call对应的操作符号为55&lt;/p>
-&lt;/blockquote>
+&lt;p>查看本机的&lt;code>/usr/include/llvm-8/llvm/IR/Instruction.def&lt;/code>，发现llvm-8中，call对应的操作符号为55&lt;/p>&lt;/blockquote>
 &lt;p>&lt;img loading="lazy" src="https://cdn.jsdelivr.net/gh/chuw3i/picodemo/img/202501042352503.png" alt="image-20230718221638961" srcset="https://cdn.jsdelivr.net/gh/chuw3i/picodemo/img/202501042352503.png?size=small, https://cdn.jsdelivr.net/gh/chuw3i/picodemo/img/202501042352503.png?size=medium 1.5x, https://cdn.jsdelivr.net/gh/chuw3i/picodemo/img/202501042352503.png?size=large 2x" data-title="image-20230718221638961" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;p>push和pop分析&lt;/p>
 &lt;p>程序定义了几个变量来模拟栈：reg1（off_20DFD0 中存储的是reg1的地址），reg2（off_20DFC0 中存储的是reg2的地址），stack（off_20DFD8 存储的是 stack 的地址），然后模拟出pop、push的操作：pop就是将栈中的值给寄存器，然后stack-8，push就是将寄存器中的值赋给栈，然后stack+8&lt;/p>
@@ -4939,8 +4932,7 @@
 &lt;/div>&lt;p>开头使用了movabs rax,0指令，占用0xa字节，3条inc 指令占用0xc指令，312条 &lt;code>mov rbx,val add rax，rbx&lt;/code>占用了&lt;code>312*13=0xFD8&lt;/code>字节,总共占用&lt;code>0xFEE&lt;/code>,那么我们在写一次&lt;code>mov rbx,val add rax，rbx&lt;/code>指令,那么此时val 正好位于&lt;code>0xff0&lt;/code>处，也就是我们要设置的&lt;code>jmp short offset&lt;/code> 指令&lt;/p>
 &lt;p>&lt;img loading="lazy" src="https://cdn.jsdelivr.net/gh/chuw3i/picodemo/img/202501042352529.png" alt="image-20240108203655401" srcset="https://cdn.jsdelivr.net/gh/chuw3i/picodemo/img/202501042352529.png?size=small, https://cdn.jsdelivr.net/gh/chuw3i/picodemo/img/202501042352529.png?size=medium 1.5x, https://cdn.jsdelivr.net/gh/chuw3i/picodemo/img/202501042352529.png?size=large 2x" data-title="image-20240108203655401" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
 &lt;blockquote>
-&lt;p>需要注意handle 是逆序处理我们编写的llvm IR 的&lt;/p>
-&lt;/blockquote>
+&lt;p>需要注意handle 是逆序处理我们编写的llvm IR 的&lt;/p>&lt;/blockquote>
 &lt;p>接下来再编写的IR使写入的指令恰好为0xff0，即&lt;code>10+3*9+311*13=0xff0&lt;/code>， %2 = add nsw i64 1024,1024 会写入两次&lt;code>mov rbx,val add rax，rbx&lt;/code>指令。&lt;/p>
 &lt;p>由于这题的&lt;code>LLVM IR&lt;/code>中指令的操作符只能是&lt;code>add&lt;/code>或&lt;code>sub&lt;/code>，故不能用&lt;code>C&lt;/code>语言直接编译生成&lt;code>LLVM IR&lt;/code>文件，不然会有很多其他的操作符。所以可以先用&lt;code>C&lt;/code>语言写两个空函数，再通过&lt;code>clang-12&lt;/code>对其编译生成&lt;code>ll&lt;/code>文件，然后直接在&lt;code>ll&lt;/code>文件中仿照之前的题目手写&lt;code>LLVM IR&lt;/code>即可。&lt;/p>
 &lt;h3 id="exp-2" class="heading-element">&lt;span>exp&lt;/span>
