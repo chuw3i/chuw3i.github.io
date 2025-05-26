@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on </title>
+    <link>//localhost:1313/tags/</link>
+    <description>Recent content in Tags on </description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 04 Jan 2025 23:47:07 +0800</lastBuildDate>
+    <atom:link href="//localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>杂记</title>
+      <link>//localhost:1313/tags/%E6%9D%82%E8%AE%B0/</link>
+      <pubDate>Sat, 04 Jan 2025 23:41:43 +0800</pubDate>
+      <guid>//localhost:1313/tags/%E6%9D%82%E8%AE%B0/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>赛题复现</title>
+      <link>//localhost:1313/tags/%E8%B5%9B%E9%A2%98%E5%A4%8D%E7%8E%B0/</link>
+      <pubDate>Fri, 29 Dec 2023 15:09:10 +0800</pubDate>
+      <guid>//localhost:1313/tags/%E8%B5%9B%E9%A2%98%E5%A4%8D%E7%8E%B0/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Stack</title>
+      <link>//localhost:1313/tags/stack/</link>
+      <pubDate>Thu, 30 Nov 2023 16:58:28 +0800</pubDate>
+      <guid>//localhost:1313/tags/stack/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Llvm</title>
+      <link>//localhost:1313/tags/llvm/</link>
+      <pubDate>Fri, 14 Jul 2023 22:12:27 +0800</pubDate>
+      <guid>//localhost:1313/tags/llvm/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

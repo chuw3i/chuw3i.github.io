@@ -1,6 +1,8 @@
 # 2023 12月比赛wp复现
 
 
+<!--more--> 
+
 ## 强网杯
 
 ### ez_fmt
@@ -67,9 +69,9 @@ while True:
 
 ```
 
-![image-20231216113044144](assets/202401150126736.png)
+![image-20231216113044144](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111725.png)
 
-![image-20231216113047514](assets/202401150126737.png)
+![image-20231216113047514](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111726.png)
 
 #### 解法二
 
@@ -298,7 +300,7 @@ sl(str(0x500))
 p.interactive()
 ```
 
-![image-20231216233836916](assets/202401150126738.png)
+![image-20231216233836916](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111727.png)
 
 
 
@@ -312,7 +314,7 @@ p.interactive()
 
 接下来通过构造chunk 结构，利用house of botcake 制造出重叠chunk，然后利用tcache 申请到free_hook 修改其为system，最后释放一个content为"/bin/sh\x00"的chunk 即可getshell
 
-![image-20231217171306456](assets/202401150126739.png)
+![image-20231217171306456](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111728.png)
 
 ```python
 from pwn import*
@@ -443,7 +445,7 @@ delete("chuwei2")
 p.interactive()
 ```
 
-![image-20231217110436821](assets/202401150126740.png)
+![image-20231217110436821](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111729.png)
 
 #### 解法二
 
@@ -545,7 +547,7 @@ p.interactive()
 
 程序实现一个c语言编译器，可以解析以下函数和类型。
 
-![image-20231217171750751](assets/202401150126741.png)
+![image-20231217171750751](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111730.png)
 
 那么我们利用malloc 和free 将一个chunk 释放到unsorted bin 中， 利用printf 打印出libc地址，然后tcache 的fd中写入free_hook，申请到free_hook 修改其为system，最后释放一个content为"/bin/sh\x00"的chunk 即可getshell。
 
@@ -628,17 +630,17 @@ s(p64(libc_base+libc.sym['system']))
 p.interactive()
 ```
 
-![image-20231217163443564](assets/202401150126743.png)
+![image-20231217163443564](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111731.png)
 
 ### WTOA
 
 参考链接：https://www.xp0int.top/posts/2023/12/18/2023-%E5%BC%BA%E7%BD%91%E6%9D%AF-Quals-Writeup-By-Xp0int/#11-chatting
 
-![Untitled](assets/202401150126744.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111732.png)
 
-![Untitled](assets/202401150126745.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111733.png)
 
-![Untitled](assets/202401150126746.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111734.png)
 
 从ida 中的function call 中猜测main函数为function[17]
 
@@ -646,7 +648,7 @@ ida 导出function cal
 
 先导出为test.gdl
 
-![Untitled](assets/202401150126747.jpeg)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111735.jpeg)
 
 ubuntu 执行
 
@@ -660,73 +662,73 @@ ubuntu 执行
 
 最终发现function_17_ 是符合要求的，因此我们可以在function_17 下断点验证我们的猜想
 
-![Untitled](assets/202401150126748.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111736.png)
 
 我们会发现，我们执行function 16会打印菜单字符串
 
-![Untitled](assets/202401150126749.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111737.png)
 
-![Untitled](assets/202401150126750.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111738.png)
 
 注意到function51 的第三个参数为0x477，而菜单字符串的地址为0x1b477，0x1b000正好是.rodata.wasm 段的起始地址，因此推断字符串的寻址应该为段基址+偏移
 
-![Untitled](assets/202401150126751.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111739.png)
 
 那么我们很容易得到各个函数的位置。
 
 接下来我们创建一些chunk ，观察结构。
 
-![Untitled](assets/202401150126752.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111740.png)
 
 发现note 结构体的一些内容如图所示，推测0x501cc0是note content的偏移，因为note content也是0xcc0 结尾的，而0x8 就是note 的size，还有一些特殊的值比如next 和prev  的note_struct 偏移，剩下的应该是一些特殊标志变量。
 
-![Untitled](assets/202401150126753.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111741.png)
 
-![Untitled](assets/202401150126754.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111742.png)
 
 接着分析主函数
 
 当我下断点在function 56 时，会发现要求我们输入
 
-![Untitled](assets/202401150126755.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111743.png)
 
 注意到rdx为0，rcx为0x501b20，r8为0x2，
 
 因此推测改函数实现了read 的功能`read(0,offset,0x2)` ，而真正的地址应该为段基址+offset
 
-![Untitled](assets/202401150126756.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111744.png)
 
 输入之前该地址的内容为空
 
-![Untitled](assets/202401150126757.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111745.png)
 
 输入之后`S\n` 之后正好为`'\x0a\x53'`
 
-![Untitled](assets/202401150126758.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111746.png)
 
 接下来根据读入的字符串 `-'A'` ，switch case进行选择功能
 
-![Untitled](assets/202401150126759.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111747.png)
 
 接下来还可以利用patch 讲function51的第三个参数加上0x1b000，方便我们观看，
 
 还可以推出function 24 类似于atoi函数
 
-![Untitled](assets/202401150126760.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111748.png)
 
 function 9里面调用了function 56read函数，进行逐个字节读入。
 
-![Untitled](assets/202401150126761.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111749.png)
 
-![Untitled](assets/202401150126762.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111750.png)
 
 在edit函数中存在一个明显的漏洞函数，当输入的length为0x345231时，我们可以读入0x30 字节。
 
-![Untitled](assets/202401150126763.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111751.png)
 
 程序开始时会读入flag ，位于我们创建的note struct 上方，因此，我们可以利用edit 的溢出，更改下一个chunk 的content 偏移，让它指向flag的位置，从而打印出flag。
 
-![Untitled](assets/202401150126764.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111752.png)
 
 ```python
 from pwn import*
@@ -800,21 +802,21 @@ p.interactive()
 
 查看backtrace，发现 #11和#13 是wtoa 中的代码，在#13下断点
 
-![Untitled](assets/202401150126765.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111753.png)
 
 当执行到这里时，会发现程序进入了add函数的逻辑，且程序存在异步，所以我们在下一条汇编指令下断点
 
-![Untitled](assets/202401150126766.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111754.png)
 
 发现其确实执行了add函数的逻辑，因此猜测0x7ff7d8b9b464所在函数就是主要逻辑
 
-![Untitled](assets/202401150126767.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111755.png)
 
 算出偏移，在ida 里面查看在function 17函数中
 
-![Untitled](assets/202401150126768.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111756.png)
 
-![Untitled](assets/202401150126769.png)
+![Untitled](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111757.png)
 
 那么经过调试也可以发现function 17为主要逻辑函数。
 
@@ -834,13 +836,13 @@ https://www.xp0int.top/posts/2023/12/18/2023-%E5%BC%BA%E7%BD%91%E6%9D%AF-Quals-W
 
 本题漏洞点在于对search 找到的end 下标没做限制，且会将flag 读入到secret处，当v3为0x40 时，就会泄露secret 处的值（每次泄露四字节），也就是flag。
 
-![image-20240115002736091](assets/202401150126770.png)
+![image-20240115002736091](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111758.png)
 
-![image-20240115002811398](assets/202401150126771.png)
+![image-20240115002811398](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111759.png)
 
 注意到每次insert 时并没有对tot 初始化，那么就给了我们机会让v3的值大于0x40
 
-![image-20240115003033484](assets/202401150126772.png)
+![image-20240115003033484](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111760.png)
 
 首先新增两个ip "0.0.0.0" "255.255.255.255"，这样会使tot 的值达到0x40
 
@@ -854,7 +856,7 @@ insert 函数首先从下标0开始寻找，如果trie对应的下标处值为0�
 
 此时tot 的值为0x40(也就是trie[127]的值为0x40），那么我们show("255.255.255.255")，就会找到trie[127]处的值0x40，打印end[0x40] 处的值，即flag 的前四字节。
 
-![image-20240115004343814](assets/202401150126773.png)
+![image-20240115004343814](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111761.png)
 
 那么我们如果让show找到trie[index] 处的值为0x41，0x42，0x43，......呢？我们只需add 一个ip，其ip值和（"0.0.0.0"或 "255.255.255.255" 其中之一）有1，2，3，...... 位的偏差即可
 
@@ -1119,39 +1121,39 @@ openssl rsa -in privatekey.pem -out public.pem -outform PEM -pubout
 
 ```
 
-![image-20240112200247729](assets/202401150126774.png)
+![image-20240112200247729](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111762.png)
 
 接着程序开启一个10000端口，并向该端口接收和发送数据
 
 进入start_routine 函数，主要有两个功能，register 和login，接收4字节，如果为yes， 则进入login 函数，如果不是，则进入register 函数。接下来先看register 功能
 
-![image-20240112202203477](assets/202401150126775.png)
+![image-20240112202203477](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111763.png)
 
 首先接收0x400字节的buf，buf 输入的内容后面进行介绍，接下来进行公钥验证，然后进入register 函数中
 
-![image-20240112211306960](assets/202401150126776.png)
+![image-20240112211306960](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111764.png)
 
 verify_key 函数中，会向1000端口的socket 链接发送public key，在1000端口的socket 链接中，我们接收到该pulbic key之后再发送给该程序即可
 
-![image-20240112212123823](assets/202401150126777.png)
+![image-20240112212123823](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111765.png)
 
 
 
 接下来进入register func 中，首先需要连接数据库，然后从a3（也就是上面说的0x400字节的buf ）前0x10 字节复制给user_name ，后面的0x30 字节复制给password。然后通过sql 语句查询用户是否存在，如果存在，打印该用户的的注册时间，如果不存在，则在表中创建该用户字段。
 
-![image-20240112214416104](assets/202401150126778.png)
+![image-20240112214416104](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111766.png)
 
 
 
 注意需要连接mysql 数据库，因此我们需要安装mysql，并创建`my_qq`  数据库， 这俩我选择下载phpstudy 集成环境，user 表的具体字段由ida 的反汇编代码得知
 
-![image-20240112203601236](assets/202401150126779.png)
+![image-20240112203601236](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111767.png)
 
-![image-20240112203937155](assets/202401150126780.png)
+![image-20240112203937155](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111768.png)
 
-![image-20240112211103792](assets/202401150126781.png)
+![image-20240112211103792](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111769.png)
 
-![image-20240112210912812](assets/202401150126782.png)
+![image-20240112210912812](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111770.png)
 
 接下来分析login 功能
 
@@ -1159,25 +1161,25 @@ verify_key 函数中，会向1000端口的socket 链接发送public key，在100
 
 
 
-![image-20240112220001934](assets/202401150126783.png) 
+![image-20240112220001934](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111771.png) 
 
 接着传输rc4 密钥，然后进入消息传递函数中，会对接收到的消息进行rc4 解密，然后打印
 
-![image-20240112221410349](assets/202401150126784.png)
+![image-20240112221410349](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111772.png)
 
 漏洞点即为格式化字符串漏洞
 
-![image-20240112221435604](assets/202401150126785.png)
+![image-20240112221435604](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111773.png)
 
 利用过程类似于栈上的格式化字符串漏洞，注意到dest，也就是rc4加密后的msg 的十六进制数据，其通过strlen进行计算长度的，如果我们通过在需要rc4加密后的数据上通过`"\x00"`填充，那么后面的数据就会截断，不会对其解密。
 
-![image-20240113020048534](assets/202401150126786.png)
+![image-20240113020048534](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111774.png)
 
 因此，我们在格式化字符串漏洞利用时只用对前面的`% size c% index hhn` 这些数据加密，`"\x00"`填充后跟上我们要篡改的地址即可。
 
 > 起初我是对payload都进行了加密，发现在314偏移处存在解密后的数据，于是我对此进行任意地址写，但是发现这里程序会直接调用free，触发free_hook，这里我们仅仅只修改了一字节，会导致程序crash。
 >
-> ![image-20240113022026079](assets/202401150126787.png)
+> ![image-20240113022026079](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111775.png)
 >
 > 但是为何会调用free的原因未知（下面exp中的方法就不会调用free)，我们可以考虑换一种方法，因为程序最后会调用exit(-1)，那么将exit_hook 修改为one_gadget 也是可以get shell 的。
 
@@ -1313,9 +1315,9 @@ p_server.interactive()
 
 本题开启的沙箱使用seccomp-tools 显示有点问题，应该是运行write 调用，但是要求fd为1，count 为1，read 要求fd为0，count为1。
 
-![image-20231229152406589](assets/202401082251012.png)
+![image-20231229152406589](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111776.png)
 
-![image-20231229153055090](assets/202401082251013.png)
+![image-20231229153055090](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111777.png)
 
 程序要求我们输入可见字符，我们先利用push pop 将rax设置成当前rip 的值，然后调用ae64 将我们的输入的shellcode转化为可见字符shellcode。
 
@@ -1479,11 +1481,11 @@ p.interactive()
 
 程序本身里有两个catch块，一个位于main中，一个位于cleanup函数中。
 
-![image-20231230175735581](assets/202401082251014.png)
+![image-20231230175735581](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111778.png)
 
 在edit中，会判断 输入的buf，通过strlen(buf)计算长度，并判断其是否超过size，如果超过，就进入异常处理。
 
-![image-20231230175820132](assets/202401082251015.png)
+![image-20231230175820132](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111779.png)
 
 在unwind过程中，存在恢复栈帧的过程，也就是leave_ret。
 
@@ -1800,9 +1802,9 @@ p.interactive()
 
 在main函数的catch 中会先执行`___cxa_begin_catch`，该函数会指向对象的指针
 
-![image-20240104212532070](assets/202401082251016.png)
+![image-20240104212532070](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111780.png)
 
-![image-20240104213002056](assets/202401082251017.png)
+![image-20240104213002056](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111781.png)
 
 该对象的前8字节指向libc c++ 中的vtable ，后8字节指向存储字符串的堆地址。
 
@@ -1824,19 +1826,19 @@ p.interactive()
 
 这里选择将`0x13ca0e0`置0，即`0x13ca000`,这个地址正好是heap0 的content指针偏移0x130处。
 
-![image-20240104214237746](assets/202401082251018.png)
+![image-20240104214237746](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111782.png)
 
-![image-20240104214627963](assets/202401082251019.png)
+![image-20240104214627963](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111783.png)
 
 因此我们需要事先在heap0 的content指针偏移0x130布置好要读取的地址，然后利用异常处理中的任意地址写将prt+8处存储的heap 指针末位置0。
 
 > 需要注意，如果直接利用异常处理中的任意地址写将prt+8处存储的heap1指针末位置0，它也会影响ptr 中存储的heap0指针。因此我们需要稍微设置一下堆布局，add7次之后，将heap1-到heap6释放，接着再把他们申请回来，由于tcache中的FILO机制，会使ptrs+8->ptrs+48 中的heap 指针逆序
 
-![image-20240104215334455](assets/202401082251020.png)
+![image-20240104215334455](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111784.png)
 
 这样错位写ptrs+48 中的末尾地址仅仅会影响ptrs+40，不会影响heap0指针。
 
-![image-20240104221426505](assets/202401082251021.png) 
+![image-20240104221426505](https://cdn.jsdelivr.net/gh/chuw3i/picodemo@main/img/202505262111785.png) 
 
 接下来就是先在heap0 的content指针偏移0x130处布置好got表，0x138 布置好长度，然后show(6)泄露libc
 
@@ -1965,5 +1967,5 @@ p.interactive()
 ---
 
 > 作者: chuwei  
-> URL: http://localhost:1313/posts/2023-12%E6%9C%88%E6%AF%94%E8%B5%9Bwp%E5%A4%8D%E7%8E%B0/  
+> URL: https://chuw3i.github.io/posts/2023-12%E6%9C%88%E6%AF%94%E8%B5%9Bwp%E5%A4%8D%E7%8E%B0/  
 

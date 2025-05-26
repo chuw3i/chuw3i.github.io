@@ -26,5 +26,5 @@
 ---
 
 > 作者: <no value>  
-> URL: http://localhost:1313/friends/  
+> URL: https://chuw3i.github.io/friends/  
 

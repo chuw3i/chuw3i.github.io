@@ -3,6 +3,8 @@
 
 该文用于收录一些比赛时不会的栈题目，仅记录一些做题思路。
 
+<!--more--> 
+
 ## geek challenge 2023
 
 ### ez_fullprotection
@@ -446,5 +448,5 @@ p.interactive()
 ---
 
 > 作者: chuwei  
-> URL: http://localhost:1313/posts/stack-challenge/  
+> URL: https://chuw3i.github.io/posts/stack-challenge/  
 

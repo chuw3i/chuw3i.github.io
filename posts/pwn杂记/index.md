@@ -3,6 +3,8 @@
 
 本文主要用于记录pwn题目的一些tips
 
+<!--more--> 
+
 - gdb.attach(p,'b *0x40094c') 
 
 - b *$rebase(0x相对基址偏移)0x 相对基址偏移就是 IDA 显示的三位数
@@ -302,5 +304,5 @@ io.interactive()
 ---
 
 > 作者: chuwei  
-> URL: http://localhost:1313/posts/pwn%E6%9D%82%E8%AE%B0/  
+> URL: https://chuw3i.github.io/posts/pwn%E6%9D%82%E8%AE%B0/  
 

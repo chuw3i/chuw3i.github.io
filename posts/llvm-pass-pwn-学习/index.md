@@ -5,6 +5,8 @@
 
 本文主要记录一下llvm pass pwn的学习过程。
 
+<!--more--> 
+
 ## 前言
 
 首先我们要了解一下llvm pass和llvm IR。
@@ -1571,5 +1573,5 @@ https://blog.csdn.net/weixin_46483787/article/details/125177862
 ---
 
 > 作者: chuwei  
-> URL: http://localhost:1313/posts/llvm-pass-pwn-%E5%AD%A6%E4%B9%A0/  
+> URL: https://chuw3i.github.io/posts/llvm-pass-pwn-%E5%AD%A6%E4%B9%A0/  
 

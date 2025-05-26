@@ -7,88 +7,32 @@
     <meta name="robots" content="noodp" />
     <title>PWN杂记 - </title><meta name="author" content="chuwei">
 <meta name="description" content="本文主要用于记录pwn题目的一些tips
-gdb.attach(p,&lsquo;b *0x40094c&rsquo;)
-b *$rebase(0x相对基址偏移)0x 相对基址偏移就是 IDA 显示的三位数
-strings libc.so.6|grep ubuntu
-strings libc.so.6|grep libc 查看libc 版本信息
-strings elf | grep GCC 查看libc 信息 但是不一定对，当编译环境和运行环境不一样时
-开启和关闭缓存区有什么区别
-开启的化printf 遇到\n才输出， 不开启 就直接输出
-%*6$c %7$n相当于%addr c %7$n *6为格式化字符串第六个参数中的值
-%p%10$n 前面已经输出的字符 是%p那里的值，比如0x7f60847b55a0
-finish 命令和 return 命令的区别是，finish 命令会执行函数到正常退出；而 return 命令是立即结束执行当前函数并返回，也就是说，如果当前函数还有剩余的代码未执行完毕，也不会执行了。除此之外，return 命令还有一个功能，即可以指定该函数的返回值。
-为了结束while的read循环while ( read(0, nptr, 0x10uLL) &gt; 0 )可以用p.shutdown(&#39;send&#39;)命令，不过不能再发送第二次了
-IDA 修复jmp rax
-https://bbs.pediy.com/thread-268245.htm
-https://blog.csdn.net/huzai9527/article/details/121204850
 "><meta name="keywords" content='杂记'>
   <meta itemprop="name" content="PWN杂记">
-  <meta itemprop="description" content="本文主要用于记录pwn题目的一些tips
-gdb.attach(p,‘b *0x40094c’)
-b *$rebase(0x相对基址偏移)0x 相对基址偏移就是 IDA 显示的三位数
-strings libc.so.6|grep ubuntu
-strings libc.so.6|grep libc 查看libc 版本信息
-strings elf | grep GCC 查看libc 信息 但是不一定对，当编译环境和运行环境不一样时
-开启和关闭缓存区有什么区别
-开启的化printf 遇到\n才输出， 不开启 就直接输出
-%*6$c %7$n相当于%addr c %7$n *6为格式化字符串第六个参数中的值
-%p%10$n 前面已经输出的字符 是%p那里的值，比如0x7f60847b55a0
-finish 命令和 return 命令的区别是，finish 命令会执行函数到正常退出；而 return 命令是立即结束执行当前函数并返回，也就是说，如果当前函数还有剩余的代码未执行完毕，也不会执行了。除此之外，return 命令还有一个功能，即可以指定该函数的返回值。
-为了结束while的read循环while ( read(0, nptr, 0x10uLL) &gt; 0 )可以用p.shutdown(&#39;send&#39;)命令，不过不能再发送第二次了
-IDA 修复jmp rax
-https://bbs.pediy.com/thread-268245.htm
-https://blog.csdn.net/huzai9527/article/details/121204850">
+  <meta itemprop="description" content="本文主要用于记录pwn题目的一些tips">
   <meta itemprop="datePublished" content="2025-01-04T23:41:43+08:00">
   <meta itemprop="dateModified" content="2025-01-04T23:41:43+08:00">
   <meta itemprop="wordCount" content="758">
-  <meta itemprop="image" content="http://localhost:1313/logo.jpg">
-  <meta itemprop="keywords" content="杂记"><meta property="og:url" content="http://localhost:1313/posts/pwn%E6%9D%82%E8%AE%B0/">
+  <meta itemprop="image" content="https://chuw3i.github.io/logo.jpg">
+  <meta itemprop="keywords" content="杂记"><meta property="og:url" content="https://chuw3i.github.io/posts/pwn%E6%9D%82%E8%AE%B0/">
   <meta property="og:title" content="PWN杂记">
-  <meta property="og:description" content="本文主要用于记录pwn题目的一些tips
-gdb.attach(p,‘b *0x40094c’)
-b *$rebase(0x相对基址偏移)0x 相对基址偏移就是 IDA 显示的三位数
-strings libc.so.6|grep ubuntu
-strings libc.so.6|grep libc 查看libc 版本信息
-strings elf | grep GCC 查看libc 信息 但是不一定对，当编译环境和运行环境不一样时
-开启和关闭缓存区有什么区别
-开启的化printf 遇到\n才输出， 不开启 就直接输出
-%*6$c %7$n相当于%addr c %7$n *6为格式化字符串第六个参数中的值
-%p%10$n 前面已经输出的字符 是%p那里的值，比如0x7f60847b55a0
-finish 命令和 return 命令的区别是，finish 命令会执行函数到正常退出；而 return 命令是立即结束执行当前函数并返回，也就是说，如果当前函数还有剩余的代码未执行完毕，也不会执行了。除此之外，return 命令还有一个功能，即可以指定该函数的返回值。
-为了结束while的read循环while ( read(0, nptr, 0x10uLL) &gt; 0 )可以用p.shutdown(&#39;send&#39;)命令，不过不能再发送第二次了
-IDA 修复jmp rax
-https://bbs.pediy.com/thread-268245.htm
-https://blog.csdn.net/huzai9527/article/details/121204850">
+  <meta property="og:description" content="本文主要用于记录pwn题目的一些tips">
   <meta property="og:locale" content="en">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2025-01-04T23:41:43+08:00">
     <meta property="article:modified_time" content="2025-01-04T23:41:43+08:00">
     <meta property="article:tag" content="杂记">
-    <meta property="og:image" content="http://localhost:1313/logo.jpg">
+    <meta property="og:image" content="https://chuw3i.github.io/logo.jpg">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="http://localhost:1313/logo.jpg">
+  <meta name="twitter:image" content="https://chuw3i.github.io/logo.jpg">
   <meta name="twitter:title" content="PWN杂记">
-  <meta name="twitter:description" content="本文主要用于记录pwn题目的一些tips
-gdb.attach(p,‘b *0x40094c’)
-b *$rebase(0x相对基址偏移)0x 相对基址偏移就是 IDA 显示的三位数
-strings libc.so.6|grep ubuntu
-strings libc.so.6|grep libc 查看libc 版本信息
-strings elf | grep GCC 查看libc 信息 但是不一定对，当编译环境和运行环境不一样时
-开启和关闭缓存区有什么区别
-开启的化printf 遇到\n才输出， 不开启 就直接输出
-%*6$c %7$n相当于%addr c %7$n *6为格式化字符串第六个参数中的值
-%p%10$n 前面已经输出的字符 是%p那里的值，比如0x7f60847b55a0
-finish 命令和 return 命令的区别是，finish 命令会执行函数到正常退出；而 return 命令是立即结束执行当前函数并返回，也就是说，如果当前函数还有剩余的代码未执行完毕，也不会执行了。除此之外，return 命令还有一个功能，即可以指定该函数的返回值。
-为了结束while的read循环while ( read(0, nptr, 0x10uLL) &gt; 0 )可以用p.shutdown(&#39;send&#39;)命令，不过不能再发送第二次了
-IDA 修复jmp rax
-https://bbs.pediy.com/thread-268245.htm
-https://blog.csdn.net/huzai9527/article/details/121204850">
+  <meta name="twitter:description" content="本文主要用于记录pwn题目的一些tips">
 <meta name="application-name" content="chuwei的小站">
 <meta name="apple-mobile-web-app-title" content="chuwei的小站"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" type="text/html" href="http://localhost:1313/posts/pwn%E6%9D%82%E8%AE%B0/" title="PWN杂记 - " /><link rel="prev" type="text/html" href="http://localhost:1313/about/" title="About" /><link rel="next" type="text/html" href="http://localhost:1313/friends/" title="Index" /><link rel="alternate" type="text/markdown" href="http://localhost:1313/posts/pwn%E6%9D%82%E8%AE%B0/index.md" title="PWN杂记 - "><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" type="text/html" href="https://chuw3i.github.io/posts/pwn%E6%9D%82%E8%AE%B0/" title="PWN杂记 - " /><link rel="prev" type="text/html" href="https://chuw3i.github.io/about/" title="About" /><link rel="next" type="text/html" href="https://chuw3i.github.io/friends/" title="Index" /><link rel="alternate" type="text/markdown" href="https://chuw3i.github.io/posts/pwn%E6%9D%82%E8%AE%B0/index.md" title="PWN杂记 - "><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
   {
@@ -98,9 +42,9 @@ https://blog.csdn.net/huzai9527/article/details/121204850">
     "inLanguage": "en",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "http:\/\/localhost:1313\/posts\/pwn%E6%9D%82%E8%AE%B0\/"
+      "@id": "https:\/\/chuw3i.github.io\/posts\/pwn%E6%9D%82%E8%AE%B0\/"
     },"genre": "posts","keywords": "杂记","wordcount":  758 ,
-    "url": "http:\/\/localhost:1313\/posts\/pwn%E6%9D%82%E8%AE%B0\/","datePublished": "2025-01-04T23:41:43+08:00","dateModified": "2025-01-04T23:41:43+08:00","publisher": {
+    "url": "https:\/\/chuw3i.github.io\/posts\/pwn%E6%9D%82%E8%AE%B0\/","datePublished": "2025-01-04T23:41:43+08:00","dateModified": "2025-01-04T23:41:43+08:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -185,7 +129,7 @@ https://blog.csdn.net/huzai9527/article/details/121204850">
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>PWN杂记</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><span class="author"><img class="avatar" src='logo.jpg' alt="chuwei" height="16" width="16">&nbsp;chuwei</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/pwn/" class="post-category" title="分类 - Pwn"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Pwn</a> 和 <a href="/collections/pwn/" class="post-collection" title="合集 - Pwn"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> Pwn</a></span></div><div class="post-meta-line"><span title="发布于 2025-01-04 23:41:43"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-01-04">2025-01-04</time></span>&nbsp;<span title="758 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><span class="author"><img class="avatar" src='/logo.jpg' alt="chuwei" height="16" width="16">&nbsp;chuwei</span></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/pwn/" class="post-category" title="分类 - Pwn"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> Pwn</a> 和 <a href="/collections/pwn/" class="post-collection" title="合集 - Pwn"><i class="fa-solid fa-layer-group fa-fw" aria-hidden="true"></i> Pwn</a></span></div><div class="post-meta-line"><span title="发布于 2025-01-04 23:41:43"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-01-04">2025-01-04</time></span>&nbsp;<span title="758 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;</div>
     </div><div class="content" id="content"><p>本文主要用于记录pwn题目的一些tips</p>
 <ul>
 <li>
@@ -695,9 +639,9 @@ https://blog.csdn.net/huzai9527/article/details/121204850">
           </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/pwn%E6%9D%82%E8%AE%B0/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">
-          <span><a href="javascript:void(0);" title="分享到 X" data-sharer="twitter" data-url="http://localhost:1313/posts/pwn%E6%9D%82%E8%AE%B0/" data-title="PWN杂记" data-hashtags="杂记"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
-  <a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="http://localhost:1313/posts/pwn%E6%9D%82%E8%AE%B0/" data-hashtag="杂记"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
-  <a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="http://localhost:1313/posts/pwn%E6%9D%82%E8%AE%B0/" data-title="PWN杂记"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
+          <span><a href="javascript:void(0);" title="分享到 X" data-sharer="twitter" data-url="https://chuw3i.github.io/posts/pwn%E6%9D%82%E8%AE%B0/" data-title="PWN杂记" data-hashtags="杂记"><i class="fa-brands fa-x-twitter fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 Facebook" data-sharer="facebook" data-url="https://chuw3i.github.io/posts/pwn%E6%9D%82%E8%AE%B0/" data-hashtag="杂记"><i class="fa-brands fa-facebook-square fa-fw" aria-hidden="true"></i></a>
+  <a href="javascript:void(0);" title="分享到 微博" data-sharer="weibo" data-url="https://chuw3i.github.io/posts/pwn%E6%9D%82%E8%AE%B0/" data-title="PWN杂记"><i class="fa-brands fa-weibo fa-fw" aria-hidden="true"></i></a>
   </span>
         </div>
       </div></div>
@@ -721,5 +665,5 @@ https://blog.csdn.net/huzai9527/article/details/121204850">
     <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
   </noscript>
 </div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePWA":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.21-a85a6655"};</script><script src="/js/theme.min.js" defer></script></body>
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/sharer/sharer.min.js" async defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","maxShownLines":10},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"enablePWA":true,"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":true,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":50,"threshold":0.6,"type":"fuse","useExtendedSearch":true},"version":"v0.3.21-a85a6655"};</script><script src="/js/theme.min.js" defer></script></body>
 </html>
