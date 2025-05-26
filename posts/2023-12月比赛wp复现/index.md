@@ -1965,5 +1965,5 @@ p.interactive()
 ---
 
 > 作者: chuwei  
-> URL: https://chuw3i.github.io/posts/2023-12%E6%9C%88%E6%AF%94%E8%B5%9Bwp%E5%A4%8D%E7%8E%B0/  
+> URL: http://localhost:1313/posts/2023-12%E6%9C%88%E6%AF%94%E8%B5%9Bwp%E5%A4%8D%E7%8E%B0/  
 

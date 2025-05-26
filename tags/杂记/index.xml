@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>杂记 - 标签 - </title>
-    <link>https://chuw3i.github.io/tags/%E6%9D%82%E8%AE%B0/</link>
+    <link>http://localhost:1313/tags/%E6%9D%82%E8%AE%B0/</link>
     <description></description>
     <generator>Hugo 0.147.0 &amp; FixIt v0.3.21-a85a6655</generator>
     <language>en</language>
     <lastBuildDate>Sat, 04 Jan 2025 23:41:43 +0800</lastBuildDate>
-    <atom:link href="https://chuw3i.github.io/tags/%E6%9D%82%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/%E6%9D%82%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>PWN杂记</title>
-      <link>https://chuw3i.github.io/posts/pwn%E6%9D%82%E8%AE%B0/</link>
+      <link>http://localhost:1313/posts/pwn%E6%9D%82%E8%AE%B0/</link>
       <pubDate>Sat, 04 Jan 2025 23:41:43 +0800</pubDate>
-      <guid>https://chuw3i.github.io/posts/pwn%E6%9D%82%E8%AE%B0/</guid>
-      <category domain="https://chuw3i.github.io/categories/pwn/">Pwn</category>
+      <guid>http://localhost:1313/posts/pwn%E6%9D%82%E8%AE%B0/</guid>
+      <category domain="http://localhost:1313/categories/pwn/">Pwn</category>
       <description>&lt;p&gt;本文主要用于记录pwn题目的一些tips&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;gdb.attach(p,&amp;lsquo;b *0x40094c&amp;rsquo;)&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;b *$rebase(0x相对基址偏移)0x 相对基址偏移就是 IDA 显示的三位数&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;strings libc.so.6|grep ubuntu&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;strings libc.so.6|grep libc  查看libc 版本信息&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;strings elf | grep GCC  查看libc 信息 但是不一定对，当编译环境和运行环境不一样时&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;img loading=&#34;lazy&#34; src=&#39;https://cdn.jsdelivr.net/gh/wysyrg/picodemo/img/202208022057067.png&#39; alt=&#34;image-20220725100823523&#34;&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;开启和关闭缓存区有什么区别&lt;/p&gt;&#xA;&lt;p&gt;开启的化printf 遇到\n才输出， 不开启 就直接输出&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;code&gt;%*6$c %7$n&lt;/code&gt;相当于&lt;code&gt;%addr c %7$n&lt;/code&gt;  *6为格式化字符串第六个参数中的值&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;%p%10$n 前面已经输出的字符 是%p那里的值，比如&lt;code&gt;0x7f60847b55a0&lt;/code&gt;&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;finish 命令和 return 命令的区别是，finish 命令会执行函数到正常退出；而 return  命令是立即结束执行当前函数并返回，也就是说，如果当前函数还有剩余的代码未执行完毕，也不会执行了。除此之外，return  命令还有一个功能，即可以指定该函数的返回值。&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;为了结束while的read循环&lt;code&gt;while ( read(0, nptr, 0x10uLL) &amp;gt; 0 )&lt;/code&gt;可以用&lt;code&gt;p.shutdown(&#39;send&#39;)&lt;/code&gt;命令，不过不能再发送第二次了&lt;/p&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;IDA 修复jmp rax&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://bbs.pediy.com/thread-268245.htm&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;https://bbs.pediy.com/thread-268245.htm&lt;i class=&#34;fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary&#34; aria-hidden=&#34;true&#34;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://blog.csdn.net/huzai9527/article/details/121204850&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;https://blog.csdn.net/huzai9527/article/details/121204850&lt;i class=&#34;fa-solid fa-external-link-alt fa-fw fa-xs ms-1 text-secondary&#34; aria-hidden=&#34;true&#34;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/p&gt;</description>
     </item>
   </channel>

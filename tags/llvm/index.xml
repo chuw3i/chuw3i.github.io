@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Llvm - 标签 - </title>
-    <link>https://chuw3i.github.io/tags/llvm/</link>
+    <link>http://localhost:1313/tags/llvm/</link>
     <description></description>
     <generator>Hugo 0.147.0 &amp; FixIt v0.3.21-a85a6655</generator>
     <language>en</language>
     <lastBuildDate>Sat, 04 Jan 2025 23:38:30 +0800</lastBuildDate>
-    <atom:link href="https://chuw3i.github.io/tags/llvm/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/llvm/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>LLVM_PASS_PWN_学习</title>
-      <link>https://chuw3i.github.io/posts/llvm-pass-pwn-%E5%AD%A6%E4%B9%A0/</link>
+      <link>http://localhost:1313/posts/llvm-pass-pwn-%E5%AD%A6%E4%B9%A0/</link>
       <pubDate>Fri, 14 Jul 2023 22:12:27 +0800</pubDate>
-      <guid>https://chuw3i.github.io/posts/llvm-pass-pwn-%E5%AD%A6%E4%B9%A0/</guid>
-      <category domain="https://chuw3i.github.io/categories/pwn/">Pwn</category>
+      <guid>http://localhost:1313/posts/llvm-pass-pwn-%E5%AD%A6%E4%B9%A0/</guid>
+      <category domain="http://localhost:1313/categories/pwn/">Pwn</category>
       <description>&lt;p&gt;本文主要记录一下llvm pass pwn的学习过程。&lt;/p&gt;&#xA;&lt;h2 class=&#34;heading-element&#34; id=&#34;前言&#34;&gt;&lt;span&gt;前言&lt;/span&gt;&#xD;&#xA;  &lt;a href=&#34;#%e5%89%8d%e8%a8%80&#34; class=&#34;heading-mark&#34;&gt;&#xD;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xD;&#xA;  &lt;/a&gt;&#xD;&#xA;&lt;/h2&gt;&lt;p&gt;首先我们要了解一下llvm pass和llvm IR。&lt;/p&gt;</description>
     </item>
   </channel>
